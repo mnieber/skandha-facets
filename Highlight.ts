@@ -1,4 +1,4 @@
-import { mapDatas, data, operation, output } from "skandha";
+import { getm, GetterT, mapDatas, data, operation, output } from "skandha";
 import { host, stub } from "aspiration";
 
 export class Highlight_highlightItem {
@@ -18,11 +18,12 @@ export class Highlight {
   static get = (ctr: any): Highlight => ctr.highlight;
 }
 
-export const highlightActsOnItems = ([Collection, itemById]: any) =>
+export const highlightActsOnItems = (getItemById: GetterT) =>
   mapDatas(
     [
-      [Collection, itemById],
-      [Highlight, "id"],
+      //
+      getItemById,
+      getm([Highlight, "id"]),
     ],
     [Highlight, "item"],
     (itemById: any, id: any) => {

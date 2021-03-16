@@ -1,4 +1,4 @@
-import { mapData, input, operation } from "skandha";
+import { GetterT, mapData, input, operation } from "skandha";
 import { getPreview } from "./lib/getPreview";
 import { host, stub } from "aspiration";
 
@@ -41,5 +41,5 @@ export const initInsertion = (self: Insertion) => {
   return self;
 };
 
-export const insertionActsOnItems = ([Collection, items]: any) =>
-  mapData([Collection, items], [Insertion, "inputItems"]);
+export const insertionActsOnItems = (getItems: GetterT) =>
+  mapData(getItems, [Insertion, "inputItems"]);

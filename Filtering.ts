@@ -1,4 +1,4 @@
-import { patchFacet, mapData, data, operation, output } from "skandha";
+import { GetterT, patchFacet, mapData, data, operation, output } from "skandha";
 import { host, stub } from "aspiration";
 
 type FilterT = (x: any) => Array<any>;
@@ -53,5 +53,5 @@ export const initFiltering = (self: Filtering): Filtering => {
   return self;
 };
 
-export const filteringActsOnItems = ([Collection, items]: any) =>
-  mapData([Collection, items], [Filtering, "inputItems"]);
+export const filteringActsOnItems = (getItems: GetterT) =>
+  mapData(getItems, [Filtering, "inputItems"]);

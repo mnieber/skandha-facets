@@ -7,7 +7,7 @@ export const createInsertionPreview = (
   dragSources: DragSourceT[],
   [toFacetClass, toMember]: ClassMemberT
 ) =>
-  mapData([Insertion, ""], [toFacetClass, toMember], (insertion: Insertion) => {
+  mapData(Insertion.get, [toFacetClass, toMember], (insertion: Insertion) => {
     const ctr = getCtr(insertion);
     const drag = findMap((dragSource) => dragSource(ctr), dragSources);
     const inputItems = insertion.inputItems;

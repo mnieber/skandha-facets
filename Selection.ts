@@ -1,12 +1,26 @@
 import { host, stub } from "aspiration";
 
-import { mapDatas, data, input, operation, output } from "skandha";
+import {
+  getm,
+  GetterT,
+  mapDatas,
+  data,
+  input,
+  operation,
+  output,
+} from "skandha";
 import { lookUp, range } from "./internal/utils";
 
 export class Selection_selectItem {
   itemSelectedProps: ItemSelectedPropsT = stub();
   selectItem() {}
 }
+
+const selectItemDefaultCbs = (selection: Selection) => ({
+  selectItem: function (this: Selection_selectItem) {
+    handleSelectItem(selection, this.itemSelectedProps);
+  },
+});
 
 export type ItemSelectedPropsT = {
   itemId: any;
@@ -20,7 +34,9 @@ export class Selection {
   @data anchorId: any;
   @output items?: Array<any>;
 
-  @operation @host selectItem(itemSelectedProps: ItemSelectedPropsT) {
+  @operation @host(selectItemDefaultCbs) selectItem(
+    itemSelectedProps: ItemSelectedPropsT
+  ) {
     return (cbs: Selection_selectItem) => {
       cbs.selectItem();
     };
@@ -67,12 +83,15 @@ export function handleSelectItem(
   }
 }
 
-export const selectionActsOnItems = ([Collection, itemById]: any) =>
+export const selectionActsOnItems = (getItemById: GetterT) =>
   mapDatas(
     [
-      [Collection, itemById],
-      [Selection, "ids"],
+      //
+      getItemById,
+      getm([Selection, "ids"]),
     ],
     [Selection, "items"],
-    (itemById: any, ids: any) => lookUp(ids, itemById)
+    (itemById: any, ids: any) => {
+      return lookUp(ids, itemById);
+    }
   );
