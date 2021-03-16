@@ -30,8 +30,6 @@ export class Filtering {
       this.isEnabled = flag;
     };
   }
-
-  static get = (ctr: any): Filtering => ctr.filtering;
 }
 
 const _handleFiltering = (self: Filtering) => {

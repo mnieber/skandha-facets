@@ -12,8 +12,6 @@ export class Deletion {
       cbs.deleteItems();
     };
   }
-
-  static get = (ctr: any): Deletion => ctr.deletion;
 }
 
 export const initDeletion = (self: Deletion): Deletion => {

@@ -31,8 +31,6 @@ export class Editing {
       this.isEditing = true;
     };
   }
-
-  static get = (ctr: any): Editing => ctr.editing;
 }
 
 export const initEditing = <T extends Editing>(self: T): T => {

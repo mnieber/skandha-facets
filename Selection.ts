@@ -41,8 +41,6 @@ export class Selection {
       cbs.selectItem();
     };
   }
-
-  static get = (ctr: any): Selection => ctr.selection;
 }
 
 export const initSelection = (self: Selection): Selection => {

@@ -49,8 +49,6 @@ export class Addition<ValueT = any> {
     this.item = undefined;
     this.parentId = undefined;
   }
-
-  static get = (ctr: any): Addition => ctr.addition;
 }
 
 export const initAddition = (self: Addition): Addition => {

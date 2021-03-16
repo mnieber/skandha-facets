@@ -42,8 +42,6 @@ export class DragAndDrop {
       },
     };
   }
-
-  static get = (ctr: any): DragAndDrop => ctr.dragAndDrop;
 }
 
 export function initDragAndDrop(self: DragAndDrop): DragAndDrop {

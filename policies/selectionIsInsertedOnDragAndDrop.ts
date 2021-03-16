@@ -1,4 +1,4 @@
-import { getCtr } from "skandha";
+import { getf, getc } from "skandha";
 
 import { Insertion, DropPositionT } from "../Insertion";
 import { DragAndDrop } from "../DragAndDrop";
@@ -8,9 +8,9 @@ export function selectionIsInsertedOnDragAndDrop(
   facet: DragAndDrop,
   dropPosition: DropPositionT
 ) {
-  const ctr = getCtr(facet);
-  Insertion.get(ctr).insertItems({
+  const ctr = getc(facet);
+  getf(Insertion, ctr).insertItems({
     ...dropPosition,
-    payload: Selection.get(ctr).items,
+    payload: getf(Selection, ctr).items,
   });
 }

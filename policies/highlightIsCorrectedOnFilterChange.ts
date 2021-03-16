@@ -1,4 +1,4 @@
-import { getCtr } from "skandha";
+import { getf, getc } from "skandha";
 
 import { Filtering } from "../Filtering";
 import { Highlight } from "../Highlight";
@@ -19,9 +19,9 @@ function findNeighbourIdx(
 }
 
 export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
-  const ctr = getCtr(facet);
+  const ctr = getc(facet);
   if (facet.isEnabled) {
-    const highlight = Highlight.get(ctr).id;
+    const highlight = getf(Highlight, ctr).id;
     const inputItems = facet.inputItems;
     const filteredItemIds = (facet.filteredItems ?? []).map((x) => x.id);
     const inputIds = (inputItems || []).map((x) => x.id);
@@ -44,7 +44,7 @@ export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
         findNeighbourIdx(filteredItemIds, inputIds, highlightedItemIdx, -1, -1);
 
       if (newIdx) {
-        Highlight.get(ctr).highlightItem(inputIds[newIdx.result]);
+        getf(Highlight, ctr).highlightItem(inputIds[newIdx.result]);
       }
     }
   }

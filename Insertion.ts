@@ -33,8 +33,6 @@ export class Insertion {
       }
     };
   }
-
-  static get = (ctr: any): Insertion => ctr.insertion;
 }
 
 export const initInsertion = (self: Insertion) => {

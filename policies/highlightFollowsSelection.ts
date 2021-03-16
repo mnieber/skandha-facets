@@ -1,4 +1,4 @@
-import { getCtr } from "skandha";
+import { getf, getc } from "skandha";
 import { Selection } from "../Selection";
 import { Highlight } from "../Highlight";
 
@@ -6,8 +6,8 @@ export function highlightFollowsSelection(
   facet: Selection,
   { itemId, isShift, isCtrl }: any
 ) {
-  const ctr = getCtr(facet);
+  const ctr = getc(facet);
   if (!isCtrl && !isShift) {
-    Highlight.get(ctr).highlightItem(itemId);
+    getf(Highlight, ctr).highlightItem(itemId);
   }
 }

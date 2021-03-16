@@ -33,8 +33,6 @@ export class Labelling {
       }
     };
   }
-
-  static get = (ctr: any): Labelling => ctr.labelling;
 }
 
 export const initLabelling = (self: Labelling): Labelling => {

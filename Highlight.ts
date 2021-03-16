@@ -14,8 +14,6 @@ export class Highlight {
       this.id = id;
     };
   }
-
-  static get = (ctr: any): Highlight => ctr.highlight;
 }
 
 export const highlightActsOnItems = (getItemById: GetterT) =>
