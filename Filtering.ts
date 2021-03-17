@@ -1,11 +1,4 @@
-import {
-  GetterT,
-  patchFacet,
-  mapDataToFacet,
-  data,
-  operation,
-  output,
-} from "skandha";
+import { GetterT, mapDataToFacet, data, operation } from "skandha";
 import { host, stub } from "aspiration";
 
 type FilterT = (x: any) => Array<any>;
@@ -23,7 +16,11 @@ export class Filtering {
   @data filter: FilterT = () => [];
 
   @data inputItems?: Array<any>;
-  @output filteredItems?: Array<any>;
+  @data get filteredItems() {
+    const isEnabled = this.isEnabled;
+    const filter = this.filter;
+    return filter && isEnabled ? this.filter(this.inputItems) : this.inputItems;
+  }
 
   @operation @host apply(filter: FilterT) {
     return (cbs: Filtering_apply) => {
@@ -38,25 +35,6 @@ export class Filtering {
     };
   }
 }
-
-const _handleFiltering = (self: Filtering) => {
-  patchFacet(self, {
-    filteredItems: {
-      get(this: Filtering) {
-        const isEnabled = this.isEnabled;
-        const filter = this.filter;
-        return filter && isEnabled
-          ? this.filter(this.inputItems)
-          : this.inputItems;
-      },
-    },
-  });
-};
-
-export const initFiltering = (self: Filtering): Filtering => {
-  _handleFiltering(self);
-  return self;
-};
 
 export const filteringActsOnItems = (getItems: GetterT) =>
   mapDataToFacet(getItems, [Filtering, "inputItems"]);
