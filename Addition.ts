@@ -1,47 +1,31 @@
 import { operation, data } from "skandha";
-import { host, stub } from "aspiration";
-
-type GenericObjectT = any;
-
-export class Addition_add<ValueT> {
-  values: GenericObjectT;
-  createItem(): ValueT {
-    return stub();
-  }
-  createItem_post() {}
-}
-export class Addition_confirm<ValueT> {
-  confirm() {}
-}
-export class Addition_cancel<ValueT> {}
-
-export const cbs = {
-  Addition_add,
-  Addition_confirm,
-  Addition_cancel,
-};
+import { host, maybe } from "aspiration";
+import { AdditionCbs, GenericObjectT } from "./AdditionCbs";
+export type { AdditionCbs } from "./AdditionCbs";
 
 export class Addition<ValueT = any> {
   @data item: ValueT | undefined;
   @data parentId: any;
 
   @operation @host add(values: GenericObjectT) {
-    return (cbs: Addition_add<ValueT>) => {
+    return (cbs: AdditionCbs<ValueT>["add"]) => {
+      maybe(cbs.storeLocation)();
       this.item = cbs.createItem();
-      cbs.createItem_post && cbs.createItem_post();
+      maybe(cbs.highlightNewItem)();
     };
   }
 
   @operation @host confirm() {
-    return (cbs: Addition_confirm<ValueT>) => {
+    return (cbs: AdditionCbs<ValueT>["confirm"]) => {
       cbs.confirm();
       this._reset();
     };
   }
 
   @operation @host cancel() {
-    return (cbs: Addition_cancel<ValueT>) => {
+    return (cbs: AdditionCbs<ValueT>["cancel"]) => {
       this._reset();
+      maybe(cbs.restoreLocation)();
     };
   }
 
@@ -50,7 +34,3 @@ export class Addition<ValueT = any> {
     this.parentId = undefined;
   }
 }
-
-export const initAddition = (self: Addition): Addition => {
-  return self;
-};

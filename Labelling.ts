@@ -35,10 +35,6 @@ export class Labelling {
   }
 }
 
-export const initLabelling = (self: Labelling): Labelling => {
-  return self;
-};
-
 export const labellingActsOnItems = (getItemById: GetterT) => {
   return mapDatasToFacet(
     [

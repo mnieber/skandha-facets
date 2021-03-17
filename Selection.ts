@@ -43,10 +43,6 @@ export class Selection {
   }
 }
 
-export const initSelection = (self: Selection): Selection => {
-  return self;
-};
-
 export function handleSelectItem(
   facet: Selection,
   { itemId, isShift, isCtrl }: ItemSelectedPropsT

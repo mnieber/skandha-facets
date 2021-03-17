@@ -13,7 +13,3 @@ export class Deletion {
     };
   }
 }
-
-export const initDeletion = (self: Deletion): Deletion => {
-  return self;
-};

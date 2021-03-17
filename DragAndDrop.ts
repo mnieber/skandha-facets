@@ -43,7 +43,3 @@ export class DragAndDrop {
     };
   }
 }
-
-export function initDragAndDrop(self: DragAndDrop): DragAndDrop {
-  return self;
-}

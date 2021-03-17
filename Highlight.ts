@@ -35,7 +35,3 @@ export const highlightActsOnItems = (getItemById: GetterT) =>
       return itemById[id];
     }
   );
-
-export const initHighlight = (self: Highlight): Highlight => {
-  return self;
-};

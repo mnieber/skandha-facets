@@ -35,9 +35,5 @@ export class Insertion {
   }
 }
 
-export const initInsertion = (self: Insertion) => {
-  return self;
-};
-
 export const insertionActsOnItems = (getItems: GetterT) =>
   mapDataToFacet(getItems, [Insertion, "inputItems"]);

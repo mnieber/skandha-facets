@@ -32,7 +32,3 @@ export class Editing {
     };
   }
 }
-
-export const initEditing = <T extends Editing>(self: T): T => {
-  return self;
-};
