@@ -1,5 +1,5 @@
 import { data, input, operation } from "skandha";
-import { getm, GetterT, mapDatas } from "skandha";
+import { getm, GetterT, mapDatasToFacet } from "skandha";
 import { host, stub } from "aspiration";
 
 import { lookUp } from "./internal/utils";
@@ -40,7 +40,7 @@ export const initLabelling = (self: Labelling): Labelling => {
 };
 
 export const labellingActsOnItems = (getItemById: GetterT) => {
-  return mapDatas(
+  return mapDatasToFacet(
     [
       //
       getItemById,

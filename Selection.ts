@@ -3,7 +3,7 @@ import { host, stub } from "aspiration";
 import {
   getm,
   GetterT,
-  mapDatas,
+  mapDatasToFacet,
   data,
   input,
   operation,
@@ -82,7 +82,7 @@ export function handleSelectItem(
 }
 
 export const selectionActsOnItems = (getItemById: GetterT) =>
-  mapDatas(
+  mapDatasToFacet(
     [
       //
       getItemById,
