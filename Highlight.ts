@@ -6,18 +6,16 @@ import {
   operation,
   output,
 } from "skandha";
-import { host, stub } from "aspiration";
-
-export class Highlight_highlightItem {
-  id: string = stub();
-}
+import { host } from "aspiration";
+import { HighlightCbs } from "./HighlightCbs";
+export type { HighlightCbs } from "./HighlightCbs";
 
 export class Highlight {
   @data id: string | undefined;
   @output item: any;
 
   @operation @host highlightItem(id: string) {
-    return (cbs: Highlight_highlightItem) => {
+    return (cbs: HighlightCbs["highlightItem"]) => {
       this.id = id;
     };
   }

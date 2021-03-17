@@ -1,27 +1,15 @@
 import { GetterT, mapDataToFacet, input, operation } from "skandha";
 import { getPreview } from "./lib/getPreview";
-import { host, stub } from "aspiration";
-
-export class Insertion_insertItems {
-  drag: DragT = stub();
-  insertItems(preview: Array<any>) {}
-}
+import { host } from "aspiration";
+import { DragT, InsertionCbs } from "./InsertionCbs";
+export type { DragT, DropPositionT, InsertionCbs } from "./InsertionCbs";
 
 export type DragSourceT = (ctr: any) => DragT | undefined;
-
-export type DropPositionT = {
-  isBefore: boolean;
-  targetItemId: string;
-};
-
-export type DragT = DropPositionT & {
-  payload: any;
-};
 
 export class Insertion {
   @input inputItems?: Array<any>;
   @operation @host insertItems(drag: DragT) {
-    return (cbs: Insertion_insertItems) => {
+    return (cbs: InsertionCbs["insertItems"]) => {
       if (this.inputItems) {
         const preview: Array<any> = getPreview(
           this.inputItems,

@@ -1,4 +1,4 @@
-import { host, stub } from "aspiration";
+import { host } from "aspiration";
 
 import {
   getm,
@@ -10,23 +10,14 @@ import {
   output,
 } from "skandha";
 import { lookUp, range } from "./internal/utils";
-
-export class Selection_selectItem {
-  itemSelectedProps: ItemSelectedPropsT = stub();
-  selectItem() {}
-}
+import { ItemSelectedPropsT, SelectionCbs } from "./SelectionCbs";
+export type { ItemSelectedPropsT, SelectionCbs } from "./SelectionCbs";
 
 const selectItemDefaultCbs = (selection: Selection) => ({
-  selectItem: function (this: Selection_selectItem) {
+  selectItem: function (this: SelectionCbs["selectItem"]) {
     handleSelectItem(selection, this.itemSelectedProps);
   },
 });
-
-export type ItemSelectedPropsT = {
-  itemId: any;
-  isShift?: boolean;
-  isCtrl?: boolean;
-};
 
 export class Selection {
   @input selectableIds?: Array<any>;
@@ -37,7 +28,7 @@ export class Selection {
   @operation @host(selectItemDefaultCbs) selectItem(
     itemSelectedProps: ItemSelectedPropsT
   ) {
-    return (cbs: Selection_selectItem) => {
+    return (cbs: SelectionCbs["selectItem"]) => {
       cbs.selectItem();
     };
   }

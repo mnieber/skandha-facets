@@ -1,11 +1,6 @@
-import { stub } from "aspiration";
+import { stub, Cbs } from "aspiration";
 
 export type GenericObjectT = any;
-
-class Cbs {
-  enter() {}
-  exit() {}
-}
 
 export class Addition_add<ValueT = any> extends Cbs {
   values: GenericObjectT;

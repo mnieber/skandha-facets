@@ -1,14 +1,11 @@
 import { operation } from "skandha";
-import { host, stub } from "aspiration";
-
-export class Deletion_delete {
-  itemIds: string[] = stub();
-  deleteItems() {}
-}
+import { host } from "aspiration";
+import { DeletionCbs } from "./DeletionCbs";
+export type { DeletionCbs } from "./DeletionCbs";
 
 export class Deletion {
   @operation @host delete(itemIds: string[]) {
-    return (cbs: Deletion_delete) => {
+    return (cbs: DeletionCbs["delete"]) => {
       cbs.deleteItems();
     };
   }

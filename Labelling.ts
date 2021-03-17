@@ -1,17 +1,15 @@
 import { data, input, operation } from "skandha";
 import { getm, GetterT, mapDatasToFacet } from "skandha";
-import { host, stub } from "aspiration";
+import { host } from "aspiration";
+import {
+  IdsByLabelT,
+  ItemsByLabelT,
+  LabelValueT,
+  LabellingCbs,
+} from "./LabellingCbs";
+export type { LabellingCbs } from "./LabellingCbs";
 
 import { lookUp } from "./internal/utils";
-
-export type IdsByLabelT = { [label: string]: Array<any> };
-export type ItemsByLabelT = { [label: string]: Array<any> };
-export type LabelValueT = { label: string; id: any; flag: boolean };
-
-export class Labelling_setLabel {
-  labelValue: LabelValueT = stub();
-  saveIds(label: string, ids: any[]) {}
-}
 
 export class Labelling {
   @data idsByLabel: IdsByLabelT = {};
@@ -20,7 +18,7 @@ export class Labelling {
   @input itemsByLabel?: ItemsByLabelT;
 
   @operation @host setLabel(labelValue: LabelValueT) {
-    return (cbs: Labelling_setLabel) => {
+    return (cbs: LabellingCbs["setLabel"]) => {
       const { label, id, flag } = labelValue;
       this.idsByLabel[label] = this.idsByLabel[label] || [];
       if (flag && !this.idsByLabel[label].includes(id)) {
