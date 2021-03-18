@@ -3,6 +3,7 @@ import { Cbs } from "aspiration";
 export class Editing_save extends Cbs {
   values: any;
   saveItem() {}
+  refreshView() {}
 }
 
 export class Editing_cancel extends Cbs {}

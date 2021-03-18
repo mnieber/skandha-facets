@@ -1,5 +1,5 @@
 import { data, operation } from "skandha";
-import { host } from "aspiration";
+import { host, maybe } from "aspiration";
 import { EditingCbs } from "./EditingCbs";
 export type { EditingCbs } from "./EditingCbs";
 
@@ -10,6 +10,7 @@ export class Editing {
     return (cbs: EditingCbs["save"]) => {
       cbs.saveItem();
       this.isEditing = false;
+      maybe(cbs.refreshView)();
     };
   }
 
