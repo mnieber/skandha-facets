@@ -31,7 +31,6 @@ export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
       inputIds.includes(highlight) &&
       !filteredItemIds.includes(highlight)
     ) {
-      console.log("Correcting bad highlight", highlight);
       const highlightedItemIdx = inputIds.indexOf(highlight);
       const newIdx =
         findNeighbourIdx(
