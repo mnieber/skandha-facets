@@ -9,9 +9,7 @@ export class Filtering {
 
   @data inputItems?: Array<any>;
   @data get filteredItems() {
-    const isEnabled = this.isEnabled;
-    const filter = this.filter;
-    return filter && isEnabled ? this.filter(this.inputItems) : this.inputItems;
+    return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
 
   @operation @host apply(filter: FilterT) {
