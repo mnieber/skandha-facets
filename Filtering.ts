@@ -3,11 +3,11 @@ import { host } from "aspiration";
 import { FilteringCbs, FilterT } from "./FilteringCbs";
 export type { FilteringCbs } from "./FilteringCbs";
 
-export class Filtering {
+export class Filtering<ValueT = any> {
   @data isEnabled: boolean = false;
   @data filter: FilterT = () => [];
 
-  @data inputItems?: Array<any>;
+  @data inputItems?: Array<ValueT>;
   @data get filteredItems() {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
@@ -26,5 +26,5 @@ export class Filtering {
   }
 }
 
-export const filteringActsOnItems = (getItems: GetterT) =>
+export const filteringUsesInputItems = (getItems: GetterT) =>
   mapDataToFacet(getItems, [Filtering, "inputItems"]);

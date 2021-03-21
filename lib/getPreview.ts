@@ -2,7 +2,7 @@ export const topOfTheList = "<topOfTheList>";
 
 export function getPreview(
   items: Array<any>,
-  targetItemId: any,
+  targetItemId: string,
   isBefore: boolean,
   payload: Array<any>
 ): Array<any> {

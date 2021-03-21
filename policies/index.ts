@@ -4,7 +4,7 @@ export { newItemsAreAddedBelowTheHighlight } from "./newItemsAreAddedBelowTheHig
 export { newItemsAreInsertedWhenConfirmed } from "./newItemsAreInsertedWhenConfirmed";
 export { newItemsAreCreatedAtTheTop } from "./newItemsAreCreatedAtTheTop";
 export { cancelNewItemOnHighlightChange } from "./cancelNewItemOnHighlightChange";
-export { createInsertionPreview } from "./createInsertionPreview";
+export { insertionPreviewUsesDragSources } from "./insertionPreviewUsesDragSources";
 export { newItemsAreConfirmedOnEditingSave } from "./newItemsAreConfirmedWhenSaved";
 export { newItemsAreCancelledOnEditingCancel } from "./newItemsAreConfirmedWhenSaved";
 export { editingSetEnabled, editingSetDisabled } from "./newItemsAreEdited";

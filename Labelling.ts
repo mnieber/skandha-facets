@@ -44,7 +44,7 @@ export const labellingActsOnItems = (getItemById: GetterT) => {
     (itemById: any, idsByLabel: any) =>
       Object.fromEntries(
         Object.entries(idsByLabel).map(([label, ids]) =>
-          lookUp(ids as any, itemById)
+          lookUp(ids as string[], itemById)
         )
       )
   );

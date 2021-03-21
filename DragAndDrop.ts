@@ -17,7 +17,7 @@ export class DragAndDrop {
     this.hoverPosition = x;
   }
 
-  handle(itemId: any) {
+  handle(itemId: string) {
     return {
       draggable: true,
       onDragStart: () => {},

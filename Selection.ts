@@ -4,14 +4,15 @@ import {
   getm,
   GetterT,
   mapDatasToFacet,
+  mapDataToFacet,
   data,
   input,
   operation,
   output,
 } from "skandha";
 import { lookUp, range } from "./internal/utils";
-import { ItemSelectedPropsT, SelectionCbs } from "./SelectionCbs";
-export type { ItemSelectedPropsT, SelectionCbs } from "./SelectionCbs";
+import { SelectionParamsT, SelectionCbs } from "./SelectionCbs";
+export type { SelectionParamsT, SelectionCbs } from "./SelectionCbs";
 
 const selectItemDefaultCbs = (selection: Selection) => ({
   selectItem: function (this: SelectionCbs["selectItem"]) {
@@ -19,14 +20,14 @@ const selectItemDefaultCbs = (selection: Selection) => ({
   },
 });
 
-export class Selection {
-  @input selectableIds?: Array<any>;
-  @data ids: Array<any> = [];
-  @data anchorId: any;
-  @output items?: Array<any>;
+export class Selection<ValueT = any> {
+  @input selectableIds?: Array<string>;
+  @data ids: Array<string> = [];
+  @data anchorId?: string;
+  @output items?: Array<ValueT>;
 
   @operation @host(selectItemDefaultCbs) selectItem(
-    itemSelectedProps: ItemSelectedPropsT
+    itemSelectedProps: SelectionParamsT
   ) {
     return (cbs: SelectionCbs["selectItem"]) => {
       cbs.selectItem();
@@ -36,7 +37,7 @@ export class Selection {
 
 export function handleSelectItem(
   facet: Selection,
-  { itemId, isShift, isCtrl }: ItemSelectedPropsT
+  { itemId, isShift, isCtrl }: SelectionParamsT
 ) {
   const hasItem = facet.ids.includes(itemId);
   const selectableIds = facet.selectableIds;
@@ -68,7 +69,7 @@ export function handleSelectItem(
   }
 }
 
-export const selectionActsOnItems = (getItemById: GetterT) =>
+export const selectionUsesItemLookUpTable = (getItemById: GetterT) =>
   mapDatasToFacet(
     [
       //
@@ -76,7 +77,10 @@ export const selectionActsOnItems = (getItemById: GetterT) =>
       getm([Selection, "ids"]),
     ],
     [Selection, "items"],
-    (itemById: any, ids: any) => {
+    (itemById: any, ids: string[]) => {
       return lookUp(ids, itemById);
     }
   );
+
+export const selectionUsesSelectableIds = (getIds: GetterT) =>
+  mapDataToFacet(getIds, [Selection, "selectableIds"]);

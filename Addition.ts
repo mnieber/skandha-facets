@@ -4,8 +4,8 @@ import { AdditionCbs, GenericObjectT } from "./AdditionCbs";
 export type { AdditionCbs } from "./AdditionCbs";
 
 export class Addition<ValueT = any> {
-  @data item: ValueT | undefined;
-  @data parentId: any;
+  @data item?: ValueT;
+  @data parentId?: string;
 
   @operation @host add(values: GenericObjectT) {
     return (cbs: AdditionCbs<ValueT>["add"]) => {

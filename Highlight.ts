@@ -1,18 +1,18 @@
+import { host } from "aspiration";
 import {
+  data,
   getm,
   GetterT,
   mapDatasToFacet,
-  data,
   operation,
   output,
 } from "skandha";
-import { host } from "aspiration";
 import { HighlightCbs } from "./HighlightCbs";
 export type { HighlightCbs } from "./HighlightCbs";
 
-export class Highlight {
+export class Highlight<ValueT = any> {
   @data id: string | undefined;
-  @output item: any;
+  @output item?: ValueT;
 
   @operation @host highlightItem(id: string) {
     return (cbs: HighlightCbs["highlightItem"]) => {
@@ -21,7 +21,7 @@ export class Highlight {
   }
 }
 
-export const highlightActsOnItems = (getItemById: GetterT) =>
+export const highlightUsesItemLookUpTable = (getItemById: GetterT) =>
   mapDatasToFacet(
     [
       //
@@ -29,7 +29,7 @@ export const highlightActsOnItems = (getItemById: GetterT) =>
       getm([Highlight, "id"]),
     ],
     [Highlight, "item"],
-    (itemById: any, id: any) => {
+    (itemById: any, id: string) => {
       return itemById[id];
     }
   );

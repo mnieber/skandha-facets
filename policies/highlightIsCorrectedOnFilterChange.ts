@@ -3,7 +3,7 @@ import { getf, getc } from "skandha";
 import { Filtering } from "../Filtering";
 import { Highlight } from "../Highlight";
 
-function findNeighbourIdx(
+function _findNeighbourIdx(
   filteredItems: Array<any>,
   allItems: Array<any>,
   beginIndex: number,
@@ -33,14 +33,20 @@ export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
     ) {
       const highlightedItemIdx = inputIds.indexOf(highlight);
       const newIdx =
-        findNeighbourIdx(
+        _findNeighbourIdx(
           filteredItemIds,
           inputIds,
           highlightedItemIdx,
           inputIds.length,
           1
         ) ||
-        findNeighbourIdx(filteredItemIds, inputIds, highlightedItemIdx, -1, -1);
+        _findNeighbourIdx(
+          filteredItemIds,
+          inputIds,
+          highlightedItemIdx,
+          -1,
+          -1
+        );
 
       if (newIdx) {
         getf(Highlight, ctr).highlightItem(inputIds[newIdx.result]);

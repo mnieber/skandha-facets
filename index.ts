@@ -1,4 +1,7 @@
-export { selectionActsOnItems } from "./Selection";
-export { highlightActsOnItems } from "./Highlight";
-export { filteringActsOnItems } from "./Filtering";
-export { insertionActsOnItems } from "./Insertion";
+export {
+  selectionUsesItemLookUpTable,
+  selectionUsesSelectableIds,
+} from "./Selection";
+export { highlightUsesItemLookUpTable } from "./Highlight";
+export { filteringUsesInputItems } from "./Filtering";
+export { insertionUsesInputItems } from "./Insertion";

@@ -1,13 +1,13 @@
 import { Cbs, stub } from "aspiration";
 
-export type ItemSelectedPropsT = {
-  itemId: any;
+export type SelectionParamsT = {
+  itemId: string;
   isShift?: boolean;
   isCtrl?: boolean;
 };
 
 export class Selection_selectItem extends Cbs {
-  itemSelectedProps: ItemSelectedPropsT = stub();
+  itemSelectedProps: SelectionParamsT = stub();
   selectItem() {}
 }
 

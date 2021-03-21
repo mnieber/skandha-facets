@@ -9,9 +9,9 @@ export type DragT = DropPositionT & {
   payload: any;
 };
 
-export class Insertion_insertItems extends Cbs {
+export class Insertion_insertItems<ValueT = any> extends Cbs {
   drag: DragT = stub();
-  insertItems(preview: Array<any>) {}
+  insertItems(preview: Array<ValueT>) {}
 }
 
 export type InsertionCbs = {
