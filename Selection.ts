@@ -16,7 +16,7 @@ export type { SelectionParamsT, SelectionCbs } from "./SelectionCbs";
 
 const selectItemDefaultCbs = (selection: Selection) => ({
   selectItem: function (this: SelectionCbs["selectItem"]) {
-    handleSelectItem(selection, this.itemSelectedProps);
+    handleSelectItem(selection, this.selectionParams);
   },
 });
 
@@ -27,7 +27,7 @@ export class Selection<ValueT = any> {
   @output items?: Array<ValueT>;
 
   @operation @host(selectItemDefaultCbs) selectItem(
-    itemSelectedProps: SelectionParamsT
+    selectionParams: SelectionParamsT
   ) {
     return (cbs: SelectionCbs["selectItem"]) => {
       cbs.selectItem();
@@ -64,23 +64,25 @@ export function handleSelectItem(
   }
 
   // Move the anchor
-  if (!(isCtrl && hasItem) && !(isShift && !!facet.anchorId)) {
+  if (!facet.anchorId || !(isCtrl || isShift)) {
     facet.anchorId = itemId;
   }
 }
 
 export const selectionUsesItemLookUpTable = (getItemById: GetterT) =>
   mapDatasToFacet(
+    [Selection, "items"],
     [
       //
       getItemById,
       getm([Selection, "ids"]),
     ],
-    [Selection, "items"],
     (itemById: any, ids: string[]) => {
       return lookUp(ids, itemById);
     }
   );
 
-export const selectionUsesSelectableIds = (getIds: GetterT) =>
-  mapDataToFacet(getIds, [Selection, "selectableIds"]);
+export const selectionUsesSelectableIds = (
+  getIds: GetterT,
+  transform?: (x: any) => string[]
+) => mapDataToFacet([Selection, "selectableIds"], getIds, transform);

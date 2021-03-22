@@ -5,8 +5,8 @@ import { mapDataToFacet, getf, getc } from "skandha";
 
 export const insertionPreviewUsesDragSources = (dragSources: DragSourceT[]) =>
   mapDataToFacet(
-    getf(Insertion),
     [Insertion, "preview"],
+    getf(Insertion),
     (insertion: Insertion) => {
       const ctr = getc(insertion);
       const drag = findMap((dragSource) => dragSource(ctr), dragSources);

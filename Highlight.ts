@@ -23,12 +23,12 @@ export class Highlight<ValueT = any> {
 
 export const highlightUsesItemLookUpTable = (getItemById: GetterT) =>
   mapDatasToFacet(
+    [Highlight, "item"],
     [
       //
       getItemById,
       getm([Highlight, "id"]),
     ],
-    [Highlight, "item"],
     (itemById: any, id: string) => {
       return itemById[id];
     }

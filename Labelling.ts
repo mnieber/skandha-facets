@@ -35,12 +35,12 @@ export class Labelling {
 
 export const labellingActsOnItems = (getItemById: GetterT) => {
   return mapDatasToFacet(
+    [Labelling, "itemsByLabel"],
     [
       //
       getItemById,
       getm([Labelling, "idsByLabel"]),
     ],
-    [Labelling, "itemsByLabel"],
     (itemById: any, idsByLabel: any) =>
       Object.fromEntries(
         Object.entries(idsByLabel).map(([label, ids]) =>

@@ -25,4 +25,4 @@ export class Insertion<ValueT = any> {
 }
 
 export const insertionUsesInputItems = (getItems: GetterT) =>
-  mapDataToFacet(getItems, [Insertion, "inputItems"]);
+  mapDataToFacet([Insertion, "inputItems"], getItems);

@@ -26,5 +26,7 @@ export class Filtering<ValueT = any> {
   }
 }
 
-export const filteringUsesInputItems = (getItems: GetterT) =>
-  mapDataToFacet(getItems, [Filtering, "inputItems"]);
+export const filteringUsesInputItems = (
+  getItems: GetterT,
+  transform?: Function
+) => mapDataToFacet([Filtering, "inputItems"], getItems, transform);

@@ -7,7 +7,7 @@ export type SelectionParamsT = {
 };
 
 export class Selection_selectItem extends Cbs {
-  itemSelectedProps: SelectionParamsT = stub();
+  selectionParams: SelectionParamsT = stub();
   selectItem() {}
 }
 
