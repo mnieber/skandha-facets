@@ -15,7 +15,7 @@ export class Filtering<ValueT = any> {
   @operation @host apply(filter: FilterT) {
     return (cbs: FilteringCbs["apply"]) => {
       this.filter = filter;
-      this.isEnabled = true;
+      this.setEnabled(true);
     };
   }
 
