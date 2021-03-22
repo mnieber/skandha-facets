@@ -17,22 +17,27 @@ export class SelectWithKeys {
     return {
       onKeyDown: (key: string, e: any) => {
         const ctr = this.props.container;
+        const highlight = getf(Highlight, ctr);
+        const selection = getf(Selection, ctr);
+
         const isDown = keysDown.includes(key);
         if (keysUp || keysDown) {
           e.preventDefault();
           e.stopPropagation();
-          const highlight = getf(Highlight, ctr);
           if (highlight.id) {
             const selectMoveById = (moveId: any) => {
-              getf(Selection, ctr).selectItem({
+              selection.selectItem({
                 itemId: moveId,
                 isShift: e.shiftKey,
                 isCtrl: false,
               });
+              if (e.shiftKey) {
+                highlight.highlightItem(moveId);
+              }
             };
 
             pickNeighbour(
-              getf(Selection, ctr).selectableIds || [],
+              selection.selectableIds || [],
               highlight.id,
               isDown,
               selectMoveById
