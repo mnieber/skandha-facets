@@ -1,4 +1,4 @@
-import { host } from "aspiration";
+import { host, maybe } from "aspiration";
 import {
   data,
   getm,
@@ -17,6 +17,7 @@ export class Highlight<ValueT = any> {
   @operation @host highlightItem(id: string) {
     return (cbs: HighlightCbs["highlightItem"]) => {
       this.id = id;
+      maybe(cbs.scrollItemIntoView)();
     };
   }
 }
