@@ -10,7 +10,7 @@ export class Editing {
     return (cbs: EditingCbs["save"]) => {
       cbs.saveItem();
       this.isEditing = false;
-      maybe(cbs.refreshView)();
+      maybe(cbs.refreshView).bind(cbs)();
     };
   }
 

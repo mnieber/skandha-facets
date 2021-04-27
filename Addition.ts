@@ -9,9 +9,9 @@ export class Addition<ValueT = any> {
 
   @operation @host add(values: GenericObjectT) {
     return (cbs: AdditionCbs<ValueT>["add"]) => {
-      maybe(cbs.storeLocation)();
+      maybe(cbs.storeLocation).bind(cbs)();
       this.item = cbs.createItem();
-      maybe(cbs.highlightNewItem)();
+      maybe(cbs.highlightNewItem).bind(cbs)();
     };
   }
 
@@ -25,7 +25,7 @@ export class Addition<ValueT = any> {
   @operation @host cancel() {
     return (cbs: AdditionCbs<ValueT>["cancel"]) => {
       this._reset();
-      maybe(cbs.restoreLocation)();
+      maybe(cbs.restoreLocation).bind(cbs)();
     };
   }
 
