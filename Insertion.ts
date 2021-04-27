@@ -24,5 +24,7 @@ export class Insertion<ValueT = any> {
   }
 }
 
-export const insertionUsesInputItems = (getItems: GetterT) =>
-  mapDataToFacet([Insertion, "inputItems"], getItems);
+export const insertionUsesInputItems = (
+  getItems: GetterT,
+  transform?: Function
+) => mapDataToFacet([Insertion, "inputItems"], getItems, transform);
