@@ -4,6 +4,7 @@ export type SelectionParamsT = {
   itemId: string;
   isShift?: boolean;
   isCtrl?: boolean;
+  context?: any;
 };
 
 export class Selection_selectItem extends Cbs {
