@@ -39,6 +39,12 @@ export function handleSelectItem(
   facet: Selection,
   { itemId, isShift, isCtrl }: SelectionParamsT
 ) {
+  if (itemId === undefined) {
+    facet.ids = [];
+    facet.anchorId = undefined;
+    return;
+  }
+
   const hasItem = facet.ids.includes(itemId);
   const selectableIds = facet.selectableIds;
 

@@ -1,7 +1,7 @@
 import { Cbs, stub } from "aspiration";
 
 export type SelectionParamsT = {
-  itemId: string;
+  itemId: string | undefined;
   isShift?: boolean;
   isCtrl?: boolean;
   context?: any;
