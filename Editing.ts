@@ -1,13 +1,15 @@
-import { data, operation } from "skandha";
-import { host, maybe } from "aspiration";
-import { EditingCbs } from "./EditingCbs";
-export type { EditingCbs } from "./EditingCbs";
+import { host, maybe } from 'aspiration';
+import { data, operation } from 'skandha';
+import { EditingCbs } from './EditingCbs';
+export type { EditingCbs } from './EditingCbs';
 
 export class Editing {
+  static className = () => 'Editing';
+
   @data isEditing: boolean = false;
 
   @operation @host save(values: any) {
-    return (cbs: EditingCbs["save"]) => {
+    return (cbs: EditingCbs['save']) => {
       cbs.saveItem();
       this.isEditing = false;
       maybe(cbs.refreshView).bind(cbs)();
@@ -15,13 +17,13 @@ export class Editing {
   }
 
   @operation @host cancel() {
-    return (cbs: EditingCbs["cancel"]) => {
+    return (cbs: EditingCbs['cancel']) => {
       this.isEditing = false;
     };
   }
 
   @operation @host enable() {
-    return (cbs: EditingCbs["enable"]) => {
+    return (cbs: EditingCbs['enable']) => {
       this.isEditing = true;
     };
   }

@@ -1,26 +1,28 @@
-import { host } from "aspiration";
-
+import { host } from 'aspiration';
 import {
+  data,
   getm,
   GetterT,
+  input,
   mapDatasToFacet,
   mapDataToFacet,
-  data,
-  input,
   operation,
   output,
-} from "skandha";
-import { lookUp, range } from "./internal/utils";
-import { SelectionParamsT, SelectionCbs } from "./SelectionCbs";
-export type { SelectionParamsT, SelectionCbs } from "./SelectionCbs";
+} from 'skandha';
+import { lookUp, range } from './internal/utils';
+import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
+
+export type { SelectionCbs, SelectionParamsT } from './SelectionCbs';
 
 const selectItemDefaultCbs = (selection: Selection) => ({
-  selectItem: function (this: SelectionCbs["selectItem"]) {
+  selectItem: function (this: SelectionCbs['selectItem']) {
     handleSelectItem(selection, this.selectionParams);
   },
 });
 
 export class Selection<ValueT = any> {
+  static className = () => 'Selection';
+
   @input selectableIds?: Array<string>;
   @data ids: Array<string> = [];
   @data anchorId?: string;
@@ -29,7 +31,7 @@ export class Selection<ValueT = any> {
   @operation @host(selectItemDefaultCbs) selectItem(
     selectionParams: SelectionParamsT
   ) {
-    return (cbs: SelectionCbs["selectItem"]) => {
+    return (cbs: SelectionCbs['selectItem']) => {
       cbs.selectItem();
     };
   }
@@ -49,7 +51,7 @@ export function handleSelectItem(
   const selectableIds = facet.selectableIds;
 
   if (!selectableIds) {
-    throw Error("logical error");
+    throw Error('logical error');
   }
 
   if (isShift) {
@@ -77,11 +79,11 @@ export function handleSelectItem(
 
 export const selectionUsesItemLookUpTable = (getItemById: GetterT) =>
   mapDatasToFacet(
-    [Selection, "items"],
+    [Selection, 'items'],
     [
       //
       getItemById,
-      getm([Selection, "ids"]),
+      getm([Selection, 'ids']),
     ],
     (itemById: any, ids: string[]) => {
       return lookUp(ids, itemById);
@@ -91,4 +93,4 @@ export const selectionUsesItemLookUpTable = (getItemById: GetterT) =>
 export const selectionUsesSelectableIds = (
   getIds: GetterT,
   transform?: (x: any) => string[]
-) => mapDataToFacet([Selection, "selectableIds"], getIds, transform);
+) => mapDataToFacet([Selection, 'selectableIds'], getIds, transform);

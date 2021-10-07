@@ -1,14 +1,16 @@
-import { data, operation } from "skandha";
-import { DropPositionT } from "./Insertion";
-import { isBefore } from "./internal/utils";
-import { host } from "aspiration";
-import { DragAndDropCbs } from "./DragAndDropCbs";
-export type { DragAndDropCbs } from "./DragAndDropCbs";
+import { host } from 'aspiration';
+import { data, operation } from 'skandha';
+import { DragAndDropCbs } from './DragAndDropCbs';
+import { DropPositionT } from './Insertion';
+import { isBefore } from './internal/utils';
+export type { DragAndDropCbs } from './DragAndDropCbs';
 
 export class DragAndDrop {
+  static className = () => 'DragAndDrop';
+
   @data hoverPosition?: DropPositionT;
   @operation @host drop(dropPosition: DropPositionT) {
-    return (cbs: DragAndDropCbs["drop"]) => {
+    return (cbs: DragAndDropCbs['drop']) => {
       cbs.drop();
     };
   }

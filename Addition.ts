@@ -1,14 +1,16 @@
-import { operation, data } from "skandha";
-import { host, maybe } from "aspiration";
-import { AdditionCbs, GenericObjectT } from "./AdditionCbs";
-export type { AdditionCbs } from "./AdditionCbs";
+import { host, maybe } from 'aspiration';
+import { data, operation } from 'skandha';
+import { AdditionCbs, GenericObjectT } from './AdditionCbs';
+export type { AdditionCbs } from './AdditionCbs';
 
 export class Addition<ValueT = any> {
+  static className = () => 'Addition';
+
   @data item?: ValueT;
   @data parentId?: string;
 
   @operation @host add(values: GenericObjectT) {
-    return (cbs: AdditionCbs<ValueT>["add"]) => {
+    return (cbs: AdditionCbs<ValueT>['add']) => {
       maybe(cbs.storeLocation).bind(cbs)();
       this.item = cbs.createItem();
       maybe(cbs.highlightNewItem).bind(cbs)();
@@ -16,14 +18,14 @@ export class Addition<ValueT = any> {
   }
 
   @operation @host confirm() {
-    return (cbs: AdditionCbs<ValueT>["confirm"]) => {
+    return (cbs: AdditionCbs<ValueT>['confirm']) => {
       cbs.confirm();
       this._reset();
     };
   }
 
   @operation @host cancel() {
-    return (cbs: AdditionCbs<ValueT>["cancel"]) => {
+    return (cbs: AdditionCbs<ValueT>['cancel']) => {
       this._reset();
       maybe(cbs.restoreLocation).bind(cbs)();
     };

@@ -1,9 +1,11 @@
-import { GetterT, mapDataToFacet, data, operation } from "skandha";
-import { host } from "aspiration";
-import { FilteringCbs, FilterT } from "./FilteringCbs";
-export type { FilteringCbs } from "./FilteringCbs";
+import { host } from 'aspiration';
+import { data, GetterT, mapDataToFacet, operation } from 'skandha';
+import { FilteringCbs, FilterT } from './FilteringCbs';
+export type { FilteringCbs } from './FilteringCbs';
 
 export class Filtering<ValueT = any> {
+  static className = () => 'Filtering';
+
   @data isEnabled: boolean = false;
   @data filter: FilterT = () => [];
 
@@ -13,14 +15,14 @@ export class Filtering<ValueT = any> {
   }
 
   @operation @host apply(filter: FilterT) {
-    return (cbs: FilteringCbs["apply"]) => {
+    return (cbs: FilteringCbs['apply']) => {
       this.filter = filter;
       this.setEnabled(true);
     };
   }
 
   @operation @host setEnabled(flag: boolean) {
-    return (cbs: FilteringCbs["setEnabled"]) => {
+    return (cbs: FilteringCbs['setEnabled']) => {
       this.isEnabled = flag;
     };
   }
@@ -29,4 +31,4 @@ export class Filtering<ValueT = any> {
 export const filteringUsesInputItems = (
   getItems: GetterT,
   transform?: Function
-) => mapDataToFacet([Filtering, "inputItems"], getItems, transform);
+) => mapDataToFacet([Filtering, 'inputItems'], getItems, transform);
