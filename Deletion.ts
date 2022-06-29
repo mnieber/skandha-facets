@@ -7,8 +7,8 @@ export class Deletion {
   static className = () => 'Deletion';
 
   @operation @host delete(itemIds: string[]) {
-    return (cbs: DeletionCbs['delete']) => {
-      cbs.deleteItems();
+    return (cbs: DeletionCbs['delete']): any => {
+      return cbs.deleteItems();
     };
   }
 }
