@@ -11,7 +11,7 @@ export class Insertion<ValueT = any> {
 
   @input inputItems?: Array<ValueT>;
   @output preview?: Array<ValueT>;
-  @operation @host insertItems(drag: DragT) {
+  @operation @host(['drag']) insertItems(drag: DragT) {
     return (cbs: InsertionCbs['insertItems']) => {
       if (this.inputItems) {
         const preview: Array<ValueT> = getPreview(

@@ -8,7 +8,7 @@ export class Editing {
 
   @data isEditing: boolean = false;
 
-  @operation @host save(values: any) {
+  @operation @host(['values']) save(values: any) {
     return (cbs: EditingCbs['save']) => {
       cbs.saveItem();
       this.isEditing = false;

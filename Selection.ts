@@ -28,7 +28,7 @@ export class Selection<ValueT = any> {
   @data anchorId?: string;
   @output items?: Array<ValueT>;
 
-  @operation @host(selectItemDefaultCbs) selectItem(
+  @operation @host(['selectionParams'], selectItemDefaultCbs) selectItem(
     selectionParams: SelectionParamsT
   ) {
     return (cbs: SelectionCbs['selectItem']) => {

@@ -9,7 +9,7 @@ export class Addition<ValueT = any> {
   @data item?: ValueT;
   @data parentId?: string;
 
-  @operation @host add(values: GenericObjectT) {
+  @operation @host(['values']) add(values: GenericObjectT) {
     return (cbs: AdditionCbs<ValueT>['add']) => {
       maybe(cbs.storeLocation).bind(cbs)();
       this.item = cbs.createItem();

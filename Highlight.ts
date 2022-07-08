@@ -16,7 +16,7 @@ export class Highlight<ValueT = any> {
   @data id: string | undefined;
   @output item?: ValueT;
 
-  @operation @host highlightItem(id: string) {
+  @operation @host(['id']) highlightItem(id: string) {
     return (cbs: HighlightCbs['highlightItem']) => {
       this.id = id;
       maybe(cbs.scrollItemIntoView).bind(cbs)();

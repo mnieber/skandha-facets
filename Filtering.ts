@@ -14,14 +14,14 @@ export class Filtering<ValueT = any> {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
 
-  @operation @host apply(filter: FilterT) {
+  @operation @host(['filter']) apply(filter: FilterT) {
     return (cbs: FilteringCbs['apply']) => {
       this.filter = filter;
       this.setEnabled(true);
     };
   }
 
-  @operation @host setEnabled(flag: boolean) {
+  @operation @host(['flag']) setEnabled(flag: boolean) {
     return (cbs: FilteringCbs['setEnabled']) => {
       this.isEnabled = flag;
     };

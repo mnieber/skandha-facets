@@ -24,7 +24,7 @@ export class Labelling {
 
   @input itemsByLabel?: ItemsByLabelT;
 
-  @operation @host setLabel(labelValue: LabelValueT) {
+  @operation @host(['labelValue']) setLabel(labelValue: LabelValueT) {
     return (cbs: LabellingCbs['setLabel']) => {
       const { label, id, flag } = labelValue;
       this.idsByLabel[label] = this.idsByLabel[label] || [];

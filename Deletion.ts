@@ -6,7 +6,7 @@ export type { DeletionCbs } from './DeletionCbs';
 export class Deletion {
   static className = () => 'Deletion';
 
-  @operation @host delete(itemIds: string[]) {
+  @operation @host(['itemIds']) delete(itemIds: string[]) {
     return (cbs: DeletionCbs['delete']): any => {
       return cbs.deleteItems();
     };

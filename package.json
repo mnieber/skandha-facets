@@ -10,7 +10,7 @@
   "prepublish": "tsc",
   "peerDependencies": {
     "skandha": ">=0.7.0",
-    "aspiration": ">=0.1.1"
+    "aspiration": ">=0.3.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"

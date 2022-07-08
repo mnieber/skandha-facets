@@ -9,7 +9,7 @@ export class DragAndDrop {
   static className = () => 'DragAndDrop';
 
   @data hoverPosition?: DropPositionT;
-  @operation @host drop(dropPosition: DropPositionT) {
+  @operation @host(['dropPosition']) drop(dropPosition: DropPositionT) {
     return (cbs: DragAndDropCbs['drop']) => {
       cbs.drop();
     };
