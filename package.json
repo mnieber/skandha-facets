@@ -1,6 +1,6 @@
 {
   "name": "skandha-facets",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Facets for use with the skandha library",
   "main": "index.js",
   "repository": "https://github.com/mnieber/skandha-facets.git",
