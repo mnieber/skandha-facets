@@ -1,7 +1,50 @@
-import { getf, getc } from "skandha";
+import { getc, getf } from 'skandha';
 
-import { Filtering } from "../Filtering";
-import { Highlight } from "../Highlight";
+import { Filtering } from '../Filtering';
+import { Highlight } from '../Highlight';
+
+export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
+  if (facet.isEnabled) {
+    correctHighlight(
+      getf(Highlight, getc(facet)),
+      (facet.inputItems || []).map((x) => x.id),
+      (facet.filteredItems ?? []).map((x) => x.id)
+    );
+  }
+}
+
+export function correctHighlight(
+  highlight: Highlight,
+  inputItemIds: any[],
+  filteredItemIds: any[]
+) {
+  if (
+    highlight.id &&
+    inputItemIds.includes(highlight.id) &&
+    !filteredItemIds.includes(highlight.id)
+  ) {
+    const highlightedItemIdx = inputItemIds.indexOf(highlight.id);
+    const newIdx =
+      _findNeighbourIdx(
+        filteredItemIds,
+        inputItemIds,
+        highlightedItemIdx,
+        inputItemIds.length,
+        1
+      ) ||
+      _findNeighbourIdx(
+        filteredItemIds,
+        inputItemIds,
+        highlightedItemIdx,
+        -1,
+        -1
+      );
+
+    if (newIdx) {
+      highlight.highlightItem(inputItemIds[newIdx.result]);
+    }
+  }
+}
 
 function _findNeighbourIdx(
   filteredItems: Array<any>,
@@ -16,41 +59,4 @@ function _findNeighbourIdx(
     }
   }
   return undefined;
-}
-
-export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
-  const ctr = getc(facet);
-  if (facet.isEnabled) {
-    const highlight = getf(Highlight, ctr).id;
-    const inputItems = facet.inputItems;
-    const filteredItemIds = (facet.filteredItems ?? []).map((x) => x.id);
-    const inputIds = (inputItems || []).map((x) => x.id);
-
-    if (
-      highlight &&
-      inputIds.includes(highlight) &&
-      !filteredItemIds.includes(highlight)
-    ) {
-      const highlightedItemIdx = inputIds.indexOf(highlight);
-      const newIdx =
-        _findNeighbourIdx(
-          filteredItemIds,
-          inputIds,
-          highlightedItemIdx,
-          inputIds.length,
-          1
-        ) ||
-        _findNeighbourIdx(
-          filteredItemIds,
-          inputIds,
-          highlightedItemIdx,
-          -1,
-          -1
-        );
-
-      if (newIdx) {
-        getf(Highlight, ctr).highlightItem(inputIds[newIdx.result]);
-      }
-    }
-  }
 }
