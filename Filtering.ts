@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { host, stub } from 'aspiration';
 import { data, GetterT, mapDataToFacet, operation } from 'skandha';
 import { FilteringCbs, FilterT } from './FilteringCbs';
 export type { FilteringCbs } from './FilteringCbs';
@@ -8,8 +8,7 @@ export class Filtering<ValueT = any> {
 
   @data isEnabled: boolean = false;
   @data filter: FilterT = () => [];
-
-  @data inputItems?: Array<ValueT>;
+  @data inputItems: Array<ValueT> = stub();
   @data get filteredItems() {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }

@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { host, stub } from 'aspiration';
 import { GetterT, input, mapDataToFacet, operation, output } from 'skandha';
 import { DragT, InsertionCbs } from './InsertionCbs';
 import { getPreview } from './lib/getPreview';
@@ -9,8 +9,8 @@ export type DragSourceT = (ctr: any) => DragT | undefined;
 export class Insertion<ValueT = any> {
   static className = () => 'Insertion';
 
-  @input inputItems?: Array<ValueT>;
-  @output preview?: Array<ValueT>;
+  @input inputItems: Array<ValueT> = stub();
+  @output preview: Array<ValueT> = stub();
   @operation @host(['drag']) insertItems(drag: DragT) {
     return (cbs: InsertionCbs['insertItems']) => {
       if (this.inputItems) {

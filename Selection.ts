@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { host, stub } from 'aspiration';
 import {
   data,
   getm,
@@ -23,10 +23,10 @@ const selectItemDefaultCbs = (selection: Selection) => ({
 export class Selection<ValueT = any> {
   static className = () => 'Selection';
 
-  @input selectableIds?: Array<string>;
+  @input selectableIds: Array<string> = stub();
   @data ids: Array<string> = [];
   @data anchorId?: string;
-  @output items?: Array<ValueT>;
+  @output items: Array<ValueT> = stub();
 
   @operation @host(['selectionParams'], selectItemDefaultCbs) selectItem(
     selectionParams: SelectionParamsT

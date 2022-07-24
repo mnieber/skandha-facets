@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { host, stub } from 'aspiration';
 import {
   data,
   getm,
@@ -22,7 +22,7 @@ export class Labelling {
   @data idsByLabel: IdsByLabelT = {};
   ids = (label: string) => this.idsByLabel[label] || [];
 
-  @input itemsByLabel?: ItemsByLabelT;
+  @input itemsByLabel: ItemsByLabelT = stub();
 
   @operation @host(['labelValue']) setLabel(labelValue: LabelValueT) {
     return (cbs: LabellingCbs['setLabel']) => {
