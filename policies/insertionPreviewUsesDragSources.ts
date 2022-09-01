@@ -1,24 +1,16 @@
-import { DragSourceT, Insertion } from "../Insertion";
-import { findMap } from "../internal/utils";
-import { getPreview } from "../lib/getPreview";
-import { mapDataToFacet, getf, getc } from "skandha";
+import { DragSourceT } from '../Insertion';
+import { findMap } from '../internal/utils';
+import { getPreview } from '../lib/getPreview';
 
-export const insertionPreviewUsesDragSources = (dragSources: DragSourceT[]) =>
-  mapDataToFacet(
-    [Insertion, "preview"],
-    getf(Insertion),
-    (insertion: Insertion) => {
-      const ctr = getc(insertion);
-      const drag = findMap((dragSource) => dragSource(ctr), dragSources);
-      const inputItems = insertion.inputItems;
-      const preview = drag
-        ? getPreview(
-            inputItems ?? [],
-            drag.targetItemId,
-            drag.isBefore,
-            drag.payload
-          )
-        : inputItems ?? [];
-      return preview;
-    }
-  );
+export const insertionPreviewUsesDragSources =
+  (dragSources: DragSourceT[], ctr: any) => (inputItems: any[]) => {
+    const drag = findMap((dragSource) => dragSource(ctr), dragSources);
+    return drag
+      ? getPreview(
+          inputItems ?? [],
+          drag.targetItemId,
+          drag.isBefore,
+          drag.payload
+        )
+      : inputItems ?? [];
+  };

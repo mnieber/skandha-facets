@@ -1,13 +1,5 @@
 import { host, stub } from 'aspiration';
-import {
-  data,
-  getm,
-  GetterT,
-  input,
-  mapDatasToFacet,
-  operation,
-} from 'skandha';
-import { lookUp } from './internal/utils';
+import { data, input, operation } from 'skandha';
 import {
   IdsByLabelT,
   ItemsByLabelT,
@@ -39,20 +31,3 @@ export class Labelling {
     };
   }
 }
-
-export const labellingActsOnItems = (getItemById: GetterT) => {
-  return mapDatasToFacet(
-    [Labelling, 'itemsByLabel'],
-    [
-      //
-      getItemById,
-      getm([Labelling, 'idsByLabel']),
-    ],
-    (itemById: any, idsByLabel: any) =>
-      Object.fromEntries(
-        Object.entries(idsByLabel).map(([label, ids]) =>
-          lookUp(ids as string[], itemById)
-        )
-      )
-  );
-};

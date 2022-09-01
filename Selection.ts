@@ -1,15 +1,6 @@
 import { host, stub } from 'aspiration';
-import {
-  data,
-  getm,
-  GetterT,
-  input,
-  mapDatasToFacet,
-  mapDataToFacet,
-  operation,
-  output,
-} from 'skandha';
-import { lookUp, range } from './internal/utils';
+import { data, input, operation, output } from 'skandha';
+import { range } from './internal/utils';
 import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
 
 export type { SelectionCbs, SelectionParamsT } from './SelectionCbs';
@@ -76,21 +67,3 @@ export function handleSelectItem(
     facet.anchorId = itemId;
   }
 }
-
-export const selectionUsesItemLookUpTable = (getItemById: GetterT) =>
-  mapDatasToFacet(
-    [Selection, 'items'],
-    [
-      //
-      getItemById,
-      getm([Selection, 'ids']),
-    ],
-    (itemById: any, ids: string[]) => {
-      return lookUp(ids, itemById);
-    }
-  );
-
-export const selectionUsesSelectableIds = (
-  getIds: GetterT,
-  transform?: (x: any) => string[]
-) => mapDataToFacet([Selection, 'selectableIds'], getIds, transform);

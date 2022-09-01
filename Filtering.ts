@@ -1,5 +1,5 @@
 import { host, stub } from 'aspiration';
-import { data, GetterT, mapDataToFacet, operation } from 'skandha';
+import { data, operation } from 'skandha';
 import { FilteringCbs, FilterT } from './FilteringCbs';
 export type { FilteringCbs } from './FilteringCbs';
 
@@ -26,8 +26,3 @@ export class Filtering<ValueT = any> {
     };
   }
 }
-
-export const filteringUsesInputItems = (
-  getItems: GetterT,
-  transform?: Function
-) => mapDataToFacet([Filtering, 'inputItems'], getItems, transform);

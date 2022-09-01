@@ -1,4 +1,4 @@
-import { host, maybe } from 'aspiration';
+import { host } from 'aspiration';
 import { data, operation } from 'skandha';
 import { AdditionCbs, GenericObjectT } from './AdditionCbs';
 export type { AdditionCbs } from './AdditionCbs';
@@ -11,9 +11,9 @@ export class Addition<ValueT = any> {
 
   @operation @host(['values']) add(values: GenericObjectT) {
     return (cbs: AdditionCbs<ValueT>['add']) => {
-      maybe(cbs.storeLocation).bind(cbs)();
+      cbs.storeLocation && cbs.storeLocation();
       this.item = cbs.createItem();
-      maybe(cbs.highlightNewItem).bind(cbs)();
+      cbs.highlightNewItem && cbs.highlightNewItem();
     };
   }
 
@@ -27,7 +27,7 @@ export class Addition<ValueT = any> {
   @operation @host cancel() {
     return (cbs: AdditionCbs<ValueT>['cancel']) => {
       this._reset();
-      maybe(cbs.restoreLocation).bind(cbs)();
+      cbs.restoreLocation && cbs.restoreLocation();
     };
   }
 

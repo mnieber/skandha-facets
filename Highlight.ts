@@ -1,12 +1,5 @@
-import { host, maybe } from 'aspiration';
-import {
-  data,
-  getm,
-  GetterT,
-  mapDatasToFacet,
-  operation,
-  output,
-} from 'skandha';
+import { host } from 'aspiration';
+import { data, operation, output } from 'skandha';
 import { HighlightCbs } from './HighlightCbs';
 export type { HighlightCbs } from './HighlightCbs';
 
@@ -19,20 +12,7 @@ export class Highlight<ValueT = any> {
   @operation @host(['id']) highlightItem(id: string) {
     return (cbs: HighlightCbs['highlightItem']) => {
       this.id = id;
-      maybe(cbs.scrollItemIntoView).bind(cbs)();
+      cbs.scrollItemIntoView && cbs.scrollItemIntoView();
     };
   }
 }
-
-export const highlightUsesItemLookUpTable = (getItemById: GetterT) =>
-  mapDatasToFacet(
-    [Highlight, 'item'],
-    [
-      //
-      getItemById,
-      getm([Highlight, 'id']),
-    ],
-    (itemById: any, id: string) => {
-      return itemById[id];
-    }
-  );

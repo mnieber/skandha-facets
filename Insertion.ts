@@ -1,5 +1,5 @@
 import { host, stub } from 'aspiration';
-import { GetterT, input, mapDataToFacet, operation, output } from 'skandha';
+import { input, operation, output } from 'skandha';
 import { DragT, InsertionCbs } from './InsertionCbs';
 import { getPreview } from './lib/getPreview';
 export type { DragT, DropPositionT, InsertionCbs } from './InsertionCbs';
@@ -25,8 +25,3 @@ export class Insertion<ValueT = any> {
     };
   }
 }
-
-export const insertionUsesInputItems = (
-  getItems: GetterT,
-  transform?: Function
-) => mapDataToFacet([Insertion, 'inputItems'], getItems, transform);
