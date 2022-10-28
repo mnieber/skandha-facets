@@ -1,7 +1,7 @@
 import { Cbs, stub } from 'aspiration';
 
 export class Deletion_delete extends Cbs {
-  itemIds: string[] = stub();
+  itemIds: string[] = stub;
   deleteItems(): any {}
 }
 

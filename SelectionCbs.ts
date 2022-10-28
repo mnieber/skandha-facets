@@ -1,4 +1,4 @@
-import { Cbs, stub } from "aspiration";
+import { Cbs, stub } from 'aspiration';
 
 export type SelectionParamsT = {
   itemId: string | undefined;
@@ -8,7 +8,7 @@ export type SelectionParamsT = {
 };
 
 export class Selection_selectItem extends Cbs {
-  selectionParams: SelectionParamsT = stub();
+  selectionParams: SelectionParamsT = stub;
   selectItem() {}
 }
 

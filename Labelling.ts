@@ -14,7 +14,7 @@ export class Labelling {
   @data idsByLabel: IdsByLabelT = {};
   ids = (label: string) => this.idsByLabel[label] || [];
 
-  @input itemsByLabel: ItemsByLabelT = stub();
+  @input itemsByLabel: ItemsByLabelT = stub;
 
   @operation @host(['labelValue']) setLabel(labelValue: LabelValueT) {
     return (cbs: LabellingCbs['setLabel']) => {

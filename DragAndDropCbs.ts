@@ -1,8 +1,8 @@
-import { stub, Cbs } from "aspiration";
-import { DropPositionT } from "./Insertion";
+import { Cbs, stub } from 'aspiration';
+import { DropPositionT } from './Insertion';
 
 export class DragAndDrop_drop extends Cbs {
-  dropPosition: DropPositionT = stub();
+  dropPosition: DropPositionT = stub;
   drop() {}
 }
 

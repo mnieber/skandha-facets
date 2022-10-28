@@ -9,10 +9,10 @@ export type DragSourceT = (ctr: any) => DragT | undefined;
 export class Insertion<ValueT = any> {
   static className = () => 'Insertion';
 
-  @input inputItems: Array<ValueT> = stub();
-  @output preview: Array<ValueT> = stub();
+  @input inputItems: Array<ValueT> = stub;
+  @output preview: Array<ValueT> = stub;
   @operation @host(['drag']) insertItems(drag: DragT) {
-    return (cbs: InsertionCbs['insertItems']) => {
+    return (cbs: InsertionCbs<ValueT>['insertItems']) => {
       if (this.inputItems) {
         const preview: Array<ValueT> = getPreview(
           this.inputItems,

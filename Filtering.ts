@@ -7,21 +7,21 @@ export class Filtering<ValueT = any> {
   static className = () => 'Filtering';
 
   @data isEnabled: boolean = false;
-  @data filter: FilterT = () => [];
-  @data inputItems: Array<ValueT> = stub();
+  @data filter: FilterT<ValueT> = () => [];
+  @data inputItems: Array<ValueT> = stub;
   @data get filteredItems() {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
 
-  @operation @host(['filter']) apply(filter: FilterT) {
-    return (cbs: FilteringCbs['apply']) => {
+  @operation @host(['filter']) apply(filter: FilterT<ValueT>) {
+    return (cbs: FilteringCbs<ValueT>['apply']) => {
       this.filter = filter;
       this.setEnabled(true);
     };
   }
 
   @operation @host(['flag']) setEnabled(flag: boolean) {
-    return (cbs: FilteringCbs['setEnabled']) => {
+    return (cbs: FilteringCbs<ValueT>['setEnabled']) => {
       this.isEnabled = flag;
     };
   }

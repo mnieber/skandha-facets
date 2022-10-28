@@ -1,12 +1,12 @@
-import { stub, Cbs } from "aspiration";
+import { Cbs, stub } from 'aspiration';
 
 export type GenericObjectT = any;
 
-export class Addition_add<ValueT = any> extends Cbs {
+export class Addition_add<ValueT> extends Cbs {
   values: GenericObjectT;
   storeLocation() {}
   createItem(): ValueT {
-    return stub();
+    return stub;
   }
   highlightNewItem() {}
 }

@@ -1,16 +1,16 @@
-import { stub, Cbs } from "aspiration";
+import { Cbs, stub } from 'aspiration';
 
-export type FilterT = (x: any) => Array<any>;
+export type FilterT<ValueT> = (x: ValueT[]) => ValueT[];
 
-export class Filtering_apply extends Cbs {
-  filter: FilterT = stub();
+export class Filtering_apply<ValueT> extends Cbs {
+  filter: FilterT<ValueT> = stub;
 }
 
-export class Filtering_setEnabled extends Cbs {
-  flag: boolean = stub();
+export class Filtering_setEnabled<ValueT> extends Cbs {
+  flag: boolean = stub;
 }
 
-export type FilteringCbs = {
-  apply: Filtering_apply;
-  setEnabled: Filtering_setEnabled;
+export type FilteringCbs<ValueT = any> = {
+  apply: Filtering_apply<ValueT>;
+  setEnabled: Filtering_setEnabled<ValueT>;
 };

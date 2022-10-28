@@ -1,7 +1,7 @@
-import { Cbs, stub } from "aspiration";
+import { Cbs, stub } from 'aspiration';
 
 export class Highlight_highlightItem extends Cbs {
-  id: string = stub();
+  id: string = stub;
   scrollItemIntoView() {}
 }
 
