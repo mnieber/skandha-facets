@@ -41,3 +41,17 @@ export class ClickToSelectItems {
     };
   }
 }
+
+export type ClickHandlersT = {
+  onClick?: any;
+  onMouseDown?: any;
+  onMouseUp?: any;
+};
+
+export function clickHandlers<T extends ClickHandlersT>(props: T) {
+  return {
+    onClick: props.onClick,
+    onMouseDown: props.onMouseDown,
+    onMouseUp: props.onMouseUp,
+  };
+}

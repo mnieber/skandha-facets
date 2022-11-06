@@ -53,7 +53,7 @@ export class DragAndDrop {
   }
 }
 
-export type DragPropsT = {
+export type DragHandlersT = {
   draggable?: boolean;
   onDragStart?: (event: any) => void;
   onDragOver?: (event: any) => void;
@@ -66,5 +66,15 @@ export function dragState(hoverPosition: any, itemId: string) {
     ? hoverPosition?.isBefore
       ? 'before'
       : 'after'
-    : undefined;
+    : 'none';
+}
+
+export function dragHandlers<T extends DragHandlersT>(props: T) {
+  return {
+    draggable: props.draggable,
+    onDragStart: props.onDragStart,
+    onDragOver: props.onDragOver,
+    onDrop: props.onDrop,
+    onDragEnd: props.onDragEnd,
+  };
 }
