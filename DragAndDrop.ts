@@ -21,7 +21,7 @@ export class DragAndDrop {
     dropPosition: DropPositionT
   ) {
     const cbs = getCallbacks<DragAndDropCbs['drop']>(this);
-    return cbs.drop();
+    return Promise.resolve(cbs.drop());
   }
 
   @operation({ log: false }) setHoverPosition(x?: DropPositionT) {
@@ -44,8 +44,9 @@ export class DragAndDrop {
       },
       onDrop: () => {
         if (this.hoverPosition) {
-          this.drop(this.hoverPosition);
-          this.setHoverPosition(undefined);
+          this.drop(this.hoverPosition).then(() => {
+            this.setHoverPosition(undefined);
+          });
         }
       },
     };

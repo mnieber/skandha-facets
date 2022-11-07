@@ -22,11 +22,12 @@ export class Labelling {
     this.idsByLabel[label] = this.idsByLabel[label] || [];
     if (flag && !this.idsByLabel[label].includes(id)) {
       this.idsByLabel[label].push(id);
-      cbs.saveIds(label, this.idsByLabel[label]);
+      return Promise.resolve(cbs.saveIds(label, this.idsByLabel[label]));
     }
     if (!flag && this.idsByLabel[label].includes(id)) {
       this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
-      cbs.saveIds(label, this.idsByLabel[label]);
+      return Promise.resolve(cbs.saveIds(label, this.idsByLabel[label]));
     }
+    return Promise.resolve();
   }
 }

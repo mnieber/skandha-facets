@@ -20,7 +20,8 @@ export class Insertion<ValueT = any> {
         drag.isBefore,
         drag.payload
       );
-      cbs.insertItems(preview);
+      return Promise.resolve(cbs.insertItems(preview));
     }
+    return Promise.resolve();
   }
 }

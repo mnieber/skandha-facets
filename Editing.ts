@@ -10,9 +10,10 @@ export class Editing {
 
   @operation @host(['values']) save(values: any) {
     const cbs = getCallbacks<EditingCbs['save']>(this);
-    cbs.saveItem();
-    this.isEditing = false;
-    cbs.refreshView && cbs.refreshView();
+    return Promise.resolve(cbs.saveItem()).then(() => {
+      this.isEditing = false;
+      cbs.refreshView && cbs.refreshView();
+    });
   }
 
   @operation @host cancel() {

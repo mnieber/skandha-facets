@@ -8,6 +8,6 @@ export class Deletion {
 
   @operation @host(['itemIds']) delete(itemIds: string[]) {
     const cbs = getCallbacks<DeletionCbs['delete']>(this);
-    return cbs.deleteItems();
+    return Promise.resolve(cbs.deleteItems());
   }
 }
