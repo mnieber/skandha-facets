@@ -2,7 +2,7 @@ import type { Cbs } from 'aspiration';
 
 export interface Editing_save extends Cbs {
   values: any;
-  saveItem(): Promise<any>;
+  saveItem(): any;
   refreshView(): void;
 }
 

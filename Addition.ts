@@ -27,9 +27,7 @@ export class Addition<ValueT = any> {
 
   @operation @host cancel() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
-    return Promise.resolve(this._reset()).then(() => {
-      cbs.restoreLocation && cbs.restoreLocation();
-    });
+    cbs.restoreLocation && cbs.restoreLocation();
   }
 
   _reset() {

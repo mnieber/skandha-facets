@@ -2,7 +2,7 @@ import { Cbs } from 'aspiration';
 
 export interface Deletion_delete extends Cbs {
   itemIds: string[];
-  deleteItems(): Promise<any>;
+  deleteItems(): any;
 }
 
 export type DeletionCbs = {

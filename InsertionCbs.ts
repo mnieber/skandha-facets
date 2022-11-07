@@ -11,7 +11,7 @@ export type DragT = DropPositionT & {
 
 export interface Insertion_insertItems<ValueT> extends Cbs {
   drag: DragT;
-  insertItems(preview: Array<ValueT>): Promise<any>;
+  insertItems(preview: Array<ValueT>): any;
 }
 
 export interface InsertionCbs<ValueT = any> {

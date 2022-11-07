@@ -6,7 +6,7 @@ export type ItemsByLabelT = { [label: string]: Array<any> };
 
 export interface Labelling_setLabel extends Cbs {
   labelValue: LabelValueT;
-  saveIds(label: string, ids: string[]): Promise<any>;
+  saveIds(label: string, ids: string[]): any;
 }
 
 export interface LabellingCbs {
