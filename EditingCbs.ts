@@ -1,17 +1,17 @@
-import { Cbs } from "aspiration";
+import type { Cbs } from 'aspiration';
 
-export class Editing_save extends Cbs {
+export interface Editing_save extends Cbs {
   values: any;
-  saveItem() {}
-  refreshView() {}
+  saveItem(): void;
+  refreshView(): void;
 }
 
-export class Editing_cancel extends Cbs {}
+export interface Editing_cancel extends Cbs {}
 
-export class Editing_enable extends Cbs {}
+export interface Editing_enable extends Cbs {}
 
-export type EditingCbs = {
+export interface EditingCbs {
   save: Editing_save;
   cancel: Editing_cancel;
   enable: Editing_enable;
-};
+}

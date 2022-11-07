@@ -1,4 +1,4 @@
-import { host, stub } from 'aspiration';
+import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
 import { range } from './internal/utils';
 import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
@@ -22,9 +22,8 @@ export class Selection<ValueT = any> {
   @operation @host(['selectionParams'], selectItemDefaultCbs) selectItem(
     selectionParams: SelectionParamsT
   ) {
-    return (cbs: SelectionCbs['selectItem']) => {
-      cbs.selectItem();
-    };
+    const cbs = getCallbacks<SelectionCbs['selectItem']>(this);
+    cbs.selectItem();
   }
 }
 

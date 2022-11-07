@@ -1,10 +1,10 @@
-import { Cbs, stub } from 'aspiration';
+import { Cbs } from 'aspiration';
 
-export class Highlight_highlightItem extends Cbs {
-  id: string = stub;
-  scrollItemIntoView() {}
+export interface Highlight_highlightItem extends Cbs {
+  id: string;
+  scrollItemIntoView(): void;
 }
 
-export type HighlightCbs = {
+export interface HighlightCbs {
   highlightItem: Highlight_highlightItem;
-};
+}

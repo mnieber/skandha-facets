@@ -1,4 +1,4 @@
-import { host, stub } from 'aspiration';
+import { getCallbacks, host, stub } from 'aspiration';
 import { input, operation, output } from 'skandha';
 import { DragT, InsertionCbs } from './InsertionCbs';
 import { getPreview } from './lib/getPreview';
@@ -12,16 +12,15 @@ export class Insertion<ValueT = any> {
   @input inputItems: Array<ValueT> = stub;
   @output preview: Array<ValueT> = stub;
   @operation @host(['drag']) insertItems(drag: DragT) {
-    return (cbs: InsertionCbs<ValueT>['insertItems']) => {
-      if (this.inputItems) {
-        const preview: Array<ValueT> = getPreview(
-          this.inputItems,
-          drag.targetItemId,
-          drag.isBefore,
-          drag.payload
-        );
-        cbs.insertItems(preview);
-      }
-    };
+    const cbs = getCallbacks<InsertionCbs<ValueT>['insertItems']>(this);
+    if (this.inputItems) {
+      const preview: Array<ValueT> = getPreview(
+        this.inputItems,
+        drag.targetItemId,
+        drag.isBefore,
+        drag.payload
+      );
+      cbs.insertItems(preview);
+    }
   }
 }

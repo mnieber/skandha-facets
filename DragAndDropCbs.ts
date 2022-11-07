@@ -1,11 +1,11 @@
-import { Cbs, stub } from 'aspiration';
+import { Cbs } from 'aspiration';
 import { DropPositionT } from './Insertion';
 
-export class DragAndDrop_drop extends Cbs {
-  dropPosition: DropPositionT = stub;
-  drop() {}
+export interface DragAndDrop_drop extends Cbs {
+  dropPosition: DropPositionT;
+  drop(): void;
 }
 
-export type DragAndDropCbs = {
+export interface DragAndDropCbs {
   drop: DragAndDrop_drop;
-};
+}

@@ -1,4 +1,4 @@
-import { host, stub } from 'aspiration';
+import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation } from 'skandha';
 import {
   IdsByLabelT,
@@ -17,17 +17,16 @@ export class Labelling {
   @input itemsByLabel: ItemsByLabelT = stub;
 
   @operation @host(['labelValue']) setLabel(labelValue: LabelValueT) {
-    return (cbs: LabellingCbs['setLabel']) => {
-      const { label, id, flag } = labelValue;
-      this.idsByLabel[label] = this.idsByLabel[label] || [];
-      if (flag && !this.idsByLabel[label].includes(id)) {
-        this.idsByLabel[label].push(id);
-        cbs.saveIds(label, this.idsByLabel[label]);
-      }
-      if (!flag && this.idsByLabel[label].includes(id)) {
-        this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
-        cbs.saveIds(label, this.idsByLabel[label]);
-      }
-    };
+    const cbs = getCallbacks<LabellingCbs['setLabel']>(this);
+    const { label, id, flag } = labelValue;
+    this.idsByLabel[label] = this.idsByLabel[label] || [];
+    if (flag && !this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label].push(id);
+      cbs.saveIds(label, this.idsByLabel[label]);
+    }
+    if (!flag && this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
+      cbs.saveIds(label, this.idsByLabel[label]);
+    }
   }
 }

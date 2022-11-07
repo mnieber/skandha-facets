@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { getCallbacks, host } from 'aspiration';
 import { data, operation, output } from 'skandha';
 import { HighlightCbs } from './HighlightCbs';
 export type { HighlightCbs } from './HighlightCbs';
@@ -14,9 +14,8 @@ export class Highlight<ValueT = any> {
   @operation @host(['id'], highlightItemDefaultCbs) highlightItem(
     id: string | undefined
   ) {
-    return (cbs: HighlightCbs['highlightItem']) => {
-      this.id = id;
-      cbs.scrollItemIntoView && cbs.scrollItemIntoView();
-    };
+    const cbs = getCallbacks<HighlightCbs['highlightItem']>(this);
+    this.id = id;
+    cbs.scrollItemIntoView && cbs.scrollItemIntoView();
   }
 }

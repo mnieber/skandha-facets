@@ -1,4 +1,4 @@
-import { Cbs, stub } from 'aspiration';
+import { Cbs } from 'aspiration';
 
 export type DropPositionT = {
   isBefore: boolean;
@@ -9,11 +9,11 @@ export type DragT = DropPositionT & {
   payload: any;
 };
 
-export class Insertion_insertItems<ValueT> extends Cbs {
-  drag: DragT = stub;
-  insertItems(preview: Array<ValueT>) {}
+export interface Insertion_insertItems<ValueT> extends Cbs {
+  drag: DragT;
+  insertItems(preview: Array<ValueT>): Promise<any>;
 }
 
-export type InsertionCbs<ValueT = any> = {
+export interface InsertionCbs<ValueT = any> {
   insertItems: Insertion_insertItems<ValueT>;
-};
+}

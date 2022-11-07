@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { getCallbacks, host } from 'aspiration';
 import { data, operation } from 'skandha';
 import { AdditionCbs, GenericObjectT } from './AdditionCbs';
 export type { AdditionCbs } from './AdditionCbs';
@@ -10,25 +10,22 @@ export class Addition<ValueT = any> {
   @data parentId?: string;
 
   @operation @host(['values']) add(values: GenericObjectT) {
-    return (cbs: AdditionCbs<ValueT>['add']) => {
-      cbs.storeLocation && cbs.storeLocation();
-      this.item = cbs.createItem();
-      cbs.highlightNewItem && cbs.highlightNewItem();
-    };
+    const cbs = getCallbacks<AdditionCbs<ValueT>['add']>(this);
+    cbs.storeLocation && cbs.storeLocation();
+    this.item = cbs.createItem();
+    cbs.highlightNewItem && cbs.highlightNewItem();
   }
 
   @operation @host confirm() {
-    return (cbs: AdditionCbs<ValueT>['confirm']) => {
-      cbs.confirm();
-      this._reset();
-    };
+    const cbs = getCallbacks<AdditionCbs<ValueT>['confirm']>(this);
+    cbs.confirm();
+    this._reset();
   }
 
   @operation @host cancel() {
-    return (cbs: AdditionCbs<ValueT>['cancel']) => {
-      this._reset();
-      cbs.restoreLocation && cbs.restoreLocation();
-    };
+    const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
+    this._reset();
+    cbs.restoreLocation && cbs.restoreLocation();
   }
 
   _reset() {

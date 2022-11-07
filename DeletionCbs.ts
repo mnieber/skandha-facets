@@ -1,8 +1,8 @@
-import { Cbs, stub } from 'aspiration';
+import { Cbs } from 'aspiration';
 
-export class Deletion_delete extends Cbs {
-  itemIds: string[] = stub;
-  deleteItems(): any {}
+export interface Deletion_delete extends Cbs {
+  itemIds: string[];
+  deleteItems(): Promise<any>;
 }
 
 export type DeletionCbs = {

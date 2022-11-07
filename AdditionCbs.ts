@@ -1,26 +1,24 @@
-import { Cbs, stub } from 'aspiration';
+import { Cbs } from 'aspiration';
 
 export type GenericObjectT = any;
 
-export class Addition_add<ValueT> extends Cbs {
+export interface Addition_add<ValueT> extends Cbs {
   values: GenericObjectT;
-  storeLocation() {}
-  createItem(): ValueT {
-    return stub;
-  }
-  highlightNewItem() {}
+  storeLocation(): void;
+  createItem(): ValueT;
+  highlightNewItem(): void;
 }
 
-export class Addition_confirm extends Cbs {
-  confirm() {}
+export interface Addition_confirm extends Cbs {
+  confirm(): void;
 }
 
-export class Addition_cancel extends Cbs {
-  restoreLocation() {}
+export interface Addition_cancel extends Cbs {
+  restoreLocation(): void;
 }
 
-export type AdditionCbs<ValueT = any> = {
+export interface AdditionCbs<ValueT = any> {
   add: Addition_add<ValueT>;
   confirm: Addition_confirm;
   cancel: Addition_cancel;
-};
+}

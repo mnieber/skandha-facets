@@ -1,4 +1,4 @@
-import { host } from 'aspiration';
+import { getCallbacks, host } from 'aspiration';
 import { data, operation } from 'skandha';
 import { DragAndDropCbs } from './DragAndDropCbs';
 import { DropPositionT } from './Insertion';
@@ -20,9 +20,8 @@ export class DragAndDrop {
   @operation @host(['dropPosition'], dropDefaultCbs) drop(
     dropPosition: DropPositionT
   ) {
-    return (cbs: DragAndDropCbs['drop']) => {
-      cbs.drop();
-    };
+    const cbs = getCallbacks<DragAndDropCbs['drop']>(this);
+    return cbs.drop();
   }
 
   @operation({ log: false }) setHoverPosition(x?: DropPositionT) {
