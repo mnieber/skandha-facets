@@ -1,10 +1,14 @@
-import { Selection } from '../Selection';
+import { Selection } from './Selection';
+
+export interface SelectionUIConnectorT {
+  handle(itemId: string): SelectionUIPropsT;
+}
 
 export type PropsT = {
   selection: Selection;
 };
 
-export class ClickToSelectItems {
+export class SelectionUIConnector implements SelectionUIConnectorT {
   props: PropsT;
   _selectOnMouseUp?: string = undefined;
 
@@ -12,8 +16,9 @@ export class ClickToSelectItems {
     this.props = props;
   }
 
-  handle(itemId: any) {
+  handle(itemId: any): SelectionUIPropsT {
     return {
+      isSelected: this.props.selection.ids.includes(itemId),
       onMouseDown: (e: any) => {
         const isSelected = this.props.selection.ids.includes(itemId);
         if (!isSelected) {
@@ -42,13 +47,14 @@ export class ClickToSelectItems {
   }
 }
 
-export type ClickHandlersT = {
+export type SelectionUIPropsT = {
+  isSelected: boolean;
   onClick?: any;
   onMouseDown?: any;
   onMouseUp?: any;
 };
 
-export function clickHandlers<T extends ClickHandlersT>(props: T) {
+export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
   return {
     onClick: props.onClick,
     onMouseDown: props.onMouseDown,

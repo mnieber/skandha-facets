@@ -1,19 +1,19 @@
 import { data, operation } from 'skandha';
-import { DragAndDrop, DragHandlersT } from '../DragAndDrop';
-import { DropPositionT } from '../Insertion';
-import { isBefore } from '../internal/utils';
+import { DragAndDrop } from './DragAndDrop';
+import { DropPositionT } from './Insertion';
+import { isBefore } from './internal/utils';
 
-export interface DragAndDropHandlerT {
+export interface DragAndDropUIConnectorT {
   hoverPosition?: DropPositionT;
   setHoverPosition(x?: DropPositionT): void;
-  handle(itemId: string): DragHandlersT;
+  handle(itemId: string): DragAndDropUIPropsT;
 }
 
 export type PropsT = {
   dragAndDrop: DragAndDrop;
 };
 
-export class DragAndDropHandler implements DragAndDropHandlerT {
+export class DragAndDropUIConnector implements DragAndDropUIConnectorT {
   props: PropsT;
   @data hoverPosition?: DropPositionT;
 
@@ -25,7 +25,7 @@ export class DragAndDropHandler implements DragAndDropHandlerT {
     this.hoverPosition = x;
   }
 
-  handle(itemId: string): DragHandlersT {
+  handle(itemId: string): DragAndDropUIPropsT {
     return {
       draggable: true,
       onDragStart: () => {},
@@ -57,4 +57,23 @@ export function getDragState(hoverPosition: any, itemId: string) {
       ? 'before'
       : 'after'
     : 'none';
+}
+
+export type DragAndDropUIPropsT = {
+  draggable?: boolean;
+  dragState?: string;
+  onDragStart?: (event: any) => void;
+  onDragOver?: (event: any) => void;
+  onDragEnd?: (event: any) => void;
+  onDrop?: (event: any) => void;
+};
+
+export function dragAndDropUIHandlers<T extends DragAndDropUIPropsT>(props: T) {
+  return {
+    draggable: props.draggable,
+    onDragStart: props.onDragStart,
+    onDragOver: props.onDragOver,
+    onDrop: props.onDrop,
+    onDragEnd: props.onDragEnd,
+  };
 }

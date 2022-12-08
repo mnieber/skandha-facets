@@ -1,3 +1,2 @@
-export { ClickToSelectItems } from "./ClickToSelectItems";
-export { EditWithKeys } from "./EditWithKeys";
-export { SelectWithKeys } from "./SelectWithKeys";
+export { EditWithKeys } from './EditWithKeys';
+export { SelectWithKeys } from './SelectWithKeys';

@@ -1,11 +1,15 @@
 import { getCallbacks, host } from 'aspiration';
 import { operation } from 'skandha';
 import { DragAndDropCbs } from './DragAndDropCbs';
-import { DragAndDropHandler } from './handlers/DragAndDropHandler';
+import { DragAndDropUIConnector } from './DragAndDropUIConnector';
 import { DropPositionT } from './Insertion';
 import { selectionIsInsertedOnDragAndDrop } from './policies/selectionIsInsertedOnDragAndDrop';
-
 export type { DragAndDropCbs } from './DragAndDropCbs';
+export { dragAndDropUIHandlers } from './DragAndDropUIConnector';
+export type {
+  DragAndDropUIConnectorT,
+  DragAndDropUIPropsT,
+} from './DragAndDropUIConnector';
 
 const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
   drop: function (this: DragAndDropCbs['drop']) {
@@ -13,9 +17,9 @@ const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
   },
 });
 
-const getHandlerDefaultCbs = (dragAndDrop: DragAndDrop) => ({
-  getHandler: function (this: DragAndDropCbs['getHandler']) {
-    return new DragAndDropHandler({ dragAndDrop });
+const createUIConnectorDefaultCbs = (dragAndDrop: DragAndDrop) => ({
+  createUIConnector: function (this: DragAndDropCbs['createUIConnector']) {
+    return new DragAndDropUIConnector({ dragAndDrop });
   },
 });
 
@@ -29,27 +33,8 @@ export class DragAndDrop {
     return Promise.resolve(cbs.drop());
   }
 
-  @host([], getHandlerDefaultCbs) getHandler() {
-    const cbs = getCallbacks<DragAndDropCbs['getHandler']>(this);
-    return cbs.getHandler();
+  @host([], createUIConnectorDefaultCbs) createUIConnector() {
+    const cbs = getCallbacks<DragAndDropCbs['createUIConnector']>(this);
+    return cbs.createUIConnector();
   }
-}
-
-export type DragHandlersT = {
-  draggable?: boolean;
-  dragState?: string;
-  onDragStart?: (event: any) => void;
-  onDragOver?: (event: any) => void;
-  onDragEnd?: (event: any) => void;
-  onDrop?: (event: any) => void;
-};
-
-export function dragHandlers<T extends DragHandlersT>(props: T) {
-  return {
-    draggable: props.draggable,
-    onDragStart: props.onDragStart,
-    onDragOver: props.onDragOver,
-    onDrop: props.onDrop,
-    onDragEnd: props.onDragEnd,
-  };
 }
