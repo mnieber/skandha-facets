@@ -1,5 +1,5 @@
 import { getCallbacks, host } from 'aspiration';
-import { data, operation } from 'skandha';
+import { data, decorateCb, operation } from 'skandha';
 import { AdditionCbs, GenericObjectT } from './AdditionCbs';
 export type { AdditionCbs } from './AdditionCbs';
 
@@ -12,17 +12,21 @@ export class Addition<ValueT = any> {
   @operation @host(['values']) add(values: GenericObjectT) {
     const cbs = getCallbacks<AdditionCbs<ValueT>['add']>(this);
     cbs.storeLocation && cbs.storeLocation();
-    return Promise.resolve(cbs.createItem()).then((item: ValueT) => {
-      this.item = item;
-      cbs.highlightNewItem && cbs.highlightNewItem();
-    });
+    return Promise.resolve(cbs.createItem()).then(
+      decorateCb((item: ValueT) => {
+        this.item = item;
+        cbs.highlightNewItem && cbs.highlightNewItem();
+      })
+    );
   }
 
   @operation @host confirm() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['confirm']>(this);
-    return Promise.resolve(cbs.confirm()).then(() => {
-      this._reset();
-    });
+    return Promise.resolve(cbs.confirm()).then(
+      decorateCb(() => {
+        this._reset();
+      })
+    );
   }
 
   @operation @host cancel() {
@@ -30,7 +34,7 @@ export class Addition<ValueT = any> {
     cbs.restoreLocation && cbs.restoreLocation();
   }
 
-  _reset() {
+  @operation({ log: false }) _reset() {
     this.item = undefined;
     this.parentId = undefined;
   }

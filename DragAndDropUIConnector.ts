@@ -1,4 +1,4 @@
-import { data, operation } from 'skandha';
+import { data, decorateCb, operation } from 'skandha';
 import { DragAndDrop } from './DragAndDrop';
 import { DropPositionT } from './Insertion';
 import { isBefore } from './internal/utils';
@@ -41,9 +41,11 @@ export class DragAndDropUIConnector implements DragAndDropUIConnectorT {
       },
       onDrop: () => {
         if (this.hoverPosition) {
-          this.props.dragAndDrop.drop(this.hoverPosition).then(() => {
-            this.setHoverPosition(undefined);
-          });
+          this.props.dragAndDrop.drop(this.hoverPosition).then(
+            decorateCb(() => {
+              this.setHoverPosition(undefined);
+            })
+          );
         }
       },
       dragState: getDragState(this.hoverPosition, itemId),
