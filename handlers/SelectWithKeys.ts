@@ -1,6 +1,6 @@
-import { Highlight } from "../Highlight";
-import { Selection } from "../Selection";
-import { getf } from "skandha";
+import { getf } from 'skandha';
+import { Highlight } from '../Highlight';
+import { Selection } from '../Selection';
 
 export type PropsT = {
   container: any;
@@ -25,14 +25,14 @@ export class SelectWithKeys {
           e.preventDefault();
           e.stopPropagation();
           if (highlight.id) {
-            const selectMoveById = (moveId: any) => {
+            const selectItemById = (itemId: any) => {
               selection.selectItem({
-                itemId: moveId,
+                itemId: itemId,
                 isShift: e.shiftKey,
                 isCtrl: false,
               });
               if (e.shiftKey) {
-                highlight.highlightItem(moveId);
+                highlight.highlightItem(itemId);
               }
             };
 
@@ -40,7 +40,7 @@ export class SelectWithKeys {
               selection.selectableIds || [],
               highlight.id,
               isDown,
-              selectMoveById
+              selectItemById
             );
           }
         }

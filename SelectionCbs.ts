@@ -1,5 +1,8 @@
 import { Cbs } from 'aspiration';
-import { SelectionUIConnectorT } from './SelectionUIConnector';
+import {
+  SelectionUIConnectorOptionsT,
+  SelectionUIConnectorT,
+} from './SelectionUIConnector';
 
 export type SelectionParamsT = {
   itemId: string | undefined;
@@ -14,6 +17,7 @@ export interface Selection_selectItem extends Cbs {
 }
 
 export interface Selection_createUIConnector extends Cbs {
+  uiConnectorOptions?: SelectionUIConnectorOptionsT;
   createUIConnector(): SelectionUIConnectorT;
 }
 

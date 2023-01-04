@@ -2,10 +2,14 @@ import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
 import { range } from './internal/utils';
 import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
-import { SelectionUIConnector } from './SelectionUIConnector';
+import {
+  SelectionUIConnector,
+  SelectionUIConnectorOptionsT,
+} from './SelectionUIConnector';
 export type { SelectionCbs, SelectionParamsT } from './SelectionCbs';
 export { selectionUIHandlers } from './SelectionUIConnector';
 export type {
+  SelectionUIConnectorOptionsT,
   SelectionUIConnectorT,
   SelectionUIPropsT,
 } from './SelectionUIConnector';
@@ -18,7 +22,10 @@ const selectItemDefaultCbs = (selection: Selection) => ({
 
 const createUIConnectorDefaultCbs = (selection: Selection) => ({
   createUIConnector: function (this: SelectionCbs['createUIConnector']) {
-    return new SelectionUIConnector({ selection });
+    return new SelectionUIConnector({
+      selection,
+      options: this.uiConnectorOptions,
+    });
   },
 });
 
@@ -37,7 +44,9 @@ export class Selection<ValueT = any> {
     cbs.selectItem();
   }
 
-  @host([], createUIConnectorDefaultCbs) createUIConnector() {
+  @host(['uiConnectorOptions'], createUIConnectorDefaultCbs) createUIConnector(
+    uiConnectorOptions?: SelectionUIConnectorOptionsT
+  ) {
     const cbs = getCallbacks<SelectionCbs['createUIConnector']>(this);
     return cbs.createUIConnector();
   }
