@@ -26,3 +26,37 @@ export function isBefore(e: any): boolean {
   const isBefore = e.clientY - boundingRect.top < 0.5 * height;
   return isBefore;
 }
+
+export function pickNeighbour(
+  allItems: Array<any>,
+  pickedItem: any,
+  isForward: boolean,
+  pickItem: (x: any) => void
+) {
+  const idx = allItems.findIndex((x) => x === pickedItem);
+
+  if (isForward && idx + 1 < allItems.length) {
+    pickItem(allItems[idx + 1]);
+    return true;
+  }
+  if (!isForward && idx - 1 >= 0) {
+    pickItem(allItems[idx - 1]);
+    return true;
+  }
+  return false;
+}
+
+export function findNextTabStop(
+  el: any,
+  isDown: boolean,
+  itemSelector: string
+) {
+  var universe = document.querySelectorAll(itemSelector);
+  var list = Array.prototype.filter.call(universe, function (item) {
+    return true;
+  });
+  var index = list.indexOf(el);
+  return isDown
+    ? list[index + 1] ?? list[0]
+    : list[index - 1] ?? list[list.length - 1];
+}

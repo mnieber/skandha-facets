@@ -1,9 +1,11 @@
+import { findNextTabStop, pickNeighbour } from './internal/utils';
 import { Selection } from './Selection';
 
 export type SelectionUIConnectorOptionsT = {
   useMouse?: boolean;
   useKeys?: boolean;
   itemSelector?: string;
+  onSelectItem?: Function;
 };
 
 export interface SelectionUIConnectorT {
@@ -36,16 +38,23 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
       props.options?.useKeys ?? true ? this._createKeyDownHandler() : undefined;
   }
 
+  _select(e: any, itemId: string) {
+    this.props.selection.selectItem({
+      itemId: itemId,
+      isShift: e.shiftKey,
+      isCtrl: e.ctrlKey,
+    });
+    if (this.props.options?.onSelectItem) {
+      this.props.options.onSelectItem(itemId);
+    }
+  }
+
   _createMouseDownHandler() {
     return (e: any, itemId: string) => {
       const isSelected = this.props.selection.ids.includes(itemId);
       if (!isSelected) {
         this._selectOnMouseUp = undefined;
-        this.props.selection.selectItem({
-          itemId: itemId,
-          isShift: e.shiftKey,
-          isCtrl: e.ctrlKey,
-        });
+        this._select(e, itemId);
       } else {
         this._selectOnMouseUp = itemId;
       }
@@ -56,11 +65,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
     return (e: any, itemId: string) => {
       const isSelected = this.props.selection.ids.includes(itemId);
       if (this._selectOnMouseUp === itemId && (!e.ctrlKey || isSelected)) {
-        this.props.selection.selectItem({
-          itemId: itemId,
-          isShift: e.shiftKey,
-          isCtrl: e.ctrlKey,
-        });
+        this._select(e, itemId);
       }
       this._selectOnMouseUp = undefined;
     };
@@ -77,11 +82,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
         e.preventDefault();
         e.stopPropagation();
         const selectItemById = (itemId: any) => {
-          this.props.selection.selectItem({
-            itemId: itemId,
-            isShift: e.shiftKey,
-            isCtrl: false,
-          });
+          this._select({ ...e, ctrlKey: false }, itemId);
         };
 
         // Select the neighbour item
@@ -144,34 +145,4 @@ export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
     onMouseUp: props.onMouseUp,
     onKeyDown: props.onKeyDown,
   };
-}
-
-function pickNeighbour(
-  allItems: Array<any>,
-  pickedItem: any,
-  isForward: boolean,
-  pickItem: (x: any) => void
-) {
-  const idx = allItems.findIndex((x) => x === pickedItem);
-
-  if (isForward && idx + 1 < allItems.length) {
-    pickItem(allItems[idx + 1]);
-    return true;
-  }
-  if (!isForward && idx - 1 >= 0) {
-    pickItem(allItems[idx - 1]);
-    return true;
-  }
-  return false;
-}
-
-function findNextTabStop(el: any, isDown: boolean, itemSelector: string) {
-  var universe = document.querySelectorAll(itemSelector);
-  var list = Array.prototype.filter.call(universe, function (item) {
-    return true;
-  });
-  var index = list.indexOf(el);
-  return isDown
-    ? list[index + 1] ?? list[0]
-    : list[index - 1] ?? list[list.length - 1];
 }
