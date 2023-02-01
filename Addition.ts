@@ -12,17 +12,20 @@ export class Addition<ValueT = any> {
   @operation @host(['values']) add(values: GenericObjectT) {
     const cbs = getCallbacks<AdditionCbs<ValueT>['add']>(this);
     cbs.storeLocation && cbs.storeLocation();
-    return Promise.resolve(cbs.createItem()).then(
+    const newItem = cbs.createItem ? cbs.createItem() : values;
+    return Promise.resolve(newItem).then(
       decorateCb((item: ValueT) => {
         this.item = item;
         cbs.highlightNewItem && cbs.highlightNewItem();
+        return item;
       })
     );
   }
 
   @operation @host confirm() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['confirm']>(this);
-    return Promise.resolve(cbs.confirm()).then(
+    const result = cbs.confirm ? cbs.confirm() : undefined;
+    return Promise.resolve(result).then(
       decorateCb(() => {
         this._reset();
       })
@@ -31,6 +34,7 @@ export class Addition<ValueT = any> {
 
   @operation @host cancel() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
+    this._reset();
     cbs.restoreLocation && cbs.restoreLocation();
   }
 
