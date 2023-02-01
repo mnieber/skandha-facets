@@ -66,7 +66,14 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
   _createMouseUpHandler() {
     return (e: any, itemId: string) => {
       const isSelected = this.props.selection.ids.includes(itemId);
-      if (this._selectOnMouseUp === itemId && (!e.ctrlKey || isSelected)) {
+      // If the item was already selected and we left-click it without the ctrl key,
+      // then we want to singly select it.
+      console.log(e.button);
+
+      if (
+        this._selectOnMouseUp === itemId &&
+        (e.ctrlKey || (e.button == 0 && isSelected))
+      ) {
         this._select(e, itemId);
       }
       this._selectOnMouseUp = undefined;
