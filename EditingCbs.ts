@@ -3,7 +3,6 @@ import type { Cbs } from 'aspiration';
 export interface Editing_save extends Cbs {
   values: any;
   saveItem(): any;
-  refreshView(): void;
 }
 
 export interface Editing_cancel extends Cbs {}

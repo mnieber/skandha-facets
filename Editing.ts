@@ -13,7 +13,7 @@ export class Editing {
     return Promise.resolve(cbs.saveItem()).then(
       decorateCb(() => {
         this.isEditing = false;
-        cbs.refreshView && cbs.refreshView();
+        cbs.values = values;
       })
     );
   }
