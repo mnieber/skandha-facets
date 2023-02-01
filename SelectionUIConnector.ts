@@ -1,5 +1,6 @@
 import { findNextTabStop, pickNeighbour } from './internal/utils';
 import { Selection } from './Selection';
+import { SelectionParamsT } from './SelectionCbs';
 
 export type SelectionUIConnectorOptionsT = {
   useMouse?: boolean;
@@ -39,13 +40,14 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
   }
 
   _select(e: any, itemId: string) {
-    this.props.selection.selectItem({
+    const selectionParams: SelectionParamsT = {
       itemId: itemId,
       isShift: e.shiftKey,
       isCtrl: e.ctrlKey,
-    });
+    };
+    this.props.selection.selectItem(selectionParams);
     if (this.props.options?.onSelectItem) {
-      this.props.options.onSelectItem(itemId);
+      this.props.options.onSelectItem(selectionParams);
     }
   }
 
