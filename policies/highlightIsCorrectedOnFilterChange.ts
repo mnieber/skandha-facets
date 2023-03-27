@@ -15,33 +15,27 @@ export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
 
 export function correctHighlight(
   highlight: Highlight,
-  inputItemIds: any[],
-  filteredItemIds: any[]
+  allItemIds: any[],
+  visibleItemIds: any[]
 ) {
   if (
     highlight.id &&
-    inputItemIds.includes(highlight.id) &&
-    !filteredItemIds.includes(highlight.id)
+    allItemIds.includes(highlight.id) &&
+    !visibleItemIds.includes(highlight.id)
   ) {
-    const highlightedItemIdx = inputItemIds.indexOf(highlight.id);
+    const highlightedItemIdx = allItemIds.indexOf(highlight.id);
     const newIdx =
       _findNeighbourIdx(
-        filteredItemIds,
-        inputItemIds,
+        visibleItemIds,
+        allItemIds,
         highlightedItemIdx,
-        inputItemIds.length,
+        allItemIds.length,
         1
       ) ||
-      _findNeighbourIdx(
-        filteredItemIds,
-        inputItemIds,
-        highlightedItemIdx,
-        -1,
-        -1
-      );
+      _findNeighbourIdx(visibleItemIds, allItemIds, highlightedItemIdx, -1, -1);
 
     if (newIdx) {
-      highlight.highlightItem(inputItemIds[newIdx.result]);
+      highlight.highlightItem(allItemIds[newIdx.result]);
     }
   }
 }

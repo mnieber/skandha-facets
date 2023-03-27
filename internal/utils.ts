@@ -36,27 +36,14 @@ export function pickNeighbour(
   const idx = allItems.findIndex((x) => x === pickedItem);
 
   if (isForward && idx + 1 < allItems.length) {
-    pickItem(allItems[idx + 1]);
-    return true;
+    const item = allItems[idx + 1];
+    pickItem(item);
+    return item;
   }
   if (!isForward && idx - 1 >= 0) {
-    pickItem(allItems[idx - 1]);
-    return true;
+    const item = allItems[idx - 1];
+    pickItem(item);
+    return item;
   }
-  return false;
-}
-
-export function findNextTabStop(
-  el: any,
-  isDown: boolean,
-  itemSelector: string
-) {
-  var universe = document.querySelectorAll(itemSelector);
-  var list = Array.prototype.filter.call(universe, function (item) {
-    return true;
-  });
-  var index = list.indexOf(el);
-  return isDown
-    ? list[index + 1] ?? list[0]
-    : list[index - 1] ?? list[list.length - 1];
+  return allItems[idx];
 }

@@ -2,7 +2,10 @@ export { cancelNewItemOnHighlightChange } from './cancelNewItemOnHighlightChange
 export { DragSourceFromNewItem } from './DragSourceFromNewItem';
 export { filteringIsDisabledOnNewItem } from './filteringIsDisabledOnNewItem';
 export { highlightFollowsSelection } from './highlightFollowsSelection';
-export { highlightIsCorrectedOnFilterChange } from './highlightIsCorrectedOnFilterChange';
+export {
+  correctHighlight,
+  highlightIsCorrectedOnFilterChange,
+} from './highlightIsCorrectedOnFilterChange';
 export { highlightNewItem } from './highlightNewItem';
 export { insertionPreviewUsesDragSources } from './insertionPreviewUsesDragSources';
 export { newItemsAreAddedBelowTheHighlight } from './newItemsAreAddedBelowTheHighlight';
