@@ -1,4 +1,4 @@
-import { findNextTabStop, pickNeighbour } from './internal/utils';
+import { pickNeighbour } from './internal/utils';
 import { Selection } from './Selection';
 import { SelectionParamsT } from './SelectionCbs';
 
@@ -7,6 +7,7 @@ export type SelectionUIConnectorOptionsT = {
   useKeys?: boolean;
   itemSelector?: string;
   onSelectItem?: Function;
+  getSelectableIds?: (e: any) => string[];
 };
 
 export interface SelectionUIConnectorT {
@@ -68,8 +69,6 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
       const isSelected = this.props.selection.ids.includes(itemId);
       // If the item was already selected and we left-click it without the ctrl key,
       // then we want to singly select it.
-      console.log(e.button);
-
       if (
         this._selectOnMouseUp === itemId &&
         (e.ctrlKey || (e.button == 0 && isSelected))
@@ -94,9 +93,13 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
           this._select({ ...e, ctrlKey: false }, itemId);
         };
 
+        const selectableIds = this.props.options?.getSelectableIds
+          ? this.props.options?.getSelectableIds(e)
+          : this.props.selection.selectableIds || [];
+
         // Select the neighbour item
-        const hasChanged = pickNeighbour(
-          this.props.selection.selectableIds || [],
+        const newItemId = pickNeighbour(
+          selectableIds,
           itemId,
           isDown,
           selectItemById
@@ -105,9 +108,11 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
         // Move the focus to the neighbour item. We assume that the
         // list of UI elements reflects the list of selectable items (that
         // is stored in selection.selectableIds).
-        if (hasChanged) {
-          const nextElm = findNextTabStop(e.target, isDown, itemSelector);
-          nextElm.focus();
+        if (newItemId !== itemId) {
+          const idx = this.props.selection.selectableIds.indexOf(newItemId);
+          const nextElm = document.querySelectorAll(itemSelector)[idx];
+          // @ts-ignore
+          nextElm && nextElm.focus();
         }
       }
     };
@@ -140,7 +145,6 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
 
 export type SelectionUIPropsT = {
   isSelected: boolean;
-  onClick?: any;
   onMouseDown?: any;
   onMouseUp?: any;
   onKeyDown?: any;
@@ -148,8 +152,6 @@ export type SelectionUIPropsT = {
 
 export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
   return {
-    ...(props.onKeyDown ? { tabIndex: 123 } : {}),
-    onClick: props.onClick,
     onMouseDown: props.onMouseDown,
     onMouseUp: props.onMouseUp,
     onKeyDown: props.onKeyDown,
