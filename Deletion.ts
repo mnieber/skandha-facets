@@ -11,6 +11,7 @@ export class Deletion {
     options?: DeletionOptionsT
   ) {
     const cbs = getCallbacks<DeletionCbs['delete']>(this);
+
     return Promise.resolve(cbs.deleteItems());
   }
 }

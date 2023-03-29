@@ -13,6 +13,7 @@ export class Insertion<ValueT = any> {
   @output preview: Array<ValueT> = stub;
   @operation @host(['drag']) insertItems(drag: DragT) {
     const cbs = getCallbacks<InsertionCbs<ValueT>['insertItems']>(this);
+
     if (this.inputItems) {
       const preview: Array<ValueT> = getPreview(
         this.inputItems,

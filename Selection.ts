@@ -41,6 +41,7 @@ export class Selection<ValueT = any> {
     selectionParams: SelectionParamsT
   ) {
     const cbs = getCallbacks<SelectionCbs['selectItem']>(this);
+
     cbs.selectItem();
   }
 
@@ -48,6 +49,7 @@ export class Selection<ValueT = any> {
     uiConnectorOptions?: SelectionUIConnectorOptionsT
   ) {
     const cbs = getCallbacks<SelectionCbs['createUIConnector']>(this);
+
     return cbs.createUIConnector();
   }
 }

@@ -18,6 +18,7 @@ export class Labelling {
 
   @operation @host(['labelValue']) setLabel(labelValue: LabelValueT) {
     const cbs = getCallbacks<LabellingCbs['setLabel']>(this);
+
     const { label, id, flag } = labelValue;
     this.idsByLabel[label] = this.idsByLabel[label] || [];
     if (flag && !this.idsByLabel[label].includes(id)) {

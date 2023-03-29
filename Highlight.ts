@@ -35,6 +35,7 @@ export class Highlight<ValueT = any> {
     id: string | undefined
   ) {
     const cbs = getCallbacks<HighlightCbs['highlightItem']>(this);
+
     this.id = id;
     cbs.scrollItemIntoView && cbs.scrollItemIntoView();
   }
@@ -43,6 +44,7 @@ export class Highlight<ValueT = any> {
     uiConnectorOptions?: HighlightUIConnectorOptionsT
   ) {
     const cbs = getCallbacks<HighlightCbs['createUIConnector']>(this);
+
     return cbs.createUIConnector();
   }
 }

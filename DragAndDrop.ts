@@ -30,11 +30,13 @@ export class DragAndDrop {
     dropPosition: DropPositionT
   ) {
     const cbs = getCallbacks<DragAndDropCbs['drop']>(this);
+
     return Promise.resolve(cbs.drop());
   }
 
   @host([], createUIConnectorDefaultCbs) createUIConnector() {
     const cbs = getCallbacks<DragAndDropCbs['createUIConnector']>(this);
+
     return cbs.createUIConnector();
   }
 }

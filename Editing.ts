@@ -10,6 +10,7 @@ export class Editing {
 
   @operation @host(['values']) save(values: any) {
     const cbs = getCallbacks<EditingCbs['save']>(this);
+
     return Promise.resolve(cbs.saveItem()).then(
       decorateCb((localItem: any) => {
         this.isEditing = false;
