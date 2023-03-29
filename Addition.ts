@@ -37,8 +37,10 @@ export class Addition<ValueT = any> {
   @operation @host cancel() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
 
-    this._reset();
-    cbs.unstageAdd && cbs.unstageAdd();
+    if (this.item) {
+      this._reset();
+      cbs.unstageAdd && cbs.unstageAdd();
+    }
   }
 
   @operation({ log: false }) _reset() {
