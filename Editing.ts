@@ -20,10 +20,20 @@ export class Editing {
   }
 
   @operation @host cancel() {
-    this.isEditing = false;
+    const cbs = getCallbacks<EditingCbs['cancel']>(this);
+
+    if (this.isEditing) {
+      this.isEditing = false;
+      cbs.onCancel && cbs.onCancel();
+    }
   }
 
   @operation @host enable() {
-    this.isEditing = true;
+    const cbs = getCallbacks<EditingCbs['enable']>(this);
+
+    if (!this.isEditing) {
+      this.isEditing = true;
+      cbs.onEnable && cbs.onEnable();
+    }
   }
 }

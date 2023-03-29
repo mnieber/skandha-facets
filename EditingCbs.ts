@@ -5,9 +5,13 @@ export interface Editing_save extends Cbs {
   saveItem(): any;
 }
 
-export interface Editing_cancel extends Cbs {}
+export interface Editing_cancel extends Cbs {
+  onCancel(): void;
+}
 
-export interface Editing_enable extends Cbs {}
+export interface Editing_enable extends Cbs {
+  onEnable(): void;
+}
 
 export interface EditingCbs {
   save: Editing_save;
