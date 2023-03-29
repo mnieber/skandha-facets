@@ -1,1 +1,1 @@
-export {};
+export { topOfTheList } from './lib/getPreview';
