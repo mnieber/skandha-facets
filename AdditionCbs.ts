@@ -4,17 +4,17 @@ export type GenericObjectT = any;
 
 export interface Addition_add<ValueT> extends Cbs {
   values: GenericObjectT;
-  storeLocation(): void;
+  stageAdd(): void;
   createItem(): ValueT;
   highlightNewItem(): void;
 }
 
 export interface Addition_confirm extends Cbs {
-  confirm(): void;
+  confirmAdd(): void;
 }
 
 export interface Addition_cancel extends Cbs {
-  restoreLocation(): void;
+  unstageAdd(): void;
 }
 
 export interface AdditionCbs<ValueT = any> {

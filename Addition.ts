@@ -9,10 +9,11 @@ export class Addition<ValueT = any> {
   @data item?: ValueT;
   @data parentId?: string;
 
-  @operation @host(['values']) add(values: GenericObjectT) {
+  @operation @host(['values']) add(values?: GenericObjectT) {
     const cbs = getCallbacks<AdditionCbs<ValueT>['add']>(this);
-    cbs.storeLocation && cbs.storeLocation();
-    const newItem = cbs.createItem ? cbs.createItem() : values;
+
+    cbs.stageAdd && cbs.stageAdd();
+    const newItem = values ?? cbs.createItem();
     return Promise.resolve(newItem).then(
       decorateCb((item: ValueT) => {
         this.item = item;
@@ -24,7 +25,8 @@ export class Addition<ValueT = any> {
 
   @operation @host confirm() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['confirm']>(this);
-    const result = cbs.confirm ? cbs.confirm() : undefined;
+
+    const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
     return Promise.resolve(result).then(
       decorateCb(() => {
         this._reset();
@@ -34,8 +36,9 @@ export class Addition<ValueT = any> {
 
   @operation @host cancel() {
     const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
+
     this._reset();
-    cbs.restoreLocation && cbs.restoreLocation();
+    cbs.unstageAdd && cbs.unstageAdd();
   }
 
   @operation({ log: false }) _reset() {
