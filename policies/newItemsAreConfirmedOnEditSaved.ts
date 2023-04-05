@@ -1,9 +1,9 @@
 import { getc, getf } from 'skandha';
 
-import { Addition } from '../Addition';
-import { Editing } from '../Editing';
+import { Addition } from '../facets/Addition';
+import { Edit } from '../facets/Edit';
 
-export function newItemsAreConfirmedOnEditingSave(facet: Editing) {
+export function newItemsAreConfirmedOnEditSave(facet: Edit) {
   const ctr = getc(facet);
   const addition = getf(Addition, ctr);
   if (addition?.item) {
@@ -11,7 +11,7 @@ export function newItemsAreConfirmedOnEditingSave(facet: Editing) {
   }
 }
 
-export function newItemsAreCancelledOnEditingCancel(facet: Editing) {
+export function newItemsAreCancelledOnEditCancel(facet: Edit) {
   const ctr = getc(facet);
   const addition = getf(Addition, ctr);
   if (addition?.item) {

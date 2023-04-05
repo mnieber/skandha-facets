@@ -1,4 +1,4 @@
-import { pickNeighbour } from './internal/utils';
+import { pickNeighbour } from '../internal/utils';
 import { Selection } from './Selection';
 import { SelectionParamsT } from './SelectionCbs';
 
@@ -6,7 +6,7 @@ export type SelectionUIConnectorOptionsT = {
   useMouse?: boolean;
   useKeys?: boolean;
   itemSelector?: string;
-  onSelectItem?: Function;
+  onSelectItem?: (selectionParams: SelectionParamsT) => any;
   getSelectableIds?: (e: any) => string[];
 };
 

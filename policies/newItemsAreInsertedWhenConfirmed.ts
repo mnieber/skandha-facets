@@ -1,8 +1,8 @@
-import { getf, getc } from "skandha";
+import { getc, getf } from 'skandha';
 
-import { Addition } from "../Addition";
-import { Insertion } from "../Insertion";
-import { DragSourceFromNewItem } from "./DragSourceFromNewItem";
+import { Addition } from '../facets/Addition';
+import { Insertion } from '../facets/Insertion';
+import { DragSourceFromNewItem } from './DragSourceFromNewItem';
 
 export function newItemsAreInsertedWhenConfirmed(facet: Addition) {
   const ctr = getc(facet);

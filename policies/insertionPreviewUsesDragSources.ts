@@ -1,4 +1,4 @@
-import { DragSourceT } from '../Insertion';
+import { DragSourceT } from '../facets/Insertion';
 import { findMap } from '../internal/utils';
 import { getPreview } from '../lib/getPreview';
 

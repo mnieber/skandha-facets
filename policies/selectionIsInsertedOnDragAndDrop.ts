@@ -1,8 +1,8 @@
-import { getf, getc } from "skandha";
+import { getc, getf } from 'skandha';
 
-import { Insertion, DropPositionT } from "../Insertion";
-import { DragAndDrop } from "../DragAndDrop";
-import { Selection } from "../Selection";
+import { DragAndDrop } from '../facets/DragAndDrop';
+import { DropPositionT, Insertion } from '../facets/Insertion';
+import { Selection } from '../facets/Selection';
 
 export function selectionIsInsertedOnDragAndDrop(
   facet: DragAndDrop,

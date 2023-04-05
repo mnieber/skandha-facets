@@ -1,9 +1,9 @@
 import { getCallbacks, host } from 'aspiration';
 import { operation } from 'skandha';
+import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { DragAndDropCbs } from './DragAndDropCbs';
 import { DragAndDropUIConnector } from './DragAndDropUIConnector';
 import { DropPositionT } from './Insertion';
-import { selectionIsInsertedOnDragAndDrop } from './policies/selectionIsInsertedOnDragAndDrop';
 export type { DragAndDropCbs } from './DragAndDropCbs';
 export { dragAndDropUIHandlers } from './DragAndDropUIConnector';
 export type {

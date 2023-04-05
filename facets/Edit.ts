@@ -1,15 +1,15 @@
 import { getCallbacks, host } from 'aspiration';
 import { data, decorateCb, operation } from 'skandha';
-import { EditingCbs } from './EditingCbs';
-export type { EditingCbs } from './EditingCbs';
+import { EditCbs } from './EditCbs';
+export type { EditCbs } from './EditCbs';
 
-export class Editing {
-  static className = () => 'Editing';
+export class Edit {
+  static className = () => 'Edit';
 
   @data isEditing: boolean = false;
 
   @operation @host(['values']) save(values: any) {
-    const cbs = getCallbacks<EditingCbs['save']>(this);
+    const cbs = getCallbacks<EditCbs['save']>(this);
 
     return Promise.resolve(cbs.saveItem()).then(
       decorateCb((localItem: any) => {
@@ -20,7 +20,7 @@ export class Editing {
   }
 
   @operation @host cancel() {
-    const cbs = getCallbacks<EditingCbs['cancel']>(this);
+    const cbs = getCallbacks<EditCbs['cancel']>(this);
 
     if (this.isEditing) {
       this.isEditing = false;
@@ -29,7 +29,7 @@ export class Editing {
   }
 
   @operation @host enable() {
-    const cbs = getCallbacks<EditingCbs['enable']>(this);
+    const cbs = getCallbacks<EditCbs['enable']>(this);
 
     if (!this.isEditing) {
       this.isEditing = true;

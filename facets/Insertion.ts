@@ -1,7 +1,7 @@
 import { getCallbacks, host, stub } from 'aspiration';
 import { input, operation, output } from 'skandha';
+import { getPreview } from '../lib/getPreview';
 import { DragT, InsertionCbs } from './InsertionCbs';
-import { getPreview } from './lib/getPreview';
 export type { DragT, DropPositionT, InsertionCbs } from './InsertionCbs';
 
 export type DragSourceT = (ctr: any) => DragT | undefined;

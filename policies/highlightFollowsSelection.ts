@@ -1,6 +1,6 @@
-import { getf, getc } from "skandha";
-import { Selection, SelectionParamsT } from "../Selection";
-import { Highlight } from "../Highlight";
+import { getc, getf } from 'skandha';
+import { Highlight } from '../facets/Highlight';
+import { Selection, SelectionParamsT } from '../facets/Selection';
 
 export function highlightFollowsSelection(
   facet: Selection,

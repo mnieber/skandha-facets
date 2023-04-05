@@ -1,19 +1,16 @@
-export { cancelNewItemOnHighlightChange } from './cancelNewItemOnHighlightChange';
-export { DragSourceFromNewItem } from './DragSourceFromNewItem';
-export { filteringIsDisabledOnNewItem } from './filteringIsDisabledOnNewItem';
-export { highlightFollowsSelection } from './highlightFollowsSelection';
+export { DragSourceFromNewItem } from '../policies/DragSourceFromNewItem';
+export { cancelNewItemOnHighlightChange } from '../policies/cancelNewItemOnHighlightChange';
+export { correctHighlight } from '../policies/correctHighlight';
+export { filteringIsDisabledOnNewItem } from '../policies/filteringIsDisabledOnNewItem';
+export { highlightFollowsSelection } from '../policies/highlightFollowsSelection';
+export { highlightNewItem } from '../policies/highlightNewItem';
+export { insertionPreviewUsesDragSources } from '../policies/insertionPreviewUsesDragSources';
+export { newItemsAreAddedBelowTheHighlight } from '../policies/newItemsAreAddedBelowTheHighlight';
 export {
-  correctHighlight,
-  highlightIsCorrectedOnFilterChange,
-} from './highlightIsCorrectedOnFilterChange';
-export { highlightNewItem } from './highlightNewItem';
-export { insertionPreviewUsesDragSources } from './insertionPreviewUsesDragSources';
-export { newItemsAreAddedBelowTheHighlight } from './newItemsAreAddedBelowTheHighlight';
-export {
-  newItemsAreCancelledOnEditingCancel,
-  newItemsAreConfirmedOnEditingSave,
-} from './newItemsAreConfirmedOnEditingSaved';
-export { newItemsAreCreatedAtTheTop } from './newItemsAreCreatedAtTheTop';
-export { editingSetDisabled, editingSetEnabled } from './newItemsAreEdited';
-export { newItemsAreInsertedWhenConfirmed } from './newItemsAreInsertedWhenConfirmed';
-export { selectionIsInsertedOnDragAndDrop } from './selectionIsInsertedOnDragAndDrop';
+  newItemsAreCancelledOnEditCancel,
+  newItemsAreConfirmedOnEditSave,
+} from '../policies/newItemsAreConfirmedOnEditSaved';
+export { newItemsAreCreatedAtTheTop } from '../policies/newItemsAreCreatedAtTheTop';
+export { editSetDisabled, editSetEnabled } from '../policies/newItemsAreEdited';
+export { newItemsAreInsertedWhenConfirmed } from '../policies/newItemsAreInsertedWhenConfirmed';
+export { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';

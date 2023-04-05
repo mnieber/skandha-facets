@@ -1,6 +1,6 @@
 import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
-import { range } from './internal/utils';
+import { range } from '../internal/utils';
 import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
 import {
   SelectionUIConnector,

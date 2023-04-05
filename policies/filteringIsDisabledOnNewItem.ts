@@ -1,7 +1,7 @@
-import { getf, getc } from "skandha";
+import { getc, getf } from 'skandha';
 
-import { Addition } from "../Addition";
-import { Filtering } from "../Filtering";
+import { Addition } from '../facets/Addition';
+import { Filtering } from '../facets/Filtering';
 
 export function filteringIsDisabledOnNewItem(facet: Addition) {
   const ctr = getc(facet);

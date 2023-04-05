@@ -1,18 +1,18 @@
-import { getf, getc } from "skandha";
-import { Editing } from "../Editing";
+import { getc, getf } from 'skandha';
+import { Edit } from '../facets/Edit';
 
-export function editingSetEnabled(facet: any) {
+export function editSetEnabled(facet: any) {
   const ctr = getc(facet);
-  const editing = getf(Editing, ctr);
-  if (!editing.isEditing) {
-    editing.enable();
+  const edit = getf(Edit, ctr);
+  if (!edit.isEdit) {
+    edit.enable();
   }
 }
 
-export function editingSetDisabled(facet: any) {
+export function editSetDisabled(facet: any) {
   const ctr = getc(facet);
-  const editing = getf(Editing, ctr);
-  if (editing.isEditing) {
-    editing.cancel();
+  const edit = getf(Edit, ctr);
+  if (edit.isEdit) {
+    edit.cancel();
   }
 }

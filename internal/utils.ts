@@ -47,3 +47,14 @@ export function pickNeighbour(
   }
   return allItems[idx];
 }
+
+export function listToItemById<T = any>(
+  qsList: Array<T>,
+  key: string = 'id'
+): { [id: string]: T } {
+  const result: { [id: string]: T } = {};
+  qsList.forEach((item) => {
+    result[item[key]] = item;
+  });
+  return result;
+}

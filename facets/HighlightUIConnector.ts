@@ -1,5 +1,5 @@
+import { pickNeighbour } from '../internal/utils';
 import { Highlight } from './Highlight';
-import { pickNeighbour } from './internal/utils';
 
 export type HighlightUIConnectorOptionsT = {
   useMouse?: boolean;

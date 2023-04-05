@@ -1,7 +1,7 @@
 import { data, decorateCb, operation } from 'skandha';
+import { isBefore } from '../internal/utils';
 import { DragAndDrop } from './DragAndDrop';
 import { DropPositionT } from './Insertion';
-import { isBefore } from './internal/utils';
 
 export interface DragAndDropUIConnectorT {
   hoverPosition?: DropPositionT;

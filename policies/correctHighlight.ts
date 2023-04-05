@@ -1,38 +1,33 @@
-import { getc, getf } from 'skandha';
-
-import { Filtering } from '../Filtering';
-import { Highlight } from '../Highlight';
-
-export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
-  if (facet.isEnabled) {
-    correctHighlight(
-      getf(Highlight, getc(facet)),
-      (facet.inputItems || []).map((x) => x.id),
-      (facet.filteredItems ?? []).map((x) => x.id)
-    );
-  }
-}
+import { Highlight } from '../facets/Highlight';
 
 export function correctHighlight(
   highlight: Highlight,
   allItemIds: any[],
-  visibleItemIds: any[]
+  highlightableIds?: string[]
 ) {
+  highlightableIds = highlightableIds ?? highlight.highlightableIds;
+
   if (
     highlight.id &&
     allItemIds.includes(highlight.id) &&
-    !visibleItemIds.includes(highlight.id)
+    !highlightableIds.includes(highlight.id)
   ) {
     const highlightedItemIdx = allItemIds.indexOf(highlight.id);
     const newIdx =
       _findNeighbourIdx(
-        visibleItemIds,
+        highlightableIds,
         allItemIds,
         highlightedItemIdx,
         allItemIds.length,
         1
       ) ||
-      _findNeighbourIdx(visibleItemIds, allItemIds, highlightedItemIdx, -1, -1);
+      _findNeighbourIdx(
+        highlightableIds,
+        allItemIds,
+        highlightedItemIdx,
+        -1,
+        -1
+      );
 
     if (newIdx) {
       highlight.highlightItem(allItemIds[newIdx.result]);

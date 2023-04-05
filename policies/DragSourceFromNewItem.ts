@@ -1,6 +1,6 @@
-import { Addition } from "../Addition";
-import { DragT } from "../Insertion";
-import { getf } from "skandha";
+import { getf } from 'skandha';
+import { Addition } from '../facets/Addition';
+import { DragT } from '../facets/Insertion';
 
 export const DragSourceFromNewItem = (ctr: any): DragT | undefined => {
   const addition = getf(Addition, ctr);

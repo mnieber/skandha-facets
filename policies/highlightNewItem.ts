@@ -1,6 +1,6 @@
-import { getf, getc } from "skandha";
-import { Highlight } from "../Highlight";
-import { Addition } from "../Addition";
+import { getc, getf } from 'skandha';
+import { Addition } from '../facets/Addition';
+import { Highlight } from '../facets/Highlight';
 
 export function highlightNewItem(facet: Addition) {
   const ctr = getc(facet);

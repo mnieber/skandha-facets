@@ -1,5 +1,5 @@
-import { Editing } from "../Editing";
-import { getf } from "skandha";
+import { getf } from 'skandha';
+import { Edit } from './Edit';
 
 export type PropsT = {
   container: any;
@@ -19,11 +19,11 @@ export class EditWithKeys {
         if (key === keyEdit) {
           e.preventDefault();
           e.stopPropagation();
-          const editing = getf(Editing, ctr);
-          if (editing.isEditing) {
-            editing.cancel();
+          const edit = getf(Edit, ctr);
+          if (edit.isEditing) {
+            edit.cancel();
           } else {
-            editing.enable();
+            edit.enable();
           }
         }
       },
