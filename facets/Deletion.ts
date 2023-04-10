@@ -1,19 +1,23 @@
-import { getCallbacks, host } from 'aspiration';
 import { data, operation } from 'skandha';
-import { DeletionCbs, DeletionOptionsT } from './DeletionCbs';
-export type { DeletionCbs, DeletionOptionsT } from './DeletionCbs';
+import { Cbs, getCallbacks, host } from '../lib/cbs';
 
 export class Deletion {
   static className = () => 'Deletion';
 
   @data disabled?: boolean = undefined;
 
-  @operation @host(['itemIds', 'options']) delete(
-    itemIds: string[],
-    options?: DeletionOptionsT
-  ) {
-    const cbs = getCallbacks<DeletionCbs['delete']>(this);
+  @operation @host() delete(args: {
+    itemIds: string[];
+    moveToTrash?: boolean;
+  }) {
+    const cbs = getCallbacks(this) as DeletionCbs['delete'];
 
     return Promise.resolve(cbs.deleteItems());
   }
 }
+
+export type DeletionCbs = {
+  delete: Cbs<Deletion['delete']> & {
+    deleteItems(): any;
+  };
+};

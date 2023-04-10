@@ -1,7 +1,7 @@
-import { getCallbacks, host } from 'aspiration';
 import { data, decorateCb, operation } from 'skandha';
-import { AdditionCbs, GenericObjectT } from './AdditionCbs';
-export type { AdditionCbs } from './AdditionCbs';
+import { Cbs, getCallbacks, host } from '../lib/cbs';
+
+export type GenericObjectT = any;
 
 export class Addition<ValueT = any> {
   static className = () => 'Addition';
@@ -9,11 +9,14 @@ export class Addition<ValueT = any> {
   @data item?: ValueT;
   @data parentId?: string;
 
-  @operation @host(['values']) add(values?: GenericObjectT) {
-    const cbs = getCallbacks<AdditionCbs<ValueT>['add']>(this);
+  @operation @host() add(args: {
+    //
+    values?: GenericObjectT;
+  }) {
+    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['add'];
 
     cbs.stageAdd && cbs.stageAdd();
-    const newItem = values ?? cbs.createItem();
+    const newItem = args.values ?? cbs.createItem();
     return Promise.resolve(newItem).then(
       decorateCb((item: ValueT) => {
         this.item = item;
@@ -23,8 +26,8 @@ export class Addition<ValueT = any> {
     );
   }
 
-  @operation @host confirm() {
-    const cbs = getCallbacks<AdditionCbs<ValueT>['confirm']>(this);
+  @operation @host() confirm() {
+    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['confirm'];
 
     const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
     return Promise.resolve(result).then(
@@ -34,8 +37,8 @@ export class Addition<ValueT = any> {
     );
   }
 
-  @operation @host cancel() {
-    const cbs = getCallbacks<AdditionCbs<ValueT>['cancel']>(this);
+  @operation @host() cancel() {
+    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['cancel'];
 
     if (this.item) {
       this._reset();
@@ -47,4 +50,18 @@ export class Addition<ValueT = any> {
     this.item = undefined;
     this.parentId = undefined;
   }
+}
+
+export interface AdditionCbs<ValueT = any> {
+  add: Cbs<Addition['add']> & {
+    stageAdd(): void;
+    createItem(): ValueT;
+    highlightNewItem(): void;
+  };
+  cancel: Cbs<Addition['cancel']> & {
+    unstageAdd(): void;
+  };
+  confirm: Cbs<Addition['confirm']> & {
+    confirmAdd(): void;
+  };
 }

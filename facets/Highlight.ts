@@ -1,7 +1,5 @@
-import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
-import { HighlightCbs } from './HighlightCbs';
-export type { HighlightCbs } from './HighlightCbs';
+import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
 
 const highlightItemDefaultCbs = (highlight: Highlight) => ({});
 
@@ -12,12 +10,18 @@ export class Highlight<ValueT = any> {
   @data id: string | undefined;
   @output item?: ValueT;
 
-  @operation @host(['id'], highlightItemDefaultCbs) highlightItem(
-    id: string | undefined
-  ) {
-    const cbs = getCallbacks<HighlightCbs['highlightItem']>(this);
+  @operation @host(highlightItemDefaultCbs) highlightItem(args: {
+    id: string | undefined;
+  }) {
+    const cbs = getCallbacks(this) as HighlightCbs['highlightItem'];
 
-    this.id = id;
+    this.id = args.id;
     cbs.scrollItemIntoView && cbs.scrollItemIntoView();
   }
+}
+
+export interface HighlightCbs {
+  highlightItem: Cbs<Highlight['highlightItem']> & {
+    scrollItemIntoView(): void;
+  };
 }

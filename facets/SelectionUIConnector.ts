@@ -1,12 +1,15 @@
 import { pickNeighbour } from '../internal/utils';
 import { Selection } from './Selection';
-import { SelectionParamsT } from './SelectionCbs';
 
 export type SelectionUIConnectorOptionsT = {
   useMouse?: boolean;
   useKeys?: boolean;
   itemSelector?: string;
-  onSelectItem?: (selectionParams: SelectionParamsT) => any;
+  onSelectItem?: (args: {
+    itemId: string | undefined;
+    isShift?: boolean;
+    isCtrl?: boolean;
+  }) => any;
   getSelectableIds?: (e: any) => string[];
 };
 
@@ -41,7 +44,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
   }
 
   _select(e: any, itemId: string) {
-    const selectionParams: SelectionParamsT = {
+    const selectionParams = {
       itemId: itemId,
       isShift: e.shiftKey,
       isCtrl: e.ctrlKey,

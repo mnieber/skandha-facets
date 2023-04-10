@@ -10,7 +10,9 @@ export function selectionIsInsertedOnDragAndDrop(
 ) {
   const ctr = getc(facet);
   getf(Insertion, ctr).insertItems({
-    ...dropPosition,
-    payload: getf(Selection, ctr).items,
+    drag: {
+      ...dropPosition,
+      payload: getf(Selection, ctr).items,
+    },
   });
 }

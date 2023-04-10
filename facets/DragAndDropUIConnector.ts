@@ -41,11 +41,13 @@ export class DragAndDropUIConnector implements DragAndDropUIConnectorT {
       },
       onDrop: () => {
         if (this.hoverPosition) {
-          this.props.dragAndDrop.drop(this.hoverPosition).then(
-            decorateCb(() => {
-              this.setHoverPosition(undefined);
-            })
-          );
+          this.props.dragAndDrop
+            .drop({ dropPosition: this.hoverPosition })
+            .then(
+              decorateCb(() => {
+                this.setHoverPosition(undefined);
+              })
+            );
         }
       },
       dragState: getDragState(this.hoverPosition, itemId),

@@ -22,7 +22,6 @@ export {
   Selection,
   handleSelectItem,
   type SelectionCbs,
-  type SelectionParamsT,
 } from './facets/Selection';
 export {
   createSelectionUIConnector,
@@ -32,4 +31,5 @@ export {
   type SelectionUIPropsT,
 } from './facets/SelectionUIConnector';
 export { Store } from './facets/Store';
+export { Cbs, getCallbacks, host } from './lib/cbs';
 export { topOfTheList } from './lib/getPreview';

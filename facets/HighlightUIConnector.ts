@@ -38,7 +38,7 @@ export class HighlightUIConnector implements HighlightUIConnectorT {
   }
 
   _highlight(e: any, itemId: string) {
-    this.props.highlight.highlightItem(itemId);
+    this.props.highlight.highlightItem({ id: itemId });
     if (this.props.options?.onHighlightItem) {
       this.props.options.onHighlightItem(e, itemId);
     }

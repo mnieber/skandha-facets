@@ -30,7 +30,7 @@ export function correctHighlight(
       );
 
     if (newIdx) {
-      highlight.highlightItem(allItemIds[newIdx.result]);
+      highlight.highlightItem({ id: allItemIds[newIdx.result] });
     }
   }
 }

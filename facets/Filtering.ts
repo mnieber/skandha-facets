@@ -1,7 +1,7 @@
-import { host, stub } from 'aspiration';
 import { data, operation } from 'skandha';
-import { FilterT } from './FilteringCbs';
-export type { FilteringCbs } from './FilteringCbs';
+import { Cbs, host, stub } from '../lib/cbs';
+
+export type FilterT<ValueT> = (x: ValueT[]) => ValueT[];
 
 export class Filtering<ValueT = any> {
   static className = () => 'Filtering';
@@ -13,12 +13,17 @@ export class Filtering<ValueT = any> {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
 
-  @operation @host(['filter']) apply(filter: FilterT<ValueT>) {
-    this.filter = filter;
-    this.setEnabled(true);
+  @operation @host() apply(args: { filter: FilterT<ValueT> }) {
+    this.filter = args.filter;
+    this.setEnabled({ flag: true });
   }
 
-  @operation @host(['flag']) setEnabled(flag: boolean) {
-    this.isEnabled = flag;
+  @operation @host() setEnabled(args: { flag: boolean }) {
+    this.isEnabled = args.flag;
   }
+}
+
+export interface FilteringCbs<ValueT = any> {
+  apply: Cbs<Filtering['apply']> & {};
+  setEnabled: Cbs<Filtering['setEnabled']> & {};
 }

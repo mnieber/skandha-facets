@@ -1,12 +1,10 @@
-import { getCallbacks, host, stub } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
 import { range } from '../internal/utils';
-import { SelectionCbs, SelectionParamsT } from './SelectionCbs';
-export type { SelectionCbs, SelectionParamsT } from './SelectionCbs';
+import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
 
 const selectItemDefaultCbs = (selection: Selection) => ({
   selectItem: function (this: SelectionCbs['selectItem']) {
-    handleSelectItem(selection, this.selectionParams);
+    handleSelectItem(selection, this.args);
   },
 });
 
@@ -18,51 +16,64 @@ export class Selection<ValueT = any> {
   @data anchorId?: string;
   @output items: Array<ValueT> = stub;
 
-  @operation @host(['selectionParams'], selectItemDefaultCbs) selectItem(
-    selectionParams: SelectionParamsT
-  ) {
-    const cbs = getCallbacks<SelectionCbs['selectItem']>(this);
+  @operation @host(selectItemDefaultCbs) selectItem(args: {
+    itemId: string | undefined;
+    isShift?: boolean;
+    isCtrl?: boolean;
+    context?: any;
+  }) {
+    const cbs = getCallbacks(this) as SelectionCbs['selectItem'];
 
     cbs.selectItem();
   }
 }
 
+export interface SelectionCbs {
+  selectItem: Cbs<Selection['selectItem']> & {
+    selectItem(): void;
+  };
+}
+
 export function handleSelectItem(
   facet: Selection,
-  { itemId, isShift, isCtrl }: SelectionParamsT
+  args: {
+    itemId: string | undefined;
+    isShift?: boolean;
+    isCtrl?: boolean;
+  }
 ) {
-  if (itemId === undefined) {
+  if (args.itemId === undefined) {
     facet.ids = [];
     facet.anchorId = undefined;
     return;
   }
 
-  const hasItem = facet.ids.includes(itemId);
+  const hasItem = facet.ids.includes(args.itemId);
   const selectableIds = facet.selectableIds;
 
   if (!selectableIds) {
     throw Error('logical error');
   }
 
-  if (isShift) {
-    const startItemId = facet.anchorId || itemId;
+  if (args.isShift) {
+    const startItemId = facet.anchorId || args.itemId;
     const startIdx = selectableIds.indexOf(startItemId);
-    const stopIdx = selectableIds.indexOf(itemId);
+    const stopIdx = selectableIds.indexOf(args.itemId);
     const idxRange = range(
       Math.min(startIdx, stopIdx),
       1 + Math.max(startIdx, stopIdx)
     );
     facet.ids = idxRange.map((idx) => selectableIds[idx]);
-  } else if (isCtrl) {
+  } else if (args.isCtrl) {
     facet.ids = hasItem
-      ? facet.ids.filter((x) => x !== itemId)
-      : [...facet.ids, itemId];
+      ? facet.ids.filter((x) => x !== args.itemId)
+      : [...facet.ids, args.itemId];
   } else {
-    facet.ids = [itemId];
+    facet.ids = [args.itemId];
   }
 
   // Move the anchor
-  if (!facet.anchorId || !(isCtrl || isShift)) {
-    facet.anchorId = itemId;
+  if (!facet.anchorId || !(args.isCtrl || args.isShift)) {
+    facet.anchorId = args.itemId;
   }
 }

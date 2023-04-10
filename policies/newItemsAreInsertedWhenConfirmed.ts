@@ -8,6 +8,6 @@ export function newItemsAreInsertedWhenConfirmed(facet: Addition) {
   const ctr = getc(facet);
   const drag = DragSourceFromNewItem(ctr);
   if (drag) {
-    getf(Insertion, ctr).insertItems(drag);
+    getf(Insertion, ctr).insertItems({ drag });
   }
 }

@@ -5,5 +5,5 @@ import { Filtering } from '../facets/Filtering';
 
 export function filteringIsDisabledOnNewItem(facet: Addition) {
   const ctr = getc(facet);
-  getf(Filtering, ctr).setEnabled(false);
+  getf(Filtering, ctr).setEnabled({ flag: false });
 }

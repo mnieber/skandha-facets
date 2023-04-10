@@ -1,13 +1,13 @@
 import { getc, getf } from 'skandha';
 import { Highlight } from '../facets/Highlight';
-import { Selection, SelectionParamsT } from '../facets/Selection';
+import { Selection } from '../facets/Selection';
 
 export function highlightFollowsSelection(
   facet: Selection,
-  { itemId, isShift, isCtrl }: SelectionParamsT
+  args: { itemId: string | undefined; isShift?: boolean; isCtrl?: boolean }
 ) {
   const ctr = getc(facet);
-  if (!isCtrl && !isShift) {
-    getf(Highlight, ctr).highlightItem(itemId);
+  if (!args.isCtrl && !args.isShift) {
+    getf(Highlight, ctr).highlightItem({ id: args.itemId });
   }
 }
