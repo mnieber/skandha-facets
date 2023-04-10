@@ -1,27 +1,35 @@
 export { Addition, type AdditionCbs } from './facets/Addition';
 export { Deletion, type DeletionCbs } from './facets/Deletion';
 export { Display } from './facets/Display';
+export { DragAndDrop, type DragAndDropCbs } from './facets/DragAndDrop';
 export {
-  DragAndDrop,
+  createDragAndDropUIConnector,
   dragAndDropUIHandlers,
-  type DragAndDropCbs,
+  type DragAndDropUIConnectorT,
   type DragAndDropUIPropsT,
-} from './facets/DragAndDrop';
+} from './facets/DragAndDropUIConnector';
 export { Edit, type EditCbs } from './facets/Edit';
+export { Highlight, type HighlightCbs } from './facets/Highlight';
 export {
-  Highlight,
+  createHighlightUIConnector,
   highlightUIHandlers,
-  type HighlightCbs,
+  type HighlightUIConnectorOptionsT,
+  type HighlightUIConnectorT,
   type HighlightUIPropsT,
-} from './facets/Highlight';
+} from './facets/HighlightUIConnector';
 export { Insertion, type InsertionCbs } from './facets/Insertion';
 export {
   Selection,
   handleSelectItem,
-  selectionUIHandlers,
   type SelectionCbs,
   type SelectionParamsT,
-  type SelectionUIPropsT,
 } from './facets/Selection';
+export {
+  createSelectionUIConnector,
+  selectionUIHandlers,
+  type SelectionUIConnectorOptionsT,
+  type SelectionUIConnectorT,
+  type SelectionUIPropsT,
+} from './facets/SelectionUIConnector';
 export { Store } from './facets/Store';
 export { topOfTheList } from './lib/getPreview';

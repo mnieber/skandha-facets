@@ -133,3 +133,13 @@ export function highlightUIHandlers<T extends HighlightUIPropsT>(props: T) {
     onKeyDown: props.onKeyDown,
   };
 }
+
+export function createHighlightUIConnector(
+  highlight: Highlight,
+  options?: HighlightUIConnectorOptionsT
+) {
+  return new HighlightUIConnector({
+    highlight,
+    options,
+  });
+}

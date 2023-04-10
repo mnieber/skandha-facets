@@ -157,3 +157,13 @@ export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
     onKeyDown: props.onKeyDown,
   };
 }
+
+export function createSelectionUIConnector(
+  selection: Selection,
+  options?: SelectionUIConnectorOptionsT
+) {
+  return new SelectionUIConnector({
+    selection,
+    options,
+  });
+}
