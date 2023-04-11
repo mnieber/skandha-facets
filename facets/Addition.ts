@@ -1,24 +1,24 @@
 import { data, decorateCb, operation } from 'skandha';
-import { Cbs, getCallbacks, host } from '../lib/cbs';
+import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 
 export type GenericObjectT = any;
 
-export class Addition<ValueT = any> {
+export class Addition<T = any> {
   static className = () => 'Addition';
 
-  @data item?: ValueT;
+  @data item?: T;
   @data parentId?: string;
 
-  @operation @host() add(args: {
+  @operation @withCbs() add(args: {
     //
     values?: GenericObjectT;
   }) {
-    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['add'];
+    const cbs = getCallbacks(this) as AdditionCbs<T>['add'];
 
     cbs.stageAdd && cbs.stageAdd();
     const newItem = args.values ?? cbs.createItem();
     return Promise.resolve(newItem).then(
-      decorateCb((item: ValueT) => {
+      decorateCb((item: T) => {
         this.item = item;
         cbs.highlightNewItem && cbs.highlightNewItem();
         return item;
@@ -26,8 +26,8 @@ export class Addition<ValueT = any> {
     );
   }
 
-  @operation @host() confirm() {
-    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['confirm'];
+  @operation @withCbs() confirm() {
+    const cbs = getCallbacks(this) as AdditionCbs<T>['confirm'];
 
     const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
     return Promise.resolve(result).then(
@@ -37,8 +37,8 @@ export class Addition<ValueT = any> {
     );
   }
 
-  @operation @host() cancel() {
-    const cbs = getCallbacks(this) as AdditionCbs<ValueT>['cancel'];
+  @operation @withCbs() cancel() {
+    const cbs = getCallbacks(this) as AdditionCbs<T>['cancel'];
 
     if (this.item) {
       this._reset();
@@ -52,16 +52,18 @@ export class Addition<ValueT = any> {
   }
 }
 
-export interface AdditionCbs<ValueT = any> {
-  add: Cbs<Addition['add']> & {
+type Cbs<T> = {
+  add: {
     stageAdd(): void;
-    createItem(): ValueT;
+    createItem(): T;
     highlightNewItem(): void;
   };
-  cancel: Cbs<Addition['cancel']> & {
+  cancel: {
     unstageAdd(): void;
   };
-  confirm: Cbs<Addition['confirm']> & {
+  confirm: {
     confirmAdd(): void;
   };
-}
+};
+
+export type AdditionCbs<T = any> = DefineCbs<Addition<T>, Cbs<T>>;

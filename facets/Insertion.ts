@@ -1,5 +1,5 @@
 import { input, operation, output } from 'skandha';
-import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
+import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 import { getPreview } from '../lib/getPreview';
 
 export type DropPositionT = {
@@ -13,16 +13,16 @@ export type DragT = DropPositionT & {
 
 export type DragSourceT = (ctr: any) => DragT | undefined;
 
-export class Insertion<ValueT = any> {
+export class Insertion<T = any> {
   static className = () => 'Insertion';
 
-  @input inputItems: Array<ValueT> = stub;
-  @output preview: Array<ValueT> = stub;
-  @operation @host() insertItems(args: { drag: DragT }) {
-    const cbs = getCallbacks(this) as InsertionCbs<ValueT>['insertItems'];
+  @input inputItems: Array<T> = stub;
+  @output preview: Array<T> = stub;
+  @operation @withCbs() insertItems(args: { drag: DragT }) {
+    const cbs = getCallbacks(this) as InsertionCbs<T>['insertItems'];
 
     if (this.inputItems) {
-      const preview: Array<ValueT> = getPreview(
+      const preview: Array<T> = getPreview(
         this.inputItems,
         args.drag.targetItemId,
         args.drag.isBefore,
@@ -34,8 +34,10 @@ export class Insertion<ValueT = any> {
   }
 }
 
-export interface InsertionCbs<ValueT = any> {
-  insertItems: Cbs<Insertion['insertItems']> & {
-    insertItems(preview: Array<ValueT>): any;
+type Cbs<T> = {
+  insertItems: {
+    insertItems(preview: Array<T>): any;
   };
-}
+};
+
+export type InsertionCbs<T = any> = DefineCbs<Insertion<T>, Cbs<T>>;

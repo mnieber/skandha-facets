@@ -2,12 +2,12 @@ import { stub } from 'aspiration';
 import { data, output } from 'skandha';
 import { listToItemById } from '../internal/utils';
 
-export class Display<ValueT = any> {
+export class Display<T = any> {
   static className = () => 'Display';
 
-  @data items: ValueT[] = stub;
+  @data items: T[] = stub;
 
-  @output get itemById(): { [id: string]: ValueT } {
+  @output get itemById(): { [id: string]: T } {
     return listToItemById(this.items ?? []);
   }
 }

@@ -1,12 +1,12 @@
 import { data, decorateCb, operation } from 'skandha';
-import { Cbs, getCallbacks, host } from '../lib/cbs';
+import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 
 export class Edit {
   static className = () => 'Edit';
 
   @data isEditing: boolean = false;
 
-  @operation @host() save(args: { values: any }) {
+  @operation @withCbs() save(args: { values: any }) {
     const cbs = getCallbacks(this) as EditCbs['save'];
 
     return Promise.resolve(cbs.saveItem()).then(
@@ -17,7 +17,7 @@ export class Edit {
     );
   }
 
-  @operation @host() cancel() {
+  @operation @withCbs() cancel() {
     const cbs = getCallbacks(this) as EditCbs['cancel'];
 
     if (this.isEditing) {
@@ -26,7 +26,7 @@ export class Edit {
     }
   }
 
-  @operation @host() enable() {
+  @operation @withCbs() enable() {
     const cbs = getCallbacks(this) as EditCbs['enable'];
 
     if (!this.isEditing) {
@@ -36,14 +36,16 @@ export class Edit {
   }
 }
 
-export interface EditCbs {
-  save: Cbs<Edit['save']> & {
+export type Cbs = {
+  save: {
     saveItem(): any;
   };
-  cancel: Cbs<Edit['cancel']> & {
+  cancel: {
     onCancel(): void;
   };
-  enable: Cbs<Edit['enable']> & {
+  enable: {
     onEnable(): void;
   };
-}
+};
+
+export type EditCbs = DefineCbs<Edit, Cbs>;

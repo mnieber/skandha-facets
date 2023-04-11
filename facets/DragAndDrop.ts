@@ -1,5 +1,5 @@
 import { operation } from 'skandha';
-import { Cbs, getCallbacks, host } from '../lib/cbs';
+import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { DropPositionT } from './Insertion';
 
@@ -12,7 +12,7 @@ const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
 export class DragAndDrop {
   static className = () => 'DragAndDrop';
 
-  @operation @host(dropDefaultCbs) drop(args: {
+  @operation @withCbs(dropDefaultCbs) drop(args: {
     //
     dropPosition: DropPositionT;
   }) {
@@ -22,8 +22,10 @@ export class DragAndDrop {
   }
 }
 
-export interface DragAndDropCbs {
-  drop: Cbs<DragAndDrop['drop']> & {
+type Cbs = {
+  drop: {
     drop(): void;
   };
-}
+};
+
+export type DragAndDropCbs = DefineCbs<DragAndDrop, Cbs>;

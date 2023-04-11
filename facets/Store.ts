@@ -1,12 +1,12 @@
 import { data, output } from 'skandha';
 import { listToItemById } from '../internal/utils';
 
-export class Store<ValueT = any> {
+export class Store<T = any> {
   static className = () => 'Store';
 
-  @data items?: ValueT[];
+  @data items?: T[];
 
-  @output get itemById(): { [id: string]: ValueT } {
+  @output get itemById(): { [id: string]: T } {
     return listToItemById(this.items ?? []);
   }
 }

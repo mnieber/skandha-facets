@@ -1,27 +1,29 @@
 import { data, input, operation, output } from 'skandha';
-import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
+import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 const highlightItemDefaultCbs = (highlight: Highlight) => ({});
 
-export class Highlight<ValueT = any> {
+export class Highlight<T = any> {
   static className = () => 'Highlight';
 
   @input highlightableIds: Array<string> = stub;
   @data id: string | undefined;
-  @output item?: ValueT;
+  @output item?: T;
 
-  @operation @host(highlightItemDefaultCbs) highlightItem(args: {
+  @operation @withCbs(highlightItemDefaultCbs) highlightItem(args: {
     id: string | undefined;
   }) {
-    const cbs = getCallbacks(this) as HighlightCbs['highlightItem'];
+    const cbs = getCallbacks(this) as HighlightCbs<T>['highlightItem'];
 
     this.id = args.id;
     cbs.scrollItemIntoView && cbs.scrollItemIntoView();
   }
 }
 
-export interface HighlightCbs {
-  highlightItem: Cbs<Highlight['highlightItem']> & {
+type Cbs<T> = {
+  highlightItem: {
     scrollItemIntoView(): void;
   };
-}
+};
+
+export type HighlightCbs<T = any> = DefineCbs<Highlight<T>, Cbs<T>>;

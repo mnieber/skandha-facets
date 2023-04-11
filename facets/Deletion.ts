@@ -1,12 +1,12 @@
 import { data, operation } from 'skandha';
-import { Cbs, getCallbacks, host } from '../lib/cbs';
+import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 
 export class Deletion {
   static className = () => 'Deletion';
 
   @data disabled?: boolean = undefined;
 
-  @operation @host() delete(args: {
+  @operation @withCbs() delete(args: {
     itemIds: string[];
     moveToTrash?: boolean;
   }) {
@@ -16,8 +16,10 @@ export class Deletion {
   }
 }
 
-export type DeletionCbs = {
-  delete: Cbs<Deletion['delete']> & {
+type Cbs = {
+  delete: {
     deleteItems(): any;
   };
 };
+
+export type DeletionCbs = DefineCbs<Deletion, Cbs>;

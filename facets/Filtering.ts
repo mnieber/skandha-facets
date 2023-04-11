@@ -1,29 +1,31 @@
 import { data, operation } from 'skandha';
-import { Cbs, host, stub } from '../lib/cbs';
+import { DefineCbs, stub, withCbs } from '../lib/cbs';
 
-export type FilterT<ValueT> = (x: ValueT[]) => ValueT[];
+export type FilterT<T> = (x: T[]) => T[];
 
-export class Filtering<ValueT = any> {
+export class Filtering<T = any> {
   static className = () => 'Filtering';
 
   @data isEnabled: boolean = false;
-  @data filter: FilterT<ValueT> = () => [];
-  @data inputItems: Array<ValueT> = stub;
+  @data filter: FilterT<T> = () => [];
+  @data inputItems: Array<T> = stub;
   @data get filteredItems() {
     return this.isEnabled ? this.filter(this.inputItems) : this.inputItems;
   }
 
-  @operation @host() apply(args: { filter: FilterT<ValueT> }) {
+  @operation @withCbs() apply(args: { filter: FilterT<T> }) {
     this.filter = args.filter;
     this.setEnabled({ flag: true });
   }
 
-  @operation @host() setEnabled(args: { flag: boolean }) {
+  @operation @withCbs() setEnabled(args: { flag: boolean }) {
     this.isEnabled = args.flag;
   }
 }
 
-export interface FilteringCbs<ValueT = any> {
-  apply: Cbs<Filtering['apply']> & {};
-  setEnabled: Cbs<Filtering['setEnabled']> & {};
-}
+type Cbs<T> = {
+  apply: {};
+  setEnabled: {};
+};
+
+export type FilteringCbs<T = any> = DefineCbs<Filtering<T>, Cbs<T>>;

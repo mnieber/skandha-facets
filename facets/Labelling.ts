@@ -1,5 +1,5 @@
 import { data, input, operation } from 'skandha';
-import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
+import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 export type LabelValueT = { label: string; id: string; flag: boolean };
 export type IdsByLabelT = { [label: string]: Array<any> };
@@ -13,7 +13,7 @@ export class Labelling {
 
   @input itemsByLabel: ItemsByLabelT = stub;
 
-  @operation @host() setLabel(args: { labelValue: LabelValueT }) {
+  @operation @withCbs() setLabel(args: { labelValue: LabelValueT }) {
     const cbs = getCallbacks<LabellingCbs['setLabel']>(this);
 
     const { label, id, flag } = args.labelValue;
@@ -30,8 +30,10 @@ export class Labelling {
   }
 }
 
-export interface LabellingCbs {
-  setLabel: Cbs<Labelling['setLabel']> & {
+type Cbs = {
+  setLabel: {
     saveIds(label: string, ids: string[]): any;
   };
-}
+};
+
+export type LabellingCbs = DefineCbs<Labelling, Cbs>;

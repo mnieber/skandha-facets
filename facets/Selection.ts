@@ -1,6 +1,6 @@
 import { data, input, operation, output } from 'skandha';
 import { range } from '../internal/utils';
-import { Cbs, getCallbacks, host, stub } from '../lib/cbs';
+import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 const selectItemDefaultCbs = (selection: Selection) => ({
   selectItem: function (this: SelectionCbs['selectItem']) {
@@ -8,15 +8,15 @@ const selectItemDefaultCbs = (selection: Selection) => ({
   },
 });
 
-export class Selection<ValueT = any> {
+export class Selection<T = any> {
   static className = () => 'Selection';
 
   @input selectableIds: Array<string> = stub;
   @data ids: Array<string> = [];
   @data anchorId?: string;
-  @output items: Array<ValueT> = stub;
+  @output items: Array<T> = stub;
 
-  @operation @host(selectItemDefaultCbs) selectItem(args: {
+  @operation @withCbs(selectItemDefaultCbs) selectItem(args: {
     itemId: string | undefined;
     isShift?: boolean;
     isCtrl?: boolean;
@@ -28,11 +28,13 @@ export class Selection<ValueT = any> {
   }
 }
 
-export interface SelectionCbs {
-  selectItem: Cbs<Selection['selectItem']> & {
+type Cbs<T> = {
+  selectItem: {
     selectItem(): void;
   };
-}
+};
+
+export type SelectionCbs<T = any> = DefineCbs<Selection<T>, Cbs<T>>;
 
 export function handleSelectItem(
   facet: Selection,

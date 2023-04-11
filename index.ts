@@ -31,5 +31,5 @@ export {
   type SelectionUIPropsT,
 } from './facets/SelectionUIConnector';
 export { Store } from './facets/Store';
-export { Cbs, getCallbacks, host } from './lib/cbs';
+export { getCallbacks, withCbs, type Cbs, type DefineCbs } from './lib/cbs';
 export { topOfTheList } from './lib/getPreview';
