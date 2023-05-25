@@ -4,12 +4,7 @@ import { Selection } from './Selection';
 export type SelectionUIConnectorOptionsT = {
   useMouse?: boolean;
   useKeys?: boolean;
-  itemSelector?: string;
-  onSelectItem?: (args: {
-    itemId: string | undefined;
-    isShift?: boolean;
-    isCtrl?: boolean;
-  }) => any;
+  getDomElement?: (id: string, idx: number) => Element | null;
   getSelectableIds?: (e: any) => string[];
 };
 
@@ -50,9 +45,6 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
       isCtrl: e.ctrlKey,
     };
     this.props.selection.selectItem(selectionParams);
-    if (this.props.options?.onSelectItem) {
-      this.props.options.onSelectItem(selectionParams);
-    }
   }
 
   _createMouseDownHandler() {
@@ -83,7 +75,11 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
   }
 
   _createKeyDownHandler() {
-    return (e: any, itemId: string, itemSelector: string) => {
+    return (
+      e: any,
+      itemId: string,
+      getDomElement: SelectionUIConnectorOptionsT['getDomElement']
+    ) => {
       const keysDown = ['ArrowDown'];
       const keysUp = ['ArrowUp'];
 
@@ -111,9 +107,9 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
         // Move the focus to the neighbour item. We assume that the
         // list of UI elements reflects the list of selectable items (that
         // is stored in selection.selectableIds).
-        if (newItemId !== itemId) {
+        if (newItemId !== itemId && getDomElement) {
           const idx = this.props.selection.selectableIds.indexOf(newItemId);
-          const nextElm = document.querySelectorAll(itemSelector)[idx];
+          const nextElm = getDomElement(itemId, idx);
           // @ts-ignore
           nextElm && nextElm.focus();
         }
@@ -134,7 +130,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
       this.props.options?.useKeys ?? true
         ? {
             onKeyDown: (e: any) =>
-              this._handleKeyDown(e, itemId, this.props.options?.itemSelector),
+              this._handleKeyDown(e, itemId, this.props.options?.getDomElement),
           }
         : {};
 
