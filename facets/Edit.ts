@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
 import { data, decorateCb, operation } from 'skandha';
-import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 
 export class Edit {
   static className = () => 'Edit';

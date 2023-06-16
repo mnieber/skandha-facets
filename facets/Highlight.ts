@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, stub, withCbs } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
-import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 const highlightItemDefaultCbs = (highlight: Highlight) => ({});
 

@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, stub, withCbs } from 'aspiration';
 import { input, operation, output } from 'skandha';
-import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 import { getPreview } from '../lib/getPreview';
 
 export type DropPositionT = {

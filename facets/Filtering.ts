@@ -1,5 +1,5 @@
+import { DefineCbs, stub, withCbs } from 'aspiration';
 import { data, operation } from 'skandha';
-import { DefineCbs, stub, withCbs } from '../lib/cbs';
 
 export type FilterT<T> = (x: T[]) => T[];
 

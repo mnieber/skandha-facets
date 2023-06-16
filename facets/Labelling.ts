@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, stub, withCbs } from 'aspiration';
 import { data, input, operation } from 'skandha';
-import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 export type LabelValueT = { label: string; id: string; flag: boolean };
 export type IdsByLabelT = { [label: string]: Array<any> };

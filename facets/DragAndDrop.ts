@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
 import { operation } from 'skandha';
-import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { DropPositionT } from './Insertion';
 

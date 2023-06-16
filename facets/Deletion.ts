@@ -1,5 +1,5 @@
+import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
 import { data, operation } from 'skandha';
-import { DefineCbs, getCallbacks, withCbs } from '../lib/cbs';
 
 export class Deletion {
   static className = () => 'Deletion';
