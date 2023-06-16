@@ -1,6 +1,6 @@
+import { DefineCbs, getCallbacks, stub, withCbs } from 'aspiration';
 import { data, input, operation, output } from 'skandha';
 import { range } from '../internal/utils';
-import { DefineCbs, getCallbacks, stub, withCbs } from '../lib/cbs';
 
 const selectItemDefaultCbs = (selection: Selection) => ({
   selectItem: function (this: SelectionCbs['selectItem']) {
