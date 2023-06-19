@@ -9,10 +9,16 @@ export function selectionIsInsertedOnDragAndDrop(
   dropPosition: DropPositionT
 ) {
   const ctr = getc(facet);
+  const selection = getf(Selection, ctr);
+  const selectableIds = selection.selectableIds || [];
+  const items = selection.items.toSorted(
+    (a, b) => selectableIds.indexOf(a.id) - selectableIds.indexOf(b.id)
+  );
+
   getf(Insertion, ctr).insertItems({
     drag: {
       ...dropPosition,
-      payload: getf(Selection, ctr).items,
+      payload: items,
     },
   });
 }
