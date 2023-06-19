@@ -11,9 +11,9 @@ export {
 export { Edit, type EditCbs } from './facets/Edit';
 export { Highlight, type HighlightCbs } from './facets/Highlight';
 export {
+  createHighlightKeyHandlers,
   createHighlightUIConnector,
   highlightUIHandlers,
-  type HighlightUIConnectorOptionsT,
   type HighlightUIConnectorT,
   type HighlightUIPropsT,
 } from './facets/HighlightUIConnector';
@@ -24,9 +24,9 @@ export {
   type SelectionCbs,
 } from './facets/Selection';
 export {
+  createSelectionKeyHandlers,
   createSelectionUIConnector,
   selectionUIHandlers,
-  type SelectionUIConnectorOptionsT,
   type SelectionUIConnectorT,
   type SelectionUIPropsT,
 } from './facets/SelectionUIConnector';

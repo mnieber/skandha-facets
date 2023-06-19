@@ -1,41 +1,24 @@
 import { pickNeighbour } from '../internal/utils';
 import { Selection } from './Selection';
 
-export type SelectionUIConnectorOptionsT = {
-  useMouse?: boolean;
-  useKeys?: boolean;
-  getDomElement?: (id: string, idx: number) => Element | null;
-  getSelectableIds?: (e: any) => string[];
-};
-
 export interface SelectionUIConnectorT {
   handle(itemId: string): SelectionUIPropsT;
 }
 
 export type PropsT = {
   selection: Selection;
-  options?: SelectionUIConnectorOptionsT;
 };
 
 export class SelectionUIConnector implements SelectionUIConnectorT {
   props: PropsT;
   _selectOnMouseUp?: string = undefined;
-  _handleKeyDown: any = undefined;
   _handleMouseUp: any = undefined;
   _handleMouseDown: any = undefined;
 
   constructor(props: PropsT) {
     this.props = props;
-    this._handleMouseDown =
-      props.options?.useMouse ?? true
-        ? this._createMouseDownHandler()
-        : undefined;
-    this._handleMouseUp =
-      props.options?.useMouse ?? true
-        ? this._createMouseUpHandler()
-        : undefined;
-    this._handleKeyDown =
-      props.options?.useKeys ?? true ? this._createKeyDownHandler() : undefined;
+    this._handleMouseDown = this._createMouseDownHandler();
+    this._handleMouseUp = this._createMouseUpHandler();
   }
 
   _select(e: any, itemId: string) {
@@ -74,70 +57,15 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
     };
   }
 
-  _createKeyDownHandler() {
-    return (
-      e: any,
-      itemId: string,
-      getDomElement: SelectionUIConnectorOptionsT['getDomElement']
-    ) => {
-      const keysDown = ['ArrowDown'];
-      const keysUp = ['ArrowUp'];
-
-      const isDown = keysDown.includes(e.key);
-      const isUp = keysUp.includes(e.key);
-      if (isUp || isDown) {
-        e.preventDefault();
-        e.stopPropagation();
-        const selectItemById = (itemId: any) => {
-          this._select({ ...e, ctrlKey: false }, itemId);
-        };
-
-        const selectableIds = this.props.options?.getSelectableIds
-          ? this.props.options?.getSelectableIds(e)
-          : this.props.selection.selectableIds || [];
-
-        // Select the neighbour item
-        const newItemId = pickNeighbour(
-          selectableIds,
-          itemId,
-          isDown,
-          selectItemById
-        );
-
-        // Move the focus to the neighbour item. We assume that the
-        // list of UI elements reflects the list of selectable items (that
-        // is stored in selection.selectableIds).
-        if (newItemId !== itemId && getDomElement) {
-          const idx = this.props.selection.selectableIds.indexOf(newItemId);
-          const nextElm = getDomElement(itemId, idx);
-          // @ts-ignore
-          nextElm && nextElm.focus();
-        }
-      }
-    };
-  }
-
   handle(itemId: any): SelectionUIPropsT {
-    const mouseHandlers =
-      this.props.options?.useMouse ?? true
-        ? {
-            onMouseDown: (e: any) => this._handleMouseDown(e, itemId),
-            onMouseUp: (e: any) => this._handleMouseUp(e, itemId),
-          }
-        : {};
-
-    const keyDownHandler =
-      this.props.options?.useKeys ?? true
-        ? {
-            onKeyDown: (e: any) =>
-              this._handleKeyDown(e, itemId, this.props.options?.getDomElement),
-          }
-        : {};
+    const mouseHandlers = {
+      onMouseDown: (e: any) => this._handleMouseDown(e, itemId),
+      onMouseUp: (e: any) => this._handleMouseUp(e, itemId),
+    };
 
     return {
       isSelected: this.props.selection.ids.includes(itemId),
       ...mouseHandlers,
-      ...keyDownHandler,
     };
   }
 }
@@ -146,23 +74,60 @@ export type SelectionUIPropsT = {
   isSelected: boolean;
   onMouseDown?: any;
   onMouseUp?: any;
-  onKeyDown?: any;
 };
 
 export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
   return {
     onMouseDown: props.onMouseDown,
     onMouseUp: props.onMouseUp,
-    onKeyDown: props.onKeyDown,
   };
 }
 
-export function createSelectionUIConnector(
-  selection: Selection,
-  options?: SelectionUIConnectorOptionsT
-) {
+export function createSelectionUIConnector(selection: Selection) {
   return new SelectionUIConnector({
     selection,
-    options,
   });
 }
+
+export const createSelectionKeyHandlers = (
+  selection: Selection,
+  options?: {
+    keyDown?: string;
+    keyUp?: string;
+    getSelectableIds?: () => string[];
+  }
+) => {
+  const down = options?.keyDown ?? 'down';
+  const up = options?.keyUp ?? 'up';
+  const getAnchor = () => selection.ids[selection.ids.length - 1];
+  const getSelectableIds = () =>
+    options?.getSelectableIds
+      ? options?.getSelectableIds()
+      : selection.selectableIds ?? [];
+
+  return {
+    [down]: () =>
+      selectNext(selection, getAnchor(), true, false, getSelectableIds()),
+    [`shift+${down}`]: () =>
+      selectNext(selection, getAnchor(), true, true, getSelectableIds()),
+    [up]: () =>
+      selectNext(selection, getAnchor(), false, false, getSelectableIds()),
+    [`shift+${up}`]: () =>
+      selectNext(selection, getAnchor(), false, true, getSelectableIds()),
+  };
+};
+
+const selectNext = (
+  selection: Selection,
+  currentItemId: string | undefined,
+  isDown: boolean,
+  isShift: boolean,
+  selectableIds: string[]
+) => {
+  const selectItemById = (itemId: any) => {
+    selection.selectItem({ itemId, isShift, isCtrl: false });
+  };
+  if (currentItemId !== undefined) {
+    pickNeighbour(selectableIds, currentItemId, isDown, selectItemById);
+  }
+};
