@@ -4,8 +4,14 @@ export function lookUp(keys: Array<any>, obj: any): Array<any> {
 
 export function range(start: number, stop: number) {
   var ans: number[] = [];
-  for (let i = start; i < stop; i++) {
-    ans.push(i);
+  if (stop >= start) {
+    for (let i = start; i <= stop; i++) {
+      ans.push(i);
+    }
+  } else {
+    for (let i = start; i >= stop; i--) {
+      ans.push(i);
+    }
   }
   return ans;
 }

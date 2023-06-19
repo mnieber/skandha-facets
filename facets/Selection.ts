@@ -61,10 +61,7 @@ export function handleSelectItem(
     const startItemId = facet.anchorId || args.itemId;
     const startIdx = selectableIds.indexOf(startItemId);
     const stopIdx = selectableIds.indexOf(args.itemId);
-    const idxRange = range(
-      Math.min(startIdx, stopIdx),
-      1 + Math.max(startIdx, stopIdx)
-    );
+    const idxRange = range(startIdx, stopIdx);
     facet.ids = idxRange.map((idx) => selectableIds[idx]);
   } else if (args.isCtrl) {
     facet.ids = hasItem
