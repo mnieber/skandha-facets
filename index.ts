@@ -25,8 +25,8 @@ export {
   type SelectionCbs,
 } from './facets/Selection';
 export {
+  SelectionUIConnector,
   createSelectionKeyHandlers,
-  createSelectionUIConnector,
   selectionUIHandlers,
   type SelectionUIConnectorT,
   type SelectionUIPropsT,

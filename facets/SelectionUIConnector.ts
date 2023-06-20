@@ -7,6 +7,11 @@ export interface SelectionUIConnectorT {
 
 export type PropsT = {
   selection: Selection;
+  onSelect?: (selectionParams: {
+    itemId: string | undefined;
+    isShift?: boolean;
+    isCtrl?: boolean;
+  }) => void;
 };
 
 export class SelectionUIConnector implements SelectionUIConnectorT {
@@ -22,12 +27,17 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
   }
 
   _select(e: any, itemId: string) {
+    const isShift = e.shiftKey;
+    const isCtrl = e.ctrlKey;
     const selectionParams = {
       itemId: itemId,
-      isShift: e.shiftKey,
-      isCtrl: e.ctrlKey,
+      isShift: isShift,
+      isCtrl: isCtrl,
     };
     this.props.selection.selectItem(selectionParams);
+    if (this.props.onSelect) {
+      this.props.onSelect(selectionParams);
+    }
   }
 
   _createMouseDownHandler() {
@@ -81,12 +91,6 @@ export function selectionUIHandlers<T extends SelectionUIPropsT>(props: T) {
     onMouseDown: props.onMouseDown,
     onMouseUp: props.onMouseUp,
   };
-}
-
-export function createSelectionUIConnector(selection: Selection) {
-  return new SelectionUIConnector({
-    selection,
-  });
 }
 
 export const createSelectionKeyHandlers = (
