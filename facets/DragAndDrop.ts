@@ -1,11 +1,11 @@
 import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
 import { operation } from 'skandha';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
-import { DropPositionT } from './Insertion';
+import { HoverPositionT } from './Hovering';
 
 const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
   drop: function (this: DragAndDropCbs['drop']) {
-    selectionIsInsertedOnDragAndDrop(dragAndDrop, this.args.dropPosition);
+    selectionIsInsertedOnDragAndDrop(dragAndDrop, this.args.hoverPosition);
   },
 });
 
@@ -14,10 +14,9 @@ export class DragAndDrop {
 
   @operation @withCbs(dropDefaultCbs) drop(args: {
     //
-    dropPosition: DropPositionT;
+    hoverPosition: HoverPositionT;
   }) {
     const cbs = getCallbacks(this) as DragAndDropCbs['drop'];
-
     return Promise.resolve(cbs.drop());
   }
 }

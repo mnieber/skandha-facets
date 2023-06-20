@@ -4,13 +4,13 @@ import { getPreview } from '../lib/getPreview';
 
 export const createInsertionPreview =
   (dragSources: DragSourceT[], ctr: any) => (inputItems: any[]) => {
-    const drag = findMap((dragSource) => dragSource(ctr), dragSources);
-    return drag
+    const hoverPosition = findMap((dragSource) => dragSource(ctr), dragSources);
+    return hoverPosition
       ? getPreview(
           inputItems ?? [],
-          drag.targetItemId,
-          drag.isBefore,
-          drag.payload
+          hoverPosition.targetItemId,
+          hoverPosition.isBefore,
+          hoverPosition.payload
         )
       : inputItems ?? [];
   };

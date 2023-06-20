@@ -17,6 +17,7 @@ export {
   type HighlightUIConnectorT,
   type HighlightUIPropsT,
 } from './facets/HighlightUIConnector';
+export { Hovering, type HoverPositionT } from './facets/Hovering';
 export { Insertion, type InsertionCbs } from './facets/Insertion';
 export {
   Selection,

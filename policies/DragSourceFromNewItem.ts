@@ -1,8 +1,8 @@
 import { getf } from 'skandha';
 import { Addition } from '../facets/Addition';
-import { DragT } from '../facets/Insertion';
+import { HoverPositionT } from '../facets/Hovering';
 
-export const DragSourceFromNewItem = (ctr: any): DragT | undefined => {
+export const DragSourceFromNewItem = (ctr: any): HoverPositionT | undefined => {
   const addition = getf(Addition, ctr);
   return addition.item && addition.parentId
     ? {

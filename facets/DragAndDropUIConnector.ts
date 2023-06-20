@@ -1,28 +1,21 @@
-import { data, decorateCb, operation } from 'skandha';
 import { isBefore } from '../internal/utils';
 import { DragAndDrop } from './DragAndDrop';
-import { DropPositionT } from './Insertion';
+import { Hovering } from './Hovering';
 
 export interface DragAndDropUIConnectorT {
-  hoverPosition?: DropPositionT;
-  setHoverPosition(x?: DropPositionT): void;
   handle(itemId: string): DragAndDropUIPropsT;
 }
 
 export type PropsT = {
   dragAndDrop: DragAndDrop;
+  hovering: Hovering;
 };
 
 export class DragAndDropUIConnector implements DragAndDropUIConnectorT {
   props: PropsT;
-  @data hoverPosition?: DropPositionT;
 
   constructor(props: PropsT) {
     this.props = props;
-  }
-
-  @operation({ log: false }) setHoverPosition(x?: DropPositionT) {
-    this.hoverPosition = x;
   }
 
   handle(itemId: string): DragAndDropUIPropsT {
@@ -31,26 +24,25 @@ export class DragAndDropUIConnector implements DragAndDropUIConnectorT {
       onDragStart: () => {},
       onDragOver: (e: any) => {
         e.preventDefault();
-        this.setHoverPosition({
+        this.props.hovering.setHoverPosition({
           targetItemId: itemId,
           isBefore: isBefore(e),
         });
       },
       onDragEnd: () => {
-        this.setHoverPosition(undefined);
+        this.props.hovering.setHoverPosition(undefined);
       },
       onDrop: () => {
-        if (this.hoverPosition) {
+        const hoverPosition = this.props.hovering.hoverPosition;
+        if (hoverPosition) {
           this.props.dragAndDrop
-            .drop({ dropPosition: this.hoverPosition })
-            .then(
-              decorateCb(() => {
-                this.setHoverPosition(undefined);
-              })
-            );
+            .drop({ hoverPosition: hoverPosition })
+            .then(() => {
+              this.props.hovering.setHoverPosition(undefined);
+            });
         }
       },
-      dragState: getDragState(this.hoverPosition, itemId),
+      dragState: getDragState(this.props.hovering.hoverPosition, itemId),
     };
   }
 }
@@ -82,6 +74,12 @@ export function dragAndDropUIHandlers<T extends DragAndDropUIPropsT>(props: T) {
   };
 }
 
-export function createDragAndDropUIConnector(dragAndDrop: DragAndDrop) {
-  return new DragAndDropUIConnector({ dragAndDrop });
+export function createDragAndDropUIConnector(
+  dragAndDrop: DragAndDrop,
+  hovering: Hovering
+) {
+  return new DragAndDropUIConnector({
+    dragAndDrop,
+    hovering,
+  });
 }

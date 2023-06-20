@@ -6,8 +6,8 @@ import { DragSourceFromNewItem } from './DragSourceFromNewItem';
 
 export function newItemsAreInsertedWhenConfirmed(facet: Addition) {
   const ctr = getc(facet);
-  const drag = DragSourceFromNewItem(ctr);
-  if (drag) {
-    getf(Insertion, ctr).insertItems({ drag });
+  const hoverPosition = DragSourceFromNewItem(ctr);
+  if (hoverPosition) {
+    getf(Insertion, ctr).insertItems({ hoverPosition: hoverPosition });
   }
 }

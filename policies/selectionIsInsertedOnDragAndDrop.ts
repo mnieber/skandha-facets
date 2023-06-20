@@ -1,23 +1,24 @@
 import { getc, getf } from 'skandha';
 
 import { DragAndDrop } from '../facets/DragAndDrop';
-import { DropPositionT, Insertion } from '../facets/Insertion';
+import { HoverPositionT } from '../facets/Hovering';
+import { Insertion } from '../facets/Insertion';
 import { Selection } from '../facets/Selection';
 
 export function selectionIsInsertedOnDragAndDrop(
   facet: DragAndDrop,
-  dropPosition: DropPositionT
+  hoverPosition: HoverPositionT
 ) {
   const ctr = getc(facet);
   const selection = getf(Selection, ctr);
   const selectableIds = selection.selectableIds || [];
-  const items = selection.items.toSorted(
+  const items = [...selection.items].sort(
     (a, b) => selectableIds.indexOf(a.id) - selectableIds.indexOf(b.id)
   );
 
   getf(Insertion, ctr).insertItems({
-    drag: {
-      ...dropPosition,
+    hoverPosition: {
+      ...hoverPosition,
       payload: items,
     },
   });
