@@ -45,8 +45,9 @@ export class Addition<T = any> {
     const cbs = getCallbacks(this) as AdditionCbs<T>['cancel'];
 
     if (this.item) {
+      const parentId = this.parentId;
       this._reset();
-      cbs.unstageAdd && cbs.unstageAdd();
+      cbs.unstageAdd && cbs.unstageAdd(parentId);
     }
   }
 
@@ -63,7 +64,7 @@ type Cbs<T> = {
     highlightNewItem(): void;
   };
   cancel: {
-    unstageAdd(): void;
+    unstageAdd(parentId: string | undefined): void;
   };
   confirm: {
     confirmAdd(): void;
