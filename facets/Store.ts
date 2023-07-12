@@ -1,4 +1,4 @@
-import { data, output } from 'skandha';
+import { data, operation, output } from 'skandha';
 import { listToItemById } from '../internal/utils';
 
 export class Store<T = any> {
@@ -8,5 +8,9 @@ export class Store<T = any> {
 
   @output get itemById(): { [id: string]: T } {
     return listToItemById(this.items ?? []);
+  }
+
+  @operation setItems(items: T[]) {
+    this.items = items;
   }
 }
