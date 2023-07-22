@@ -25,11 +25,9 @@ export class Addition<T = any> {
 
     cbs.stageAdd && cbs.stageAdd();
     const newItem = args.values ?? cbs.createItem();
-    return Promise.resolve(newItem).then((item: T) => {
-      this.setItem(item);
-      cbs.highlightNewItem && cbs.highlightNewItem();
-      return item;
-    });
+    this.setItem(newItem);
+    cbs.highlightNewItem && cbs.highlightNewItem();
+    return newItem;
   }
 
   @operation @withCbs() confirm() {
