@@ -6,12 +6,16 @@ export class Edit {
 
   @data isEditing: boolean = false;
 
+  @operation reset() {
+    this.isEditing = false;
+  }
+
   @operation @withCbs() save(args: { values: any }) {
     const cbs = getCallbacks(this) as EditCbs['save'];
 
-    return Promise.resolve(cbs.saveItem()).then((localItem: any) => {
-      this.isEditing = false;
-      return localItem;
+    return Promise.resolve(cbs.saveItem()).then((savedObj: any) => {
+      this.reset();
+      return savedObj;
     });
   }
 
@@ -19,7 +23,7 @@ export class Edit {
     const cbs = getCallbacks(this) as EditCbs['cancel'];
 
     if (this.isEditing) {
-      this.isEditing = false;
+      this.reset();
       cbs.onCancel && cbs.onCancel();
     }
   }
