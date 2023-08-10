@@ -29,9 +29,9 @@ export function correctHighlight(
         -1
       );
 
-    if (newIdx) {
-      highlight.highlightItem({ id: allItemIds[newIdx.result] });
-    }
+    highlight.highlightItem({
+      id: newIdx ? allItemIds[newIdx.result] : undefined,
+    });
   }
 }
 
