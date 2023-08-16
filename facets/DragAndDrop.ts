@@ -1,5 +1,5 @@
 import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
-import { operation } from 'skandha';
+import { data, operation } from 'skandha';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { HoverPositionT } from './Hovering';
 
@@ -12,12 +12,23 @@ const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
 export class DragAndDrop {
   static className = () => 'DragAndDrop';
 
+  @data isDropping: boolean = false;
+
+  @operation({ log: false }) setIsDropping(isDropping: boolean) {
+    this.isDropping = isDropping;
+  }
+
   @operation @withCbs(dropDefaultCbs) drop(args: {
     //
     hoverPosition: HoverPositionT;
   }) {
     const cbs = getCallbacks(this) as DragAndDropCbs['drop'];
-    return Promise.resolve(cbs.drop());
+
+    this.setIsDropping(true);
+    return Promise.resolve(cbs.drop()).then((response: any) => {
+      this.setIsDropping(false);
+      return response;
+    });
   }
 }
 

@@ -54,12 +54,6 @@ export function highlightUIHandlers<T extends HighlightUIPropsT>(props: T) {
   };
 }
 
-export function createHighlightUIConnector(highlight: Highlight) {
-  return new HighlightUIConnector({
-    highlight,
-  });
-}
-
 export const createHighlightKeyHandlers = (
   highlight: Highlight,
   options?: {

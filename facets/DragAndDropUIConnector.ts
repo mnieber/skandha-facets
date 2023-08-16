@@ -73,13 +73,3 @@ export function dragAndDropUIHandlers<T extends DragAndDropUIPropsT>(props: T) {
     onDragEnd: props.onDragEnd,
   };
 }
-
-export function createDragAndDropUIConnector(
-  dragAndDrop: DragAndDrop,
-  hovering: Hovering
-) {
-  return new DragAndDropUIConnector({
-    dragAndDrop,
-    hovering,
-  });
-}

@@ -3,16 +3,17 @@ export { Deletion, type DeletionCbs } from './facets/Deletion';
 export { Display } from './facets/Display';
 export { DragAndDrop, type DragAndDropCbs } from './facets/DragAndDrop';
 export {
-  createDragAndDropUIConnector,
+  DragAndDropUIConnector,
   dragAndDropUIHandlers,
   type DragAndDropUIConnectorT,
   type DragAndDropUIPropsT,
 } from './facets/DragAndDropUIConnector';
 export { Edit, type EditCbs } from './facets/Edit';
+export { Filtering, type FilteringCbs } from './facets/Filtering';
 export { Highlight, type HighlightCbs } from './facets/Highlight';
 export {
+  HighlightUIConnector,
   createHighlightKeyHandlers,
-  createHighlightUIConnector,
   highlightUIHandlers,
   type HighlightUIConnectorT,
   type HighlightUIPropsT,
