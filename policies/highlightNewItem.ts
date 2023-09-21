@@ -5,6 +5,6 @@ import { Highlight } from '../facets/Highlight';
 export function highlightNewItem(facet: Addition) {
   const ctr = getc(facet);
   if (facet.item) {
-    getf(Highlight, ctr).highlightItem({ id: facet.item.id });
+    getf(Highlight, ctr).set({ itemId: facet.item.id });
   }
 }

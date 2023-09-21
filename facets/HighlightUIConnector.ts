@@ -19,12 +19,12 @@ export class HighlightUIConnector implements HighlightUIConnectorT {
   }
 
   _highlight(e: any, itemId: string) {
-    this.props.highlight.highlightItem({ id: itemId });
+    this.props.highlight.set({ itemId });
   }
 
   _createMouseDownHandler() {
     return (e: any, itemId: string) => {
-      const isHighlighted = this.props.highlight.id === itemId;
+      const isHighlighted = this.props.highlight.itemId === itemId;
       if (!isHighlighted) {
         this._highlight(e, itemId);
       }
@@ -37,7 +37,7 @@ export class HighlightUIConnector implements HighlightUIConnectorT {
     };
 
     return {
-      isHighlighted: this.props.highlight.id === itemId,
+      isHighlighted: this.props.highlight.itemId === itemId,
       ...mouseHandlers,
     };
   }
@@ -64,7 +64,7 @@ export const createHighlightKeyHandlers = (
 ) => {
   const down = options?.keyDown ?? 'down';
   const up = options?.keyUp ?? 'up';
-  const getAnchor = () => highlight.id;
+  const getAnchor = () => highlight.itemId;
   const getHighlightableIds = () =>
     options?.getHighlightableIds
       ? options?.getHighlightableIds()
@@ -85,7 +85,7 @@ const highlightNext = (
   highlightableIds: string[]
 ) => {
   const highlightItemById = (itemId: any) => {
-    highlight.highlightItem({ id: itemId });
+    highlight.set({ itemId });
   };
   if (currentItemId !== undefined) {
     pickNeighbour(highlightableIds, currentItemId, isDown, highlightItemById);

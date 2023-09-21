@@ -8,6 +8,6 @@ export function highlightFollowsSelection(
 ) {
   const ctr = getc(facet);
   if (!args.isCtrl && !args.isShift) {
-    getf(Highlight, ctr).highlightItem({ id: args.itemId });
+    getf(Highlight, ctr).set({ itemId: args.itemId });
   }
 }

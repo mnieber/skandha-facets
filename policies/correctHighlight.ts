@@ -8,11 +8,11 @@ export function correctHighlight(
   highlightableIds = highlightableIds ?? highlight.highlightableIds;
 
   if (
-    highlight.id &&
-    allItemIds.includes(highlight.id) &&
-    !highlightableIds.includes(highlight.id)
+    highlight.itemId &&
+    allItemIds.includes(highlight.itemId) &&
+    !highlightableIds.includes(highlight.itemId)
   ) {
-    const highlightedItemIdx = allItemIds.indexOf(highlight.id);
+    const highlightedItemIdx = allItemIds.indexOf(highlight.itemId);
     const newIdx =
       _findNeighbourIdx(
         highlightableIds,
@@ -29,8 +29,8 @@ export function correctHighlight(
         -1
       );
 
-    highlight.highlightItem({
-      id: newIdx ? allItemIds[newIdx.result] : undefined,
+    highlight.set({
+      itemId: newIdx ? allItemIds[newIdx.result] : undefined,
     });
   }
 }

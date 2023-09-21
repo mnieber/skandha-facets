@@ -12,7 +12,7 @@ export class Selection<T = any> {
   static className = () => 'Selection';
 
   @input selectableIds: Array<string> = stub;
-  @data ids: Array<string> = [];
+  @data itemIds: Array<string> = [];
   @data anchorId?: string;
   @output items: Array<T> = stub;
 
@@ -45,12 +45,12 @@ export function handleSelectItem(
   }
 ) {
   if (args.itemId === undefined) {
-    facet.ids = [];
+    facet.itemIds = [];
     facet.anchorId = undefined;
     return;
   }
 
-  const hasItem = facet.ids.includes(args.itemId);
+  const hasItem = facet.itemIds.includes(args.itemId);
   const selectableIds = facet.selectableIds;
 
   if (!selectableIds) {
@@ -62,13 +62,13 @@ export function handleSelectItem(
     const startIdx = selectableIds.indexOf(startItemId);
     const stopIdx = selectableIds.indexOf(args.itemId);
     const idxRange = range(startIdx, stopIdx);
-    facet.ids = idxRange.map((idx) => selectableIds[idx]);
+    facet.itemIds = idxRange.map((idx) => selectableIds[idx]);
   } else if (args.isCtrl) {
-    facet.ids = hasItem
-      ? facet.ids.filter((x) => x !== args.itemId)
-      : [...facet.ids, args.itemId];
+    facet.itemIds = hasItem
+      ? facet.itemIds.filter((x) => x !== args.itemId)
+      : [...facet.itemIds, args.itemId];
   } else {
-    facet.ids = [args.itemId];
+    facet.itemIds = [args.itemId];
   }
 
   // Move the anchor

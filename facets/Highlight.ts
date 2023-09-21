@@ -7,21 +7,21 @@ export class Highlight<T = any> {
   static className = () => 'Highlight';
 
   @input highlightableIds: Array<string> = stub;
-  @data id: string | undefined;
+  @data itemId: string | undefined;
   @output item?: T;
 
-  @operation @withCbs(highlightItemDefaultCbs) highlightItem(args: {
-    id: string | undefined;
+  @operation @withCbs(highlightItemDefaultCbs) set(args: {
+    itemId: string | undefined;
   }) {
-    const cbs = getCallbacks(this) as HighlightCbs<T>['highlightItem'];
+    const cbs = getCallbacks(this) as HighlightCbs<T>['set'];
 
-    this.id = args.id;
+    this.itemId = args.itemId;
     cbs.scrollItemIntoView && cbs.scrollItemIntoView();
   }
 }
 
 type Cbs<T> = {
-  highlightItem: {
+  set: {
     scrollItemIntoView(): void;
   };
 };

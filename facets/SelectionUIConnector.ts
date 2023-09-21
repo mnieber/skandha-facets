@@ -42,7 +42,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
 
   _createMouseDownHandler() {
     return (e: any, itemId: string) => {
-      const isSelected = this.props.selection.ids.includes(itemId);
+      const isSelected = this.props.selection.itemIds.includes(itemId);
       if (!isSelected) {
         this._selectOnMouseUp = undefined;
         this._select(e, itemId);
@@ -54,7 +54,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
 
   _createMouseUpHandler() {
     return (e: any, itemId: string) => {
-      const isSelected = this.props.selection.ids.includes(itemId);
+      const isSelected = this.props.selection.itemIds.includes(itemId);
       // If the item was already selected and we left-click it without the ctrl key,
       // then we want to singly select it.
       if (
@@ -74,7 +74,7 @@ export class SelectionUIConnector implements SelectionUIConnectorT {
     };
 
     return {
-      isSelected: this.props.selection.ids.includes(itemId),
+      isSelected: this.props.selection.itemIds.includes(itemId),
       ...mouseHandlers,
     };
   }
@@ -103,7 +103,7 @@ export const createSelectionKeyHandlers = (
 ) => {
   const down = options?.keyDown ?? 'down';
   const up = options?.keyUp ?? 'up';
-  const getAnchor = () => selection.ids[selection.ids.length - 1];
+  const getAnchor = () => selection.itemIds[selection.itemIds.length - 1];
   const getSelectableIds = () =>
     options?.getSelectableIds
       ? options?.getSelectableIds()
