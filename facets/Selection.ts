@@ -5,11 +5,19 @@ import { range } from '../internal/utils';
 export class Selection<T = any> {
   static className = () => 'Selection';
 
-  callbackMap = {} as DefineCbs<{
+  callbackMap_ = {} as DefineCbs<{
     selectItem?: {
       selectItem: () => void;
     };
   }>;
+
+  get callbackMap() {
+    return this.callbackMap_;
+  }
+
+  set callbackMap(cbs: typeof this.callbackMap_) {
+    this.callbackMap_ = mergeDeepLeft(cbs, defaultCallbackMap(this));
+  }
 
   @input selectableIds: Array<string> = stub;
   @data itemIds: Array<string> = [];
@@ -22,14 +30,9 @@ export class Selection<T = any> {
     isCtrl?: boolean;
     context?: any;
   }) {
-    return withCbs(
-      mergeDeepLeft(this.callbackMap, defaultCallbackMap(this)),
-      'selectItem',
-      args,
-      (cbs) => {
-        cbs!.selectItem();
-      }
-    );
+    return withCbs(this.callbackMap, 'selectItem', args, (cbs) => {
+      cbs!.selectItem();
+    });
   }
 }
 
