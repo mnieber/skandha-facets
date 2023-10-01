@@ -1,10 +1,24 @@
-import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
+import { DefineCbs, withCbs } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export type GenericObjectT = any;
 
 export class Addition<T = any> {
   static className = () => 'Addition';
+
+  callbackMap = {} as DefineCbs<{
+    add: {
+      stageAdd?: () => void;
+      createItem?: () => T;
+      highlightNewItem?: () => void;
+    };
+    cancel: {
+      unstageAdd(parentId: string | undefined): void;
+    };
+    confirm: {
+      confirmAdd(): void;
+    };
+  }>;
 
   @data item?: T;
   @data parentId?: string;
@@ -17,36 +31,36 @@ export class Addition<T = any> {
     this.item = item;
   }
 
-  @operation @withCbs() add(args: {
+  @operation add(args: {
     //
     values?: GenericObjectT;
   }) {
-    const cbs = getCallbacks(this) as AdditionCbs<T>['add'];
-
-    cbs.stageAdd && cbs.stageAdd();
-    const newItem = args.values ?? cbs.createItem();
-    this.setItem(newItem);
-    cbs.highlightNewItem && cbs.highlightNewItem();
-    return newItem;
-  }
-
-  @operation @withCbs() confirm() {
-    const cbs = getCallbacks(this) as AdditionCbs<T>['confirm'];
-
-    const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
-    return Promise.resolve(result).then(() => {
-      this._reset();
+    return withCbs(this.callbackMap, 'add', args, (cbs) => {
+      cbs.stageAdd && cbs.stageAdd();
+      const newItem = args.values ?? cbs.createItem!();
+      this.setItem(newItem);
+      cbs.highlightNewItem && cbs.highlightNewItem();
+      return newItem;
     });
   }
 
-  @operation @withCbs() cancel() {
-    const cbs = getCallbacks(this) as AdditionCbs<T>['cancel'];
+  @operation confirm() {
+    return withCbs(this.callbackMap, 'confirm', {}, (cbs) => {
+      const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
+      return Promise.resolve(result).then(() => {
+        this._reset();
+      });
+    });
+  }
 
-    if (this.item) {
-      const parentId = this.parentId;
-      this._reset();
-      cbs.unstageAdd && cbs.unstageAdd(parentId);
-    }
+  @operation cancel() {
+    return withCbs(this.callbackMap, 'cancel', {}, (cbs) => {
+      if (this.item) {
+        const parentId = this.parentId;
+        this._reset();
+        cbs.unstageAdd && cbs.unstageAdd(parentId);
+      }
+    });
   }
 
   @operation({ log: false }) _reset() {
@@ -54,19 +68,3 @@ export class Addition<T = any> {
     this.setParentId(undefined);
   }
 }
-
-type Cbs<T> = {
-  add: {
-    stageAdd(): void;
-    createItem(): T;
-    highlightNewItem(): void;
-  };
-  cancel: {
-    unstageAdd(parentId: string | undefined): void;
-  };
-  confirm: {
-    confirmAdd(): void;
-  };
-};
-
-export type AdditionCbs<T = any> = DefineCbs<Addition<T>, Cbs<T>>;

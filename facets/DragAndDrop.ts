@@ -1,16 +1,24 @@
-import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
+import { mergeDeepLeft, withCbs, type Cbs, type DefineCbs } from 'aspiration';
 import { data, operation } from 'skandha';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { HoverPositionT } from './Hovering';
 
-const dropDefaultCbs = (dragAndDrop: DragAndDrop) => ({
-  drop: function (this: DragAndDropCbs['drop']) {
-    selectionIsInsertedOnDragAndDrop(dragAndDrop, this.args.hoverPosition);
+const defaultCallbackMap = (dragAndDrop: DragAndDrop) => ({
+  drop: {
+    drop: function (this: Cbs<DragAndDrop['drop']>) {
+      selectionIsInsertedOnDragAndDrop(dragAndDrop, this.args.hoverPosition);
+    },
   },
 });
 
 export class DragAndDrop {
   static className = () => 'DragAndDrop';
+
+  callbackMap = {} as DefineCbs<{
+    drop?: {
+      drop?: () => void;
+    };
+  }>;
 
   @data isDropping: boolean = false;
 
@@ -18,24 +26,21 @@ export class DragAndDrop {
     this.isDropping = isDropping;
   }
 
-  @operation @withCbs(dropDefaultCbs) drop(args: {
+  @operation drop(args: {
     //
     hoverPosition: HoverPositionT;
   }) {
-    const cbs = getCallbacks(this) as DragAndDropCbs['drop'];
-
-    this.setIsDropping(true);
-    return Promise.resolve(cbs.drop()).then((response: any) => {
-      this.setIsDropping(false);
-      return response;
-    });
+    return withCbs(
+      mergeDeepLeft(this.callbackMap, defaultCallbackMap(this)),
+      'drop',
+      args,
+      (cbs) => {
+        this.setIsDropping(true);
+        return Promise.resolve(cbs!.drop!()).then((response: any) => {
+          this.setIsDropping(false);
+          return response;
+        });
+      }
+    );
   }
 }
-
-type Cbs = {
-  drop: {
-    drop(): void;
-  };
-};
-
-export type DragAndDropCbs = DefineCbs<DragAndDrop, Cbs>;

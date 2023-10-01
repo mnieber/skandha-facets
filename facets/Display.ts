@@ -1,5 +1,4 @@
-import { stub } from 'aspiration';
-import { data, output } from 'skandha';
+import { data, output, stub } from 'skandha';
 import { listToItemById } from '../internal/utils';
 
 export class Display<T = any> {

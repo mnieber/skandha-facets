@@ -1,8 +1,14 @@
-import { DefineCbs, getCallbacks, withCbs } from 'aspiration';
+import { withCbs, type DefineCbs } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export class Deletion {
   static className = () => 'Deletion';
+
+  callbackMap = {} as DefineCbs<{
+    delete: {
+      deleteItems: () => {};
+    };
+  }>;
 
   @data disabled?: boolean = undefined;
   @data isDeleting: boolean = false;
@@ -11,24 +17,13 @@ export class Deletion {
     this.isDeleting = isDeleting;
   }
 
-  @operation @withCbs() delete(args: {
-    itemIds: string[];
-    moveToTrash?: boolean;
-  }) {
-    const cbs = getCallbacks(this) as DeletionCbs['delete'];
-
-    this.setIsDeleting(true);
-    return Promise.resolve(cbs.deleteItems()).then((response: any) => {
-      this.setIsDeleting(false);
-      return response;
+  @operation delete(args: { itemIds: string[]; moveToTrash?: boolean }) {
+    return withCbs(this.callbackMap, 'delete', args, (cbs) => {
+      this.setIsDeleting(true);
+      return Promise.resolve(cbs.deleteItems()).then((response: any) => {
+        this.setIsDeleting(false);
+        return response;
+      });
     });
   }
 }
-
-type Cbs = {
-  delete: {
-    deleteItems(): any;
-  };
-};
-
-export type DeletionCbs = DefineCbs<Deletion, Cbs>;

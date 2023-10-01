@@ -1,40 +1,37 @@
-import { DefineCbs, getCallbacks, stub, withCbs } from 'aspiration';
-import { data, input, operation, output } from 'skandha';
+import { Cbs, mergeDeepLeft, withCbs, type DefineCbs } from 'aspiration';
+import { data, input, operation, output, stub } from 'skandha';
 import { range } from '../internal/utils';
-
-const selectItemDefaultCbs = (selection: Selection) => ({
-  selectItem: function (this: SelectionCbs['selectItem']) {
-    handleSelectItem(selection, this.args);
-  },
-});
 
 export class Selection<T = any> {
   static className = () => 'Selection';
+
+  callbackMap = {} as DefineCbs<{
+    selectItem?: {
+      selectItem: () => void;
+    };
+  }>;
 
   @input selectableIds: Array<string> = stub;
   @data itemIds: Array<string> = [];
   @data anchorId?: string;
   @output items: Array<T> = stub;
 
-  @operation @withCbs(selectItemDefaultCbs) selectItem(args: {
+  @operation selectItem(args: {
     itemId: string | undefined;
     isShift?: boolean;
     isCtrl?: boolean;
     context?: any;
   }) {
-    const cbs = getCallbacks(this) as SelectionCbs['selectItem'];
-
-    cbs.selectItem();
+    return withCbs(
+      mergeDeepLeft(this.callbackMap, defaultCallbackMap(this)),
+      'selectItem',
+      args,
+      (cbs) => {
+        cbs!.selectItem();
+      }
+    );
   }
 }
-
-type Cbs<T> = {
-  selectItem: {
-    selectItem(): void;
-  };
-};
-
-export type SelectionCbs<T = any> = DefineCbs<Selection<T>, Cbs<T>>;
 
 export function handleSelectItem(
   facet: Selection,
@@ -76,3 +73,11 @@ export function handleSelectItem(
     facet.anchorId = args.itemId;
   }
 }
+
+const defaultCallbackMap = (selection: Selection) => ({
+  selectItem: {
+    selectItem: function (this: Cbs<Selection['selectItem']>) {
+      handleSelectItem(selection, this.args);
+    },
+  },
+});
