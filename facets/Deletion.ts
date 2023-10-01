@@ -10,7 +10,6 @@ export class Deletion {
     };
   }>;
 
-  @data disabled?: boolean = undefined;
   @data isDeleting: boolean = false;
 
   @operation({ log: false }) setIsDeleting(isDeleting: boolean) {
