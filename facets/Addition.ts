@@ -1,4 +1,4 @@
-import { DefineCbs, withCbs } from 'aspiration';
+import { CallbackMap, withCbs } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export type GenericObjectT = any;
@@ -6,7 +6,7 @@ export type GenericObjectT = any;
 export class Addition<T = any> {
   static className = () => 'Addition';
 
-  callbackMap = {} as DefineCbs<{
+  callbackMap = {} as CallbackMap<{
     add: {
       stageAdd?: () => void;
       createItem?: () => T;

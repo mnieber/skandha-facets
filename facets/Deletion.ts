@@ -1,10 +1,10 @@
-import { withCbs, type DefineCbs } from 'aspiration';
+import { withCbs, type CallbackMap } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export class Deletion {
   static className = () => 'Deletion';
 
-  callbackMap = {} as DefineCbs<{
+  callbackMap = {} as CallbackMap<{
     delete: {
       deleteItems: () => {};
     };

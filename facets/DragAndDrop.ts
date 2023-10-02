@@ -1,4 +1,4 @@
-import { mergeDeepLeft, withCbs, type Cbs, type DefineCbs } from 'aspiration';
+import { mergeDeepLeft, withCbs, type CallbackMap, type Cbs } from 'aspiration';
 import { data, operation } from 'skandha';
 import { selectionIsInsertedOnDragAndDrop } from '../policies/selectionIsInsertedOnDragAndDrop';
 import { HoverPositionT } from './Hovering';
@@ -14,7 +14,7 @@ export const defaultCallbackMap = (dragAndDrop: DragAndDrop) => ({
 export class DragAndDrop {
   static className = () => 'DragAndDrop';
 
-  callbackMap_ = {} as DefineCbs<{
+  callbackMap_ = {} as CallbackMap<{
     drop?: {
       drop?: () => void;
     };

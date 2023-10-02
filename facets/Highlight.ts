@@ -1,10 +1,10 @@
-import { withCbs, type DefineCbs } from 'aspiration';
+import { withCbs, type CallbackMap } from 'aspiration';
 import { data, input, operation, output, stub } from 'skandha';
 
 export class Highlight<T = any> {
   static className = () => 'Highlight';
 
-  callbackMap = {} as DefineCbs<{
+  callbackMap = {} as CallbackMap<{
     set: {
       scrollItemIntoView?: () => void;
     };

@@ -1,10 +1,10 @@
-import { DefineCbs, withCbs } from 'aspiration';
+import { CallbackMap, withCbs } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export class Edit {
   static className = () => 'Edit';
 
-  callbackMap = {} as DefineCbs<{
+  callbackMap = {} as CallbackMap<{
     save: {
       saveItem: () => any;
     };

@@ -1,11 +1,11 @@
-import { Cbs, mergeDeepLeft, withCbs, type DefineCbs } from 'aspiration';
+import { Cbs, mergeDeepLeft, withCbs, type CallbackMap } from 'aspiration';
 import { data, input, operation, output, stub } from 'skandha';
 import { range } from '../internal/utils';
 
 export class Selection<T = any> {
   static className = () => 'Selection';
 
-  callbackMap_ = {} as DefineCbs<{
+  callbackMap_ = {} as CallbackMap<{
     selectItem?: {
       selectItem: () => void;
     };
