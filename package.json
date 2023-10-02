@@ -1,6 +1,6 @@
 {
   "name": "skandha-facets",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Facets for use with the skandha library",
   "main": "index.js",
   "repository": "https://github.com/mnieber/skandha-facets.git",
@@ -9,8 +9,8 @@
   "types": "index.d.ts",
   "prepublish": "tsc",
   "peerDependencies": {
-    "skandha": ">=0.13.0",
-    "aspiration": ">=0.5.2"
+    "skandha": ">=0.14.0",
+    "aspiration": ">=0.6.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
