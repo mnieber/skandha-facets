@@ -1,23 +1,23 @@
-import { withCbs, type CallbackMap } from 'aspiration';
 import { data, input, operation, output, stub } from 'skandha';
 
 export class Highlight<T = any> {
   static className = () => 'Highlight';
-
-  callbackMap = {} as CallbackMap<{
-    set: {
-      scrollItemIntoView?: () => void;
-    };
-  }>;
 
   @input highlightableIds: Array<string> = stub;
   @data itemId: string | undefined;
   @output item?: T;
 
   @operation set(args: { itemId: string | undefined }) {
-    return withCbs(this.callbackMap, 'set', args, (cbs) => {
-      this.itemId = args.itemId;
-      cbs.scrollItemIntoView && cbs.scrollItemIntoView();
-    });
+    this.onSet(args);
+    this.itemId = args.itemId;
+    this.scrollItemIntoView();
+  }
+
+  protected onSet(args: { itemId: string | undefined }): void {
+    // Override this method in child classes if needed
+  }
+
+  protected scrollItemIntoView(): void {
+    // Override this method in child classes if needed
   }
 }

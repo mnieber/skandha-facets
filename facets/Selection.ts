@@ -1,23 +1,8 @@
-import { Cbs, mergeDeepLeft, withCbs, type CallbackMap } from 'aspiration';
 import { data, input, operation, output, stub } from 'skandha';
 import { range } from '../internal/utils';
 
 export class Selection<T = any> {
   static className = () => 'Selection';
-
-  callbackMap_ = defaultCallbackMap(this) as CallbackMap<{
-    selectItem?: {
-      selectItem: () => void;
-    };
-  }>;
-
-  get callbackMap() {
-    return this.callbackMap_;
-  }
-
-  set callbackMap(cbs: typeof this.callbackMap_) {
-    this.callbackMap_ = mergeDeepLeft(cbs, defaultCallbackMap(this));
-  }
 
   @input selectableIds: Array<string> = stub;
   @data itemIds: Array<string> = [];
@@ -30,9 +15,16 @@ export class Selection<T = any> {
     isCtrl?: boolean;
     context?: any;
   }) {
-    return withCbs(this.callbackMap, 'selectItem', args, (cbs) => {
-      cbs!.selectItem();
-    });
+    this.performSelection(args);
+  }
+
+  protected performSelection(args: {
+    itemId: string | undefined;
+    isShift?: boolean;
+    isCtrl?: boolean;
+    context?: any;
+  }): void {
+    handleSelectItem(this, args);
   }
 }
 
@@ -76,11 +68,3 @@ export function handleSelectItem(
     facet.anchorId = args.itemId;
   }
 }
-
-const defaultCallbackMap = (selection: Selection) => ({
-  selectItem: {
-    selectItem: function (this: Cbs<Selection['selectItem']>) {
-      handleSelectItem(selection, this.args);
-    },
-  },
-});

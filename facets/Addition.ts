@@ -1,24 +1,9 @@
-import { CallbackMap, withCbs } from 'aspiration';
-import { data, operation } from 'skandha';
+import { data, operation } from "skandha";
 
 export type GenericObjectT = any;
 
 export class Addition<T = any> {
-  static className = () => 'Addition';
-
-  callbackMap = {} as CallbackMap<{
-    add: {
-      stageAdd?: () => void;
-      createItem?: () => T;
-      highlightNewItem?: () => void;
-    };
-    cancel: {
-      unstageAdd(parentId: string | undefined): void;
-    };
-    confirm: {
-      confirmAdd(): void;
-    };
-  }>;
+  static className = () => "Addition";
 
   @data item?: T;
   @data parentId?: string;
@@ -35,36 +20,51 @@ export class Addition<T = any> {
     //
     values?: GenericObjectT;
   }) {
-    return withCbs(this.callbackMap, 'add', args, (cbs) => {
-      cbs.stageAdd && cbs.stageAdd();
-      const newItem = args.values ?? cbs.createItem!();
-      this.setItem(newItem);
-      cbs.highlightNewItem && cbs.highlightNewItem();
-      return newItem;
-    });
+    this.stageAdd();
+    const newItem = args.values ?? this.createItem();
+    this.setItem(newItem);
+    this.highlightNewItem(newItem);
+    return newItem;
   }
 
   @operation confirm() {
-    return withCbs(this.callbackMap, 'confirm', {}, (cbs) => {
-      const result = cbs.confirmAdd ? cbs.confirmAdd() : undefined;
-      return Promise.resolve(result).then(() => {
-        this._reset();
-      });
+    const result = this.confirmAdd();
+    return Promise.resolve(result).then(() => {
+      this._reset();
     });
   }
 
   @operation cancel() {
-    return withCbs(this.callbackMap, 'cancel', {}, (cbs) => {
-      if (this.item) {
-        const parentId = this.parentId;
-        this._reset();
-        cbs.unstageAdd && cbs.unstageAdd(parentId);
-      }
-    });
+    if (this.item) {
+      const parentId = this.parentId;
+      this._reset();
+      this.unstageAdd(parentId);
+    }
   }
 
   @operation({ log: false }) _reset() {
     this.setItem(undefined);
     this.setParentId(undefined);
+  }
+
+  protected stageAdd(): void {
+    // Override this method in child classes if needed
+  }
+
+  protected createItem(): T | undefined {
+    // Override this method in child classes if needed
+    return undefined;
+  }
+
+  protected highlightNewItem(newItem: T): void {
+    // Override this method in child classes if needed
+  }
+
+  protected unstageAdd(parentId: string | undefined): void {
+    // Override this method in child classes if needed
+  }
+
+  protected confirmAdd(): any {
+    // Override this method in child classes if needed
   }
 }

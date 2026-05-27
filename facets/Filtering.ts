@@ -1,12 +1,9 @@
-import { type CallbackMap } from 'aspiration';
-import { data, operation, stub } from 'skandha';
+import { data, operation, stub } from "skandha";
 
 export type FilterT<T> = (x: T[]) => T[];
 
 export class Filtering<T = any> {
-  static className = () => 'Filtering';
-
-  callbackMap = {} as CallbackMap<{}>;
+  static className = () => "Filtering";
 
   @data isEnabled: boolean = false;
   @data filter: FilterT<T> = () => [];

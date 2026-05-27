@@ -1,14 +1,7 @@
-import { withCbs, type CallbackMap } from 'aspiration';
 import { data, operation } from 'skandha';
 
 export class Deletion {
   static className = () => 'Deletion';
-
-  callbackMap = {} as CallbackMap<{
-    delete: {
-      deleteItems: () => {};
-    };
-  }>;
 
   @data isDeleting: boolean = false;
 
@@ -17,12 +10,14 @@ export class Deletion {
   }
 
   @operation delete(args: { itemIds: string[]; moveToTrash?: boolean }) {
-    return withCbs(this.callbackMap, 'delete', args, (cbs) => {
-      this.setIsDeleting(true);
-      return Promise.resolve(cbs.deleteItems()).then((response: any) => {
-        this.setIsDeleting(false);
-        return response;
-      });
+    this.setIsDeleting(true);
+    return Promise.resolve(this.deleteItems(args)).then((response: any) => {
+      this.setIsDeleting(false);
+      return response;
     });
+  }
+
+  protected deleteItems(args: { itemIds: string[]; moveToTrash?: boolean }): any {
+    // Override this method in child classes
   }
 }
