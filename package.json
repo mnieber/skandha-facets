@@ -15,8 +15,7 @@
   "types": "index.d.ts",
   "prepublish": "tsc",
   "peerDependencies": {
-    "skandha": ">=0.14.0",
-    "aspiration": ">=0.6.0"
+    "skandha": ">=0.14.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
