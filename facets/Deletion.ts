@@ -1,23 +1,28 @@
-import { data, operation } from 'skandha';
+import { data, operation } from "skandha";
 
 export class Deletion {
-  static className = () => 'Deletion';
+  static className = () => "Deletion";
 
-  @data isDeleting: boolean = false;
+  @data itemsBeingDeleted: string[] = [];
 
-  @operation({ log: false }) setIsDeleting(isDeleting: boolean) {
-    this.isDeleting = isDeleting;
+  @operation({ log: false }) setItemsBeingDeleted(itemsBeingDeleted: string[]) {
+    this.itemsBeingDeleted = itemsBeingDeleted;
   }
 
-  @operation delete(args: { itemIds: string[]; moveToTrash?: boolean }) {
-    this.setIsDeleting(true);
-    return Promise.resolve(this.deleteItems(args)).then((response: any) => {
-      this.setIsDeleting(false);
-      return response;
+  @operation delete(args: {
+    itemIds: string[];
+    moveToTrash?: boolean;
+  }): Promise<any> {
+    this.setItemsBeingDeleted(args.itemIds);
+    return Promise.resolve(this.deleteItems(args)).finally(() => {
+      this.setItemsBeingDeleted([]);
     });
   }
 
-  protected deleteItems(args: { itemIds: string[]; moveToTrash?: boolean }): any {
+  protected deleteItems(args: {
+    itemIds: string[];
+    moveToTrash?: boolean;
+  }): any {
     // Override this method in child classes
   }
 }
