@@ -14,12 +14,10 @@ export class Edit {
     this.isSaving = isSaving;
   }
 
-  @operation save(args: { values: any }) {
+  @operation save(args: { values: any }): Promise<any> {
     this.setIsSaving(true);
-    return Promise.resolve(this.saveItem(args)).then((savedObj: any) => {
-      this.reset();
+    return Promise.resolve(this.saveItem(args)).finally(() => {
       this.setIsSaving(false);
-      return savedObj;
     });
   }
 
@@ -37,9 +35,9 @@ export class Edit {
     }
   }
 
-  protected saveItem(args: { values: any }): any {
-    // Override this method in child classes
-  }
+  // Override this method in child classes. Call reset to leave the edit mode when the item
+  // has been saved.
+  protected saveItem(args: { values: any }): any {}
 
   protected onCancel(): void {
     // Override this method in child classes if needed
